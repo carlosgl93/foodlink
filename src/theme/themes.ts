@@ -16,14 +16,19 @@ const sharedTheme = {
         disableRipple: true,
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '33px',
+        },
+      },
+    },
     MuiDivider: {
       styleOverrides: {
         vertical: {
           marginRight: 10,
           marginLeft: 10,
         },
-        // TODO: open issue for missing "horizontal" CSS rule
-        // in Divider API - https://mui.com/material-ui/api/divider/#css
         middle: {
           marginTop: 10,
           marginBottom: 10,
@@ -44,7 +49,10 @@ const themes: Record<Themes, ThemeOptions> = {
         paper: '#fff',
       },
       primary: {
-        main: '#3f51b5',
+        main: '#970B80',
+      },
+      secondary: {
+        main: '#fff7fe',
       },
     },
   }),
