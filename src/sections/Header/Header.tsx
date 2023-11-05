@@ -5,9 +5,8 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
-import { useTheme as useMuiTheme } from '@mui/material/styles';
 
-import { FlexBox } from '@/components/styled';
+import { FlexBox, HeaderIconImage } from '@/components/styled';
 import useSidebar from '@/store/sidebar';
 import useTheme from '@/store/theme';
 
@@ -16,9 +15,6 @@ import { Link } from 'react-router-dom';
 function Header() {
   const [, sidebarActions] = useSidebar();
   const [, themeActions] = useTheme();
-  const theme = useMuiTheme();
-
-  console.log(theme);
 
   // function showNotification() {
   //   notificationsActions.push({
@@ -59,13 +55,14 @@ function Header() {
             <Link
               to="/"
               style={{
-                fontSize: '1.5rem',
-                fontWeight: 'bold',
-                color: theme.palette.primary.main,
-                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
               }}
             >
-              Blui
+              <HeaderIconImage
+                src="https://blui.populus.dev/blui/img/blui-new.png"
+                alt="Blui logo"
+              />
             </Link>
           </FlexBox>
 

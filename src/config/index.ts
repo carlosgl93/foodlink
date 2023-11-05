@@ -2,32 +2,32 @@ import isMobile from '@/utils/is-mobile';
 
 import type { Notifications } from './types';
 
-const title = 'React PWA';
-
-const email = 'auther-email@gmail.com';
-
-const repository = 'https://github.com/suren-atoyan/react-pwa';
+const title = 'Blui';
+// TODO change this email
+const email = 'soporte@blui.com';
+// TODO change the repository
+const repository = 'https://github.com/TODO';
 
 const messages = {
   app: {
     crash: {
-      title: 'Oooops... Sorry, I guess, something went wrong. You can:',
+      title: 'Oops... Algo salio mal, puedes:',
       options: {
-        email: `contact with author by this email - ${email}`,
-        reset: 'Press here to reset the application',
+        email: `contactar a soporte al mail: ${email}`,
+        reset: 'Presionar aqui para recargar la aplicacion',
       },
     },
   },
   loader: {
-    fail: 'Hmmmmm, there is something wrong with this component loading process... Maybe trying later would be the best idea',
+    fail: 'Hmm, Algo anda mal, intentalo nuevamente',
   },
   images: {
-    failed: 'something went wrong during image loading :(',
+    failed: 'No se pudo cargar la imagen',
   },
-  404: 'Hey bro? What are you looking for?',
+  404: 'Esta pagina no existe.',
 };
 
-const dateFormat = 'MMMM DD, YYYY';
+const dateFormat = 'DD MMMM, YYYY';
 
 const notifications: Notifications = {
   options: {
@@ -43,14 +43,14 @@ const notifications: Notifications = {
 const loader = {
   // no more blinking in your app
   delay: 300, // if your asynchronous process is finished during 300 milliseconds you will not see the loader at all
-  minimumLoading: 700, // but if it appears, it will stay for at least 700 milliseconds
+  minimumLoading: 500, // but if it appears, it will stay for at least 700 milliseconds
 };
 
 const defaultMetaTags = {
   image: '/cover.png',
-  description: 'Starter kit for modern web applications',
+  description: 'Blui: Cuidado en casa, siempre.',
 };
-const giphy404 = 'https://giphy.com/embed/xTiN0L7EW5trfOvEk0';
+const giphy404 = 'https://giphy.com/embed/2asOjumchIeb5gZO9m';
 
 export {
   loader,
