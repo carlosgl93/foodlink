@@ -4,7 +4,6 @@ import { Box, Typography } from '@mui/material';
 import SearchBarComponent from './SearchBar';
 
 interface ImageSliderProps {
-  images: string[];
   interval?: number;
 }
 
@@ -40,11 +39,7 @@ const ImageSliderText = styled(Typography)({
   zIndex: 1,
 });
 
-const images = [
-  `${import.meta.env.VITE_PUBLIC_URL}/slide-1.jpg`,
-  `${import.meta.env.VITE_PUBLIC_URL}/slide-2.jpg`,
-  `${import.meta.env.VITE_PUBLIC_URL}/slide-3.jpg`,
-];
+const images = ['/images/slide-1.jpg', '/images/slide-2.jpg', '/images/slide-3.jpg'];
 
 function ImageSlider({ interval = 5000 }: ImageSliderProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);

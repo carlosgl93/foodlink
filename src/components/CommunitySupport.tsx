@@ -37,7 +37,7 @@ function CommunitySupport() {
             }}
           >
             <img
-              src={`${import.meta.env.VITE_PUBLIC_URL}/b.png`}
+              src="/images/b.png"
               style={{
                 width: '25px',
                 height: '25px',
@@ -54,7 +54,7 @@ function CommunitySupport() {
       ))}
       <Box>
         <img
-          src={`${import.meta.env.VITE_PUBLIC_URL}/una-comunidad-de-apoyo.png`}
+          src="/images/una-comunidad-de-apoyo.png"
           style={{
             width: '100%',
             height: 'auto',

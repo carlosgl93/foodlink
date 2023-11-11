@@ -9,13 +9,7 @@ function Welcome() {
   return (
     <>
       <Meta title="Blui: Inicio" />
-      <ImageSlider
-        images={[
-          'https://blui.populus.dev/blui/img/slide-1.jpg',
-          'https://blui.populus.dev/blui/img/slide-2.jpg',
-          'https://blui.populus.dev/blui/img/slide-3.jpg',
-        ]}
-      />
+      <ImageSlider />
       <ComoFunciona />
       <Servicios />
       <CommunityAdvantages />

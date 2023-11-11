@@ -59,10 +59,7 @@ function Header() {
                 alignItems: 'center',
               }}
             >
-              <HeaderIconImage
-                src={`${import.meta.env.VITE_PUBLIC_URL}/blui-new.png`}
-                alt="Blui logo"
-              />
+              <HeaderIconImage src={`/images/blui-new.png`} alt="Blui logo" />
             </Link>
           </FlexBox>
 

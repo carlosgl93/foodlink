@@ -4,23 +4,23 @@ import { Link } from 'react-router-dom';
 const content = [
   {
     title: 'Apoyo en el hogar',
-    image: `${import.meta.env.VITE_PUBLIC_URL}/apoyo-hogar.jpg`,
+    image: `/images/apoyo-hogar.jpg`,
   },
   {
     title: 'Cuidadora',
-    image: `${import.meta.env.VITE_PUBLIC_URL}/cuidadora.jpg`,
+    image: `/images/cuidadora.jpg`,
   },
   {
     title: 'Soporte terapéutico',
-    image: `${import.meta.env.VITE_PUBLIC_URL}/terapeutico.jpg`,
+    image: `/images/terapeutico.jpg`,
   },
   {
     title: 'Servicios de enfermería',
-    image: `${import.meta.env.VITE_PUBLIC_URL}/enfermeria.jpg`,
+    image: `/images/enfermeria.jpg`,
   },
   {
     title: 'Sana compañía',
-    image: `${import.meta.env.VITE_PUBLIC_URL}/sana-compania.jpg`,
+    image: `/images/sana-compania.jpg`,
   },
 ];
 
