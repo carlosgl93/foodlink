@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 
 import routes from '..';
 import { getPageHeight } from './utils';
+import Footer from '@/components/Footer';
 
 function Pages() {
   return (
@@ -13,6 +14,7 @@ function Pages() {
           return <Route key={path} path={path} element={<Component />} />;
         })}
       </Routes>
+      <Footer />
     </Box>
   );
 }

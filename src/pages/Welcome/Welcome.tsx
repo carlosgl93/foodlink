@@ -1,25 +1,25 @@
+import CommunityAdvantages from '@/components/CommunityAdvantages';
+import ComoFunciona from '@/components/ComoFunciona';
+import ImageSlider from '@/components/ImageSlider';
 import Meta from '@/components/Meta';
-import { FullSizeCenteredFlexBox } from '@/components/styled';
-import useOrientation from '@/hooks/useOrientation';
+import Servicios from '@/components/Servicios';
+import CommunitySupport from '@/components/CommunitySupport';
 
 function Welcome() {
-  const isPortrait = useOrientation();
-
-  // const width = isPortrait ? '40%' : '30%';
-  // const height = isPortrait ? '30%' : '40%';
-
   return (
     <>
-      <Meta title="Welcome" />
-      <FullSizeCenteredFlexBox flexDirection={isPortrait ? 'column' : 'row'}>
-        {/* <Image alt="react-router" src={rrLogo} />
-        <Image alt="vite" src={viteLogo} />
-        <Image alt="typescript" src={tsLogo} />
-        <Image alt="react" src={reactLogo} sx={{ width, height }} />
-        <Image alt="mui" src={muiLogo} />
-        <Image alt="recoil" src={recoilLogo} />
-        <Image alt="pwa" src={pwaLogo} /> */}
-      </FullSizeCenteredFlexBox>
+      <Meta title="Blui: Inicio" />
+      <ImageSlider
+        images={[
+          'https://blui.populus.dev/blui/img/slide-1.jpg',
+          'https://blui.populus.dev/blui/img/slide-2.jpg',
+          'https://blui.populus.dev/blui/img/slide-3.jpg',
+        ]}
+      />
+      <ComoFunciona />
+      <Servicios />
+      <CommunityAdvantages />
+      <CommunitySupport />
     </>
   );
 }

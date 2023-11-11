@@ -60,7 +60,7 @@ function Header() {
               }}
             >
               <HeaderIconImage
-                src="https://blui.populus.dev/blui/img/blui-new.png"
+                src={`${import.meta.env.VITE_PUBLIC_URL}/blui-new.png`}
                 alt="Blui logo"
               />
             </Link>

@@ -26,12 +26,26 @@ function Sidebar() {
       disableBackdropTransition={false}
       swipeAreaWidth={30}
     >
-      <List sx={{ width: 250, pt: (theme) => `${theme.mixins.toolbar.minHeight}px` }}>
+      <List
+        sx={{
+          width: 300,
+          pt: (theme) => `${theme.mixins.toolbar.minHeight}px`,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+      >
         {Object.values(routes)
           .filter((route) => route.title)
           .map(({ path, title, icon: Icon }) =>
             path === '/ingresar' || path === '/registrarse' || path === '/comenzar' ? null : (
-              <React.Fragment key={path}>
+              <div
+                key={path}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
                 <ListItem sx={{ p: 'auto' }}>
                   <ListItemButton
                     component={Link}
@@ -53,7 +67,7 @@ function Sidebar() {
                     </ListItemText>
                   </ListItemButton>
                 </ListItem>
-              </React.Fragment>
+              </div>
             ),
           )}
         <ListItem sx={{ mx: 'auto' }}>
