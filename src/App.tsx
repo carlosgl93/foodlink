@@ -12,7 +12,6 @@ import HotKeys from '@/sections/HotKeys';
 import Notifications from '@/sections/Notifications';
 import SW from '@/sections/SW';
 import Sidebar from '@/sections/Sidebar';
-import Footer from './components/Footer';
 
 function App() {
   return (
@@ -38,7 +37,6 @@ function App() {
         >
           <Pages />
         </Suspense>
-        <Footer />
       </BrowserRouter>
     </Fragment>
   );
