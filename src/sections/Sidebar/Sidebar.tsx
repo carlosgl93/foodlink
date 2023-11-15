@@ -18,13 +18,7 @@ function Sidebar() {
   const theme = useTheme<Theme>();
 
   return (
-    <Drawer
-      anchor="left"
-      open={isSidebarOpen}
-      onClose={sidebarActions.close}
-      onOpen={sidebarActions.open}
-      disableBackdropTransition={false}
-    >
+    <Drawer anchor="left" open={isSidebarOpen} onClose={sidebarActions.close}>
       <List
         sx={{
           width: 300,

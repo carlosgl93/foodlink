@@ -41,7 +41,7 @@ const ComoFunciona = () => {
       <Box sx={{}}>
         <Typography
           variant="h1"
-          color="primary.darker"
+          color="primary.dark"
           sx={{
             fontSize: '2.5rem',
             fontWeight: 'bold',
@@ -116,7 +116,7 @@ const ComoFunciona = () => {
             </Box>
             <Typography
               variant="h2"
-              color="primary.darker"
+              color="primary.dark"
               sx={{
                 fontSize: '2rem',
                 fontWeight: 'bold',
@@ -125,7 +125,7 @@ const ComoFunciona = () => {
             >
               {card.title}
             </Typography>
-            <Typography variant="body1" sx={{}} color="primary.darker">
+            <Typography variant="body1" sx={{}} color="primary.dark">
               {card.text}
             </Typography>
             <Box

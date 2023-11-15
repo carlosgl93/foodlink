@@ -103,7 +103,7 @@ const DesktopHeaderContent = () => {
             variant="contained"
             sx={{
               '&:hover': {
-                backgroundColor: theme.palette.primary.darker,
+                backgroundColor: theme.palette.primary.dark,
               },
             }}
           >
