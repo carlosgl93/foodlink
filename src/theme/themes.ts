@@ -11,6 +11,18 @@ const sharedTheme = {
     },
   },
   components: {
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            backgroundColor: '#fafafa',
+          },
+          '&:hover': {
+            color: '#970B80',
+          },
+        },
+      },
+    },
     MuiButtonBase: {
       defaultProps: {
         disableRipple: true,
@@ -59,18 +71,18 @@ const themes: Record<Themes, ThemeOptions> = {
     },
   }),
 
-  dark: deepmerge(sharedTheme, {
-    palette: {
-      mode: 'dark',
-      background: {
-        default: '#111',
-        paper: '#171717',
-      },
-      primary: {
-        main: '#333',
-      },
-    },
-  }),
+  // dark: deepmerge(sharedTheme, {
+  //   palette: {
+  //     mode: 'dark',
+  //     background: {
+  //       default: '#111',
+  //       paper: '#171717',
+  //     },
+  //     primary: {
+  //       main: '#333',
+  //     },
+  //   },
+  // }),
 };
 
 export default themes;

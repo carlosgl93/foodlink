@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import List from '@mui/material/List';
@@ -5,26 +6,24 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Drawer from '@mui/material/Drawer';
 import { Button, useTheme } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 
 import routes from '@/routes';
 import useSidebar from '@/store/sidebar';
-import React from 'react';
 
 function Sidebar() {
   const [isSidebarOpen, sidebarActions] = useSidebar();
   const theme = useTheme<Theme>();
 
   return (
-    <SwipeableDrawer
+    <Drawer
       anchor="left"
       open={isSidebarOpen}
       onClose={sidebarActions.close}
       onOpen={sidebarActions.open}
       disableBackdropTransition={false}
-      swipeAreaWidth={30}
     >
       <List
         sx={{
@@ -94,7 +93,7 @@ function Sidebar() {
           </ListItemButton>
         </ListItem>
       </List>
-    </SwipeableDrawer>
+    </Drawer>
   );
 }
 

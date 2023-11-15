@@ -1,20 +1,13 @@
-import ThemeIcon from '@mui/icons-material/InvertColors';
-import MenuIcon from '@mui/icons-material/Menu';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
-import Tooltip from '@mui/material/Tooltip';
-
-import { FlexBox, HeaderIconImage } from '@/components/styled';
-import useSidebar from '@/store/sidebar';
-import useTheme from '@/store/theme';
-
-import { Link } from 'react-router-dom';
+import { useMediaQuery } from '@mui/material';
+import { mobile } from '../../theme/breakpoints';
+import MobileHeaderContent from './MobileHeaderContent';
+import DesktopHeaderContent from './DesktopHeaderContent';
 
 function Header() {
-  const [, sidebarActions] = useSidebar();
-  const [, themeActions] = useTheme();
+  const isMobile = useMediaQuery(mobile);
 
   // function showNotification() {
   //   notificationsActions.push({
@@ -40,34 +33,7 @@ function Header() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar color="transparent" elevation={1} position="static">
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <FlexBox sx={{ alignItems: 'center' }}>
-            <IconButton
-              onClick={sidebarActions.toggle}
-              size="large"
-              edge="start"
-              color="primary"
-              aria-label="menu"
-              sx={{ mr: 1 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            {/* TODO: change Blui title for the icon */}
-            <Link
-              to="/"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <HeaderIconImage src={`/images/blui-new.png`} alt="Blui logo" />
-            </Link>
-          </FlexBox>
-
-          <Tooltip title="Switch theme" arrow>
-            <IconButton color="primary" edge="end" size="large" onClick={themeActions.toggle}>
-              <ThemeIcon />
-            </IconButton>
-          </Tooltip>
+          {isMobile ? <MobileHeaderContent /> : <DesktopHeaderContent />}
         </Toolbar>
       </AppBar>
     </Box>
