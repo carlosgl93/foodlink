@@ -18,13 +18,7 @@ function Sidebar() {
   const theme = useTheme<Theme>();
 
   return (
-    <Drawer
-      anchor="left"
-      open={isSidebarOpen}
-      onClose={sidebarActions.close}
-      onOpen={sidebarActions.open}
-      disableBackdropTransition={false}
-    >
+    <Drawer anchor="left" open={isSidebarOpen} onClose={sidebarActions.close}>
       <List
         sx={{
           width: 300,
@@ -83,7 +77,7 @@ function Sidebar() {
           </ListItemButton>
         </ListItem>
         <ListItem sx={{ mx: 'auto' }}>
-          <ListItemButton component={Link} to="/ingresar" onClick={sidebarActions.close}>
+          <ListItemButton component={Link} to="/persona-de-apoyo" onClick={sidebarActions.close}>
             <Button variant="outlined">Conviértete en persona de apoyo</Button>
           </ListItemButton>
         </ListItem>
