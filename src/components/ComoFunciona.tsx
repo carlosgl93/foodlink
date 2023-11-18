@@ -1,44 +1,31 @@
+import { ComoFuncionaContent } from '@/pages/Welcome/comoFuncionaContent';
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const comoFuncionaCardsContent = [
-  {
-    image: `/images/blui-icon-1.png`,
-    imgAlt: 'Blui busca una persona de apoyo',
-    title: 'Busca una persona de apoyo',
-    text: 'Busca libremente los distintos perfiles de personas de apoyo que se encuentran en Blui. Utiliza nuestros filtros para que puedas encontrar a aquellas personas que respondan a tus necesidades, intereses y disponibilidad.',
-  },
-  {
-    image: `/images/blui-icon-2.png`,
-    imgAlt: 'Imagen de un saludo con un apreton de manos',
-    title: 'Agenda una sesión de apoyo',
-    text: 'Selecciona los perfiles que más te gusten y contáctalos directamente a través de Blui acordando libremente todas las condiciones del servicio tales como día, lugar y precio.',
-  },
-  {
-    image: `/images/blui-icon-3.png`,
-    imgAlt: 'Imagen de una casa en nuestras manos',
-    title: 'Confía en nosotros ¡estás protegido!',
-    text: 'En Blui estamos constantemente preocupados por tu seguridad. Al formar parte de nuestra comunidad tanto tú como las personas de apoyo podrán acceder a coberturas de seguro. Además, ten la tranquilidad de estar en manos de personas que se encuentran debidamente certificadas y validadas por Blui.',
-  },
-];
+type ComoFuncionaProps = {
+  subtitle: string;
+  steps: ComoFuncionaContent[];
+};
 
-const ComoFunciona = () => {
+const ComoFunciona = ({ subtitle, steps }: ComoFuncionaProps) => {
   return (
     <Box
       component="section"
       sx={{
-        py: '2rem',
+        py: {
+          xs: '5rem',
+        },
         px: {
           xs: '1rem',
           sm: '2rem',
-          md: '3rem',
+          md: '4rem',
         },
         textAlign: 'center',
         backgroundColor: '#f9f7f6',
       }}
     >
-      <Box sx={{}}>
+      <Box>
         <Typography
           variant="h1"
           color="primary.dark"
@@ -55,9 +42,7 @@ const ComoFunciona = () => {
             fontSize: '1.5rem',
           }}
         >
-          Únete a Blui de forma gratuita y comienza a vivir esta nueva experiencia en la búsqueda de
-          personas para ayudarte. Disfruta la posibilidad de poder formar tu propio equipo de apoyo
-          de acuerdo a tus propias necesidades, intereses y presupuesto.
+          {subtitle}
         </Typography>
       </Box>
       <Box
@@ -77,12 +62,12 @@ const ComoFunciona = () => {
           mt: '2rem',
         }}
       >
-        {comoFuncionaCardsContent.map((card, index) => (
+        {steps.map((card, index) => (
           <Box
             key={index}
             sx={{
               minHeight: {
-                md: '500px',
+                md: '600px',
               },
               width: {
                 xs: '100%',
@@ -156,13 +141,14 @@ const ComoFunciona = () => {
           mt: '2rem',
         }}
       >
-        <Link to={'/comenzar'}>
+        <Link to={'/comienzo'}>
           <Button
             variant="contained"
             sx={{
               p: '1rem',
               borderRadius: '1000em',
               width: '10rem',
+              fontSize: '1.25rem',
             }}
           >
             Comenzar

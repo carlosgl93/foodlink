@@ -10,7 +10,7 @@ const routes: Routes = {
     // icon: HomeIcon,
   },
   [Pages.Nosotros]: {
-    component: asyncComponentLoader(() => import('@/pages/Page1')),
+    component: asyncComponentLoader(() => import('@/pages/nosotros')),
     path: '/nosotros',
     title: 'Nosotros',
     // icon: GitHubIcon,
@@ -34,7 +34,7 @@ const routes: Routes = {
     // icon: AddTaskIcon,
   },
   [Pages.Prestador]: {
-    component: asyncComponentLoader(() => import('@/pages/Page2')),
+    component: asyncComponentLoader(() => import('@/pages/PersonaApoyo')),
     path: '/persona-de-apoyo',
     title: 'Registrarse',
     // icon: AddTaskIcon,
@@ -43,6 +43,12 @@ const routes: Routes = {
     component: asyncComponentLoader(() => import('@/pages/Page2')),
     path: '/comenzar',
     title: 'Comenzar',
+    // icon: AddTaskIcon,
+  },
+  [Pages.Comienzo]: {
+    component: asyncComponentLoader(() => import('@/pages/Page2')),
+    path: '/comienzo',
+    // title: 'Ingresar',
     // icon: AddTaskIcon,
   },
 

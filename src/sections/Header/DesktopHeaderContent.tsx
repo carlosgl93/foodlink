@@ -85,7 +85,7 @@ const DesktopHeaderContent = () => {
         <ListItem sx={{ mx: 'auto', width: '100%' }}>
           <Button
             component={Link}
-            to="/ingresar"
+            to="/persona-de-apoyo"
             sx={{
               whiteSpace: 'nowrap',
               width: 'auto',

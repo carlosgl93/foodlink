@@ -98,7 +98,7 @@ const LinkedInLogo = styled(LinkedInIcon)(({ theme }) => ({
   color: theme.palette.primary.main,
 }));
 
-function Page1() {
+function Nosotros() {
   const theme = useTheme();
 
   return (
@@ -514,4 +514,4 @@ function Page1() {
   );
 }
 
-export default Page1;
+export default Nosotros;

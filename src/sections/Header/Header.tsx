@@ -2,12 +2,12 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import { useMediaQuery } from '@mui/material';
-import { mobile } from '../../theme/breakpoints';
+import { tablet } from '../../theme/breakpoints';
 import MobileHeaderContent from './MobileHeaderContent';
 import DesktopHeaderContent from './DesktopHeaderContent';
 
 function Header() {
-  const isMobile = useMediaQuery(mobile);
+  const isTablet = useMediaQuery(tablet);
 
   // function showNotification() {
   //   notificationsActions.push({
@@ -40,7 +40,7 @@ function Header() {
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          {isMobile ? <MobileHeaderContent /> : <DesktopHeaderContent />}
+          {isTablet ? <MobileHeaderContent /> : <DesktopHeaderContent />}
         </Toolbar>
       </AppBar>
     </Box>
