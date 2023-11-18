@@ -3,6 +3,10 @@ import { styled } from '@mui/material/styles';
 import Meta from '@/components/Meta';
 import { Box, Container, Typography, Avatar, useTheme } from '@mui/material';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 
 const lideres = [
   {
@@ -72,6 +76,7 @@ const AvatarContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   gap: theme.spacing(2),
+  paddingBottom: '3rem',
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'column',
   },
@@ -214,6 +219,296 @@ function Page1() {
             </PersonContainer>
           ))}
         </AvatarContainer>
+        <Box
+          sx={{
+            px: {
+              xs: 2,
+              sm: 4,
+              md: 8,
+              lg: 12,
+            },
+            py: {
+              xs: 2,
+              sm: 4,
+              md: 8,
+              lg: 12,
+            },
+          }}
+        >
+          <TextContainer
+            sx={{
+              padding: theme.spacing(1),
+            }}
+          >
+            <Typography
+              variant="h1"
+              gutterBottom
+              sx={{
+                fontWeight: 700,
+                fontSize: {
+                  xs: '2.5rem',
+                  sm: '3.5rem',
+                },
+              }}
+              color="primary.dark"
+            >
+              Por qué estamos aquí
+            </Typography>
+          </TextContainer>
+
+          {/* flex container that on md and up it displays and image in the left and in the right there is a text container. in sm and lower it changes to flex direction column and displays the text container first and then the image*/}
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: {
+                xs: 'column',
+                md: 'row',
+              },
+              gap: {
+                xs: 0,
+                md: theme.spacing(4),
+              },
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              py: theme.spacing(4),
+            }}
+          >
+            <Box
+              sx={{
+                width: {
+                  xs: '100%',
+                  md: '50%',
+                },
+              }}
+            >
+              <Image
+                src="/images/porque-estamos-aqui.png"
+                alt="2 personas mirando el horizonte en un atardecer en el sur de Chile"
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                }}
+              />
+            </Box>
+            <Box
+              sx={{
+                width: {
+                  xs: '100%',
+                  md: '50%',
+                },
+              }}
+            >
+              <Text gutterBottom>
+                Blui se creó con el objetivo de romper los paradigmas actuales en el apoyo a
+                personas con discapacidad y adultos mayores, poniendo a disposición de la gente una
+                plataforma on-line que permita conectar de forma fácil y segura a personas que
+                buscan apoyo con aquellas que puedan proporcionarlo.
+              </Text>
+              <Text gutterBottom>
+                El problema que existe actualmente es la dificultad de encontrar a personas que
+                ofrezcan servicios de cuidado y/o servicios profesionales de salud a domicilio según
+                las necesidades del paciente. Además, las alternativas que pueden encontrarse en
+                Chile son muy costosas, siendo inasequibles para muchas personas que lo requieren.
+              </Text>
+              <Text gutterBottom>
+                Blui nace como una solución a estos problemas, permitiendo que las personas puedan
+                tener contacto directo con el cuidador o profesional que requieran, dándoles la
+                posibilidad de acordar las condiciones del servicio de forma libre dentro de un
+                ambiente de confianza y comunidad.
+              </Text>
+            </Box>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#f9f7f6',
+            px: {
+              xs: 2,
+              sm: 4,
+              md: 8,
+              lg: 12,
+            },
+            py: {
+              xs: 2,
+              sm: 4,
+              md: 8,
+              lg: 12,
+            },
+          }}
+        >
+          <Box
+            sx={{
+              width: '100%',
+              textAlign: 'center',
+              marginBottom: theme.spacing(4),
+            }}
+          >
+            <TextContainer
+              sx={{
+                textAlign: 'start',
+              }}
+            >
+              <Typography
+                variant="h1"
+                gutterBottom
+                sx={{
+                  fontWeight: 700,
+                  fontSize: {
+                    xs: '2.5rem',
+                    sm: '3.5rem',
+                  },
+                }}
+                color="primary.dark"
+              >
+                Nuestra misión
+              </Typography>
+              <Text gutterBottom>
+                Somos una plataforma on-line que busca generar un medio para que la comunidad pueda
+                conectarse entre sí, permitiéndoles acceder a una mejor calidad de vida, más
+                inclusiva y con mayores oportunidades enfocado en adultos mayores o personas con
+                discapacidad que requieren apoyo viviendo en sus casas.
+              </Text>
+            </TextContainer>
+          </Box>
+          <Box
+            sx={{
+              width: '100%',
+              textAlign: 'center',
+              marginBottom: theme.spacing(2),
+            }}
+          >
+            <TextContainer
+              sx={{
+                textAlign: 'start',
+              }}
+            >
+              <Typography
+                variant="h1"
+                gutterBottom
+                sx={{
+                  fontWeight: 700,
+                  fontSize: {
+                    xs: '2.5rem',
+                    sm: '3.5rem',
+                  },
+                }}
+                color="primary.dark"
+              >
+                Nuestra visión
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                Crear la comunidad de apoyo para adultos mayores y personas con discapacidad más
+                grande de latinoamérica que permita el desarrollo de una sociedad más inclusiva y
+                con más oportunidades.
+              </Typography>
+            </TextContainer>
+          </Box>
+          <Box
+            sx={{
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            <TextContainer
+              sx={{
+                textAlign: 'start',
+              }}
+            >
+              <Typography
+                variant="h1"
+                gutterBottom
+                sx={{
+                  fontWeight: 700,
+                  fontSize: {
+                    xs: '2.5rem',
+                    sm: '3.5rem',
+                  },
+                }}
+                color="primary.dark"
+              >
+                Nuestros valores
+              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: { xs: 'column', md: 'row' },
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: 2,
+                  }}
+                >
+                  <PeopleAltOutlinedIcon
+                    sx={{
+                      fontSize: '4rem',
+                    }}
+                  />
+                  <Typography variant="subtitle1">Colaboración</Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: 2,
+                  }}
+                >
+                  <VisibilityOutlinedIcon
+                    sx={{
+                      fontSize: '4rem',
+                    }}
+                  />
+                  <Typography variant="subtitle1">Transparencia</Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: 2,
+                  }}
+                >
+                  <ShieldOutlinedIcon
+                    sx={{
+                      fontSize: '4rem',
+                    }}
+                  />
+                  <Typography variant="subtitle1">Seguridad</Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: 2,
+                  }}
+                >
+                  <FavoriteBorderOutlinedIcon
+                    sx={{
+                      fontSize: '4rem',
+                    }}
+                  />
+                  <Typography variant="subtitle1">Confianza</Typography>
+                </Box>
+              </Box>
+            </TextContainer>
+          </Box>
+        </Box>
       </Box>
     </>
   );
