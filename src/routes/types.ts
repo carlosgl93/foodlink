@@ -12,6 +12,7 @@ enum Pages {
   Comenzar,
   Prestador,
   Comienzo,
+  EntregaApoyo,
   NotFound,
 }
 
