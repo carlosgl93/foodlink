@@ -27,9 +27,15 @@ const routes: Routes = {
     title: 'Ingresar',
     // icon: AddTaskIcon,
   },
-  [Pages.Registrarse]: {
-    component: asyncComponentLoader(() => import('@/pages/Page2')),
-    path: '/registrarse',
+  [Pages.RegistrarPrestador]: {
+    component: asyncComponentLoader(() => import('@/pages/RegistrarPrestador')),
+    path: '/registrar-prestador',
+    title: 'Registrarse',
+    // icon: AddTaskIcon,
+  },
+  [Pages.RegistrarUsuario]: {
+    component: asyncComponentLoader(() => import('@/pages/RegistrarPrestador')),
+    path: '/registrar-usuario',
     title: 'Registrarse',
     // icon: AddTaskIcon,
   },
@@ -54,6 +60,12 @@ const routes: Routes = {
   [Pages.EntregaApoyo]: {
     component: asyncComponentLoader(() => import('@/pages/EntregaApoyo')),
     path: '/entrega-apoyo',
+    // title: 'Ingresar',
+    // icon: AddTaskIcon,
+  },
+  [Pages.PerfilPrestador]: {
+    component: asyncComponentLoader(() => import('@/pages/PerfilPrestador')),
+    path: '/perfil-prestador',
     // title: 'Ingresar',
     // icon: AddTaskIcon,
   },

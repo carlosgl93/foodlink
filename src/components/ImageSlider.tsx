@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
-import SearchBarComponent from './SearchBar';
+import SearchBar from './SearchBar';
 
 interface ImageSliderProps {
   interval?: number;
@@ -94,7 +94,7 @@ function ImageSlider({ interval = 5000 }: ImageSliderProps) {
         >
           Blui conecta a personas para construir una red de apoyo segura y comunitaria
         </ImageSliderText>
-        <SearchBarComponent />
+        <SearchBar />
       </Box>
     </ImageSliderContainer>
   );

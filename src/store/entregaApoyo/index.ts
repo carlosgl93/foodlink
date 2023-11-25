@@ -1,20 +1,23 @@
 import { atom, useRecoilState } from 'recoil';
 
 import type { Actions } from './types';
+import { entregaApoyoSteps } from '../../pages/EntregaApoyo/entregaApoyoSteps';
 
 type EntregaApoyoState = {
   step: number;
   comunas: string[];
-  servicios: string[];
+  servicio: string;
   especialidades: string[];
+  selectedEspecialidad: string;
 };
 const entregaApoyoState = atom<EntregaApoyoState>({
   key: 'entregaApoyoState',
   default: {
     step: 0,
     comunas: [],
-    servicios: [],
+    servicio: '',
     especialidades: [],
+    selectedEspecialidad: '',
   },
 });
 
@@ -51,32 +54,23 @@ function useEntregaApoyo(): [EntregaApoyoState, Actions] {
   };
 
   const selectServicio = (servicio: string) => {
-    if (apoyo.servicios.find((s: string) => s === servicio)) {
-      setApoyo((prev) => ({
-        ...prev,
-        servicios: prev.servicios.filter((s) => s !== servicio),
-      }));
-      return;
-    } else {
-      setApoyo((prev) => ({
-        ...prev,
-        servicios: [...prev.servicios, servicio],
-      }));
-    }
+    setApoyo((prev) => ({
+      ...prev,
+      servicio,
+    }));
+    const serviceSpecialities = entregaApoyoSteps[1].options.find(
+      (o) => o.text === servicio,
+    )?.speciality;
+    setApoyo((prev) => ({
+      ...prev,
+      especialidades: serviceSpecialities ? serviceSpecialities.map((s) => s.text) : [],
+    }));
   };
   const selectEspecialidad = (especialidad: string) => {
-    if (apoyo.especialidades.find((e: string) => e === especialidad)) {
-      setApoyo((prev) => ({
-        ...prev,
-        especialidades: prev.especialidades.filter((e) => e !== especialidad),
-      }));
-      return;
-    } else {
-      setApoyo((prev) => ({
-        ...prev,
-        especialidades: [...prev.especialidades, especialidad],
-      }));
-    }
+    setApoyo((prev) => ({
+      ...prev,
+      selectedEspecialidad: especialidad,
+    }));
   };
 
   return [

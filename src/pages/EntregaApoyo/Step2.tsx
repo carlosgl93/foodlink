@@ -5,7 +5,7 @@ import useEntregaApoyo from '@/store/entregaApoyo';
 import { Box, Button } from '@mui/material';
 
 const Step2 = () => {
-  const [{ servicios }, { increaseStep, decreaseStep }] = useEntregaApoyo();
+  const [{ servicio }, { increaseStep, decreaseStep }] = useEntregaApoyo();
 
   return (
     <>
@@ -34,7 +34,7 @@ const Step2 = () => {
         <Button variant="contained" onClick={decreaseStep}>
           Atras
         </Button>
-        <Button disabled={servicios.length === 0} variant="contained" onClick={increaseStep}>
+        <Button disabled={servicio.length === 0} variant="contained" onClick={increaseStep}>
           Siguiente
         </Button>
       </Box>

@@ -1,12 +1,14 @@
+import { Suspense, lazy } from 'react';
 import Meta from '@/components/Meta';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { Image } from '@/components/ImageContainer';
 import { Box, LinearProgress } from '@mui/material';
 import { entregaApoyoSteps } from './entregaApoyoSteps';
-import Step1 from './Step1';
-import Step2 from './Step2';
-import Step3 from './Step3';
+const Step1 = lazy(() => import('./Step1'));
+const Step2 = lazy(() => import('./Step2'));
+const Step3 = lazy(() => import('./Step3'));
 import useEntregaApoyo from '@/store/entregaApoyo';
+import Loading from '@/components/Loading';
 
 function Comienzo() {
   const [{ step }] = useEntregaApoyo();
@@ -42,9 +44,11 @@ function Comienzo() {
             value={((step + 1) / entregaApoyoSteps.length) * 100}
           />
         </Box>
-        {step === 0 && <Step1 />}
-        {step === 1 && <Step2 />}
-        {step === 2 && <Step3 />}
+        <Suspense fallback={<Loading />}>
+          {step === 0 && <Step1 />}
+          {step === 1 && <Step2 />}
+          {step === 2 && <Step3 />}
+        </Suspense>
       </FullSizeCenteredFlexBox>
     </>
   );

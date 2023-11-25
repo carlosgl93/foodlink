@@ -4,6 +4,7 @@ import { deepmerge } from '@mui/utils';
 import { Themes } from './types';
 
 const sharedTheme = {
+  spacing: 4,
   palette: {
     background: {
       default: '#fafafa',

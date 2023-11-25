@@ -12,7 +12,7 @@ type ListProps = {
 };
 
 const ServiceTypeList = ({ items }: ListProps) => {
-  const [{ servicios }, { selectServicio }] = useEntregaApoyo();
+  const [{ servicio }, { selectServicio }] = useEntregaApoyo();
 
   const handleSelectServicio = (servicio: string) => {
     console.log(servicio);
@@ -27,7 +27,7 @@ const ServiceTypeList = ({ items }: ListProps) => {
         }}
       >
         {items.map((item) => {
-          const alreadySelected = servicios.includes(item.text);
+          const alreadySelected = servicio.includes(item.text);
           return (
             <ListItemButton
               onClick={() => handleSelectServicio(item.text)}

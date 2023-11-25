@@ -23,11 +23,8 @@ export const entregaApoyoSteps = [
         ],
       },
       {
-        text: 'Soporte Teraupéutico',
+        text: 'Soporte Terapéutico',
         speciality: [
-          {
-            text: 'Apoyo en el hogar',
-          },
           {
             text: 'Kinesiología',
           },
@@ -73,7 +70,7 @@ export const entregaApoyoSteps = [
     ],
   },
   {
-    title: '¿Qué tipo de ayuda entregarás?',
+    title: '¿Cual es tu especialidad?',
     options: [
       {
         text: 'Apoyo en el hogar',
@@ -92,11 +89,8 @@ export const entregaApoyoSteps = [
         ],
       },
       {
-        text: 'Soporte Teraupéutico',
+        text: 'Soporte Terapéutico',
         speciality: [
-          {
-            text: 'Apoyo en el hogar',
-          },
           {
             text: 'Kinesiología',
           },

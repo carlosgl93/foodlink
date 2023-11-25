@@ -18,14 +18,16 @@
     "sourceType": "module"
   },
   "rules": {
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "no-non-null-assertion": "off",
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-restricted-imports": [
-        "error",
-        {
-          "patterns": ["@mui/*/*/*"]
-        }
+      "error",
+      {
+        "patterns": ["@mui/*/*/*"]
+      }
     ]
   }
 }

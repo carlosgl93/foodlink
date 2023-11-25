@@ -4,11 +4,7 @@ import { Box } from '@mui/system';
 import { comunas } from '@/utils/constants';
 import { useState } from 'react';
 
-type SearchBarProps = {
-  clickComunaHandler: (e: React.MouseEvent<HTMLDivElement>) => void;
-};
-
-function SearchBar({ clickComunaHandler }: SearchBarProps) {
+function SearchBar() {
   const [comunasState, setComunasState] = useState(comunas);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -18,6 +14,11 @@ function SearchBar({ clickComunaHandler }: SearchBarProps) {
       }
     });
     setComunasState(match);
+  };
+
+  const clickComunaHandler = () => {
+    // TODO: IMPLEMENT COMUNA HANDLER
+    console.log('handler comuna');
   };
 
   return (
