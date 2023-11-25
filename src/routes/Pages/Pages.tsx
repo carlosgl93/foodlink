@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 
 function Pages() {
   return (
-    <Box sx={{ height: 'fit-content' }}>
+    <Box sx={{ height: 'fit-content', minHeight: '75vh' }}>
       <Routes>
         {Object.values(routes).map(({ path, component: Component }) => {
           return <Route key={path} path={path} element={<Component />} />;

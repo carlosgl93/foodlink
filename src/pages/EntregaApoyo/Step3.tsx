@@ -31,6 +31,8 @@ const Step3 = () => {
         sx={{
           display: 'flex',
           flexDirection: 'row',
+          gap: '5vw',
+          my: '2.5vh',
         }}
       >
         <Button variant="contained" onClick={decreaseStep}>

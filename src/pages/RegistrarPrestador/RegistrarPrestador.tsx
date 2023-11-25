@@ -35,7 +35,8 @@ function RegistrarPrestador() {
         <TextContainer>
           <Title
             sx={{
-              fontSize: '1.8rem',
+              fontSize: '1.4rem',
+              my: '2.5vh',
             }}
           >
             ¡Estas a un solo paso! Favor registrate para poder encontrar y contactar a la persona
@@ -114,18 +115,6 @@ function RegistrarPrestador() {
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'center',
-              m: {
-                xs: 1,
-                sm: 2,
-                md: 3,
-                lg: 4,
-              },
-              mt: {
-                xs: 2,
-                sm: 3,
-                md: 4,
-                lg: 5,
-              },
             }}
           >
             <Button
@@ -140,6 +129,9 @@ function RegistrarPrestador() {
               }
               variant="contained"
               onClick={handleSubmit}
+              sx={{
+                marginTop: '5vh',
+              }}
             >
               Siguiente
             </Button>

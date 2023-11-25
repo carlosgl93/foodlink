@@ -20,6 +20,7 @@ const Step1 = () => {
           variant="h1"
           sx={{
             fontSize: '2rem',
+            my: '2.5vh',
           }}
         >
           {entregaApoyoSteps[0].title}
@@ -68,7 +69,11 @@ const Step1 = () => {
         </Box>
       </TextContainer>
       <SearchBar />
-      <Box>
+      <Box
+        sx={{
+          my: '2.5vh',
+        }}
+      >
         <Button disabled={comunas.length === 0} variant="contained" onClick={increaseStep}>
           Siguiente
         </Button>

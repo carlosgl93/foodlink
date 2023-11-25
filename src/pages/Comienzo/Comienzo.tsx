@@ -27,6 +27,7 @@ function Comienzo() {
           justifyContent: 'start',
           gap: 2,
           pt: 4,
+          minHeight: '75vh',
         }}
       >
         <Box>
@@ -34,8 +35,10 @@ function Comienzo() {
             src="/images/blui-new.png"
             sx={{
               width: '100%',
-              maxWidth: 200,
+              maxWidth: 125,
               height: 'auto',
+              marginTop: '5vh',
+              marginBottom: '5vh',
             }}
           />
         </Box>

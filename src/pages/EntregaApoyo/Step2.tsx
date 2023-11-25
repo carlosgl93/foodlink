@@ -19,6 +19,7 @@ const Step2 = () => {
           variant="h1"
           sx={{
             fontSize: '2rem',
+            my: '2.5vh',
           }}
         >
           {entregaApoyoSteps[1].title}
@@ -29,6 +30,8 @@ const Step2 = () => {
         sx={{
           display: 'flex',
           flexDirection: 'row',
+          my: '2.5vh',
+          gap: '5vw',
         }}
       >
         <Button variant="contained" onClick={decreaseStep}>
