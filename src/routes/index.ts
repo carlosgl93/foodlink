@@ -63,6 +63,18 @@ const routes: Routes = {
     // title: 'Ingresar',
     // icon: AddTaskIcon,
   },
+  [Pages.RecibeApoyo]: {
+    component: asyncComponentLoader(() => import('@/pages/RecibeApoyo')),
+    path: '/recibe-apoyo',
+    // title: 'Ingresar',
+    // icon: AddTaskIcon,
+  },
+  [Pages.Resultados]: {
+    component: asyncComponentLoader(() => import('@/pages/Resultados')),
+    path: '/resultados',
+    // title: 'Ingresar',
+    // icon: AddTaskIcon,
+  },
   [Pages.PerfilPrestador]: {
     component: asyncComponentLoader(() => import('@/pages/PerfilPrestador')),
     path: '/perfil-prestador',

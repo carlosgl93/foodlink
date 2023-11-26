@@ -5,6 +5,11 @@ import { Themes } from './types';
 
 const sharedTheme = {
   spacing: 4,
+  typography: {
+    allVariants: {
+      fontFamily: 'Manrope, sans-serif',
+    },
+  },
   palette: {
     background: {
       default: '#fafafa',

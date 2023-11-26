@@ -83,7 +83,7 @@ function Sidebar() {
           </ListItemButton>
         </ListItem>
         <ListItem sx={{ mx: 'auto' }}>
-          <ListItemButton component={Link} to="/comenzar" onClick={sidebarActions.close}>
+          <ListItemButton component={Link} to="/comienzo" onClick={sidebarActions.close}>
             <Button variant="contained">Comenzar</Button>
           </ListItemButton>
         </ListItem>

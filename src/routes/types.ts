@@ -14,8 +14,10 @@ enum Pages {
   Prestador,
   Comienzo,
   EntregaApoyo,
+  RecibeApoyo,
   NotFound,
   PerfilPrestador,
+  Resultados,
 }
 
 type PathRouteCustomProps = {
