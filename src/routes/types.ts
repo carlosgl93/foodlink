@@ -11,6 +11,7 @@ enum Pages {
   Registrarse,
   Comenzar,
   Prestador,
+  Comienzo,
   NotFound,
 }
 

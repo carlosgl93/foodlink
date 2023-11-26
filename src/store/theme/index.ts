@@ -21,7 +21,7 @@ function useTheme(): [Themes, Actions] {
   const [themeMode, setThemeMode] = useRecoilState(themeModeState);
 
   function toggle() {
-    setThemeMode((mode: Themes) => (mode === Themes.DARK ? Themes.LIGHT : Themes.DARK));
+    setThemeMode(() => Themes.LIGHT);
   }
 
   return [themeMode, { toggle }];
