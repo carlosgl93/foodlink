@@ -82,15 +82,23 @@ const serviciosPrestados = [
 function PersonaApoyo() {
   return (
     <>
-      <Meta title="page 2" />
+      <Meta title="Persona de apoyo" />
       <Section
         component="section"
         sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: '1fr',
+            md: '1fr 1fr',
+            lg: '1fr 1fr',
+          },
+          gap: '2rem',
           px: {
             xs: 1,
             sm: 4,
-            md: 8,
-            lg: 12,
+            md: 12,
+            lg: 16,
           },
           py: {
             sm: 4,
@@ -99,7 +107,12 @@ function PersonaApoyo() {
           },
         }}
       >
-        <TextContainer>
+        <TextContainer
+          sx={{
+            justifyContent: 'start',
+            height: '100%',
+          }}
+        >
           <Title>Entregar lo mejor de uno por el otro</Title>
           <Text
             sx={{
@@ -109,7 +122,15 @@ function PersonaApoyo() {
             Únete a nuestra comunidad Blui y presta apoyo a todos aquellos adultos mayores y
             personas con discapacidad que lo necesiten.
           </Text>
-          <Button component={Link} to="/comienzo" variant="outlined">
+          <Button
+            component={Link}
+            to="/comienzo"
+            variant="outlined"
+            sx={{
+              maxWidth: '30%',
+              borderRadius: '5px',
+            }}
+          >
             Comenzar
           </Button>
         </TextContainer>

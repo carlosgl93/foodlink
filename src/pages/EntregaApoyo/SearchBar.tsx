@@ -1,13 +1,13 @@
 import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import { Box } from '@mui/system';
-import { comunas } from '@/utils/constants';
+import { allComunas } from '@/utils/constants';
 import { useState } from 'react';
 import useEntregaApoyo from '@/store/entregaApoyo';
 
 function SearchBar() {
   const [entregaApoyoState, { addComuna, removeComuna }] = useEntregaApoyo();
-  const [comunasState, setComunasState] = useState(comunas);
+  const [comunasState, setComunasState] = useState(allComunas);
 
   const clickComunaHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const comuna = e.currentTarget.innerText;
@@ -19,7 +19,7 @@ function SearchBar() {
   };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const match = comunas.filter((comuna) => {
+    const match = allComunas.filter((comuna) => {
       if (comuna.toLowerCase().includes(e.target.value.toLowerCase())) {
         return comuna;
       }
