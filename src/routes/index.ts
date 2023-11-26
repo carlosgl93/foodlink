@@ -10,7 +10,7 @@ const routes: Routes = {
     // icon: HomeIcon,
   },
   [Pages.Nosotros]: {
-    component: asyncComponentLoader(() => import('@/pages/nosotros')),
+    component: asyncComponentLoader(() => import('@/pages/Nosotros')),
     path: '/nosotros',
     title: 'Nosotros',
     // icon: GitHubIcon,
@@ -27,9 +27,15 @@ const routes: Routes = {
     title: 'Ingresar',
     // icon: AddTaskIcon,
   },
-  [Pages.Registrarse]: {
-    component: asyncComponentLoader(() => import('@/pages/Page2')),
-    path: '/registrarse',
+  [Pages.RegistrarPrestador]: {
+    component: asyncComponentLoader(() => import('@/pages/RegistrarPrestador')),
+    path: '/registrar-prestador',
+    title: 'Registrarse',
+    // icon: AddTaskIcon,
+  },
+  [Pages.RegistrarUsuario]: {
+    component: asyncComponentLoader(() => import('@/pages/RegistrarPrestador')),
+    path: '/registrar-usuario',
     title: 'Registrarse',
     // icon: AddTaskIcon,
   },
@@ -46,8 +52,20 @@ const routes: Routes = {
     // icon: AddTaskIcon,
   },
   [Pages.Comienzo]: {
-    component: asyncComponentLoader(() => import('@/pages/Page2')),
+    component: asyncComponentLoader(() => import('@/pages/Comienzo')),
     path: '/comienzo',
+    // title: 'Ingresar',
+    // icon: AddTaskIcon,
+  },
+  [Pages.EntregaApoyo]: {
+    component: asyncComponentLoader(() => import('@/pages/EntregaApoyo')),
+    path: '/entrega-apoyo',
+    // title: 'Ingresar',
+    // icon: AddTaskIcon,
+  },
+  [Pages.PerfilPrestador]: {
+    component: asyncComponentLoader(() => import('@/pages/PerfilPrestador')),
+    path: '/perfil-prestador',
     // title: 'Ingresar',
     // icon: AddTaskIcon,
   },

@@ -12,6 +12,7 @@ import { Button, useTheme, Box } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 
 import routes from '@/routes';
+import { routesToExcludeInHeader } from './routesToExcludeInHeader';
 
 const DesktopHeaderContent = () => {
   const theme = useTheme<Theme>();
@@ -43,7 +44,7 @@ const DesktopHeaderContent = () => {
         {Object.values(routes)
           .filter((route) => route.title)
           .map(({ path, title, icon: Icon }) =>
-            path === '/ingresar' || path === '/registrarse' || path === '/comenzar' ? null : (
+            routesToExcludeInHeader.includes(path) ? null : (
               <div
                 key={path}
                 style={{

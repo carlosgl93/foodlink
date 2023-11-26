@@ -8,17 +8,21 @@ enum Pages {
   Nosotros,
   Ayuda,
   Ingresar,
-  Registrarse,
+  RegistrarUsuario,
+  RegistrarPrestador,
   Comenzar,
   Prestador,
   Comienzo,
+  EntregaApoyo,
   NotFound,
+  PerfilPrestador,
 }
 
 type PathRouteCustomProps = {
   title?: string;
   component: FC;
   icon?: FC<SvgIconProps>;
+  path: string;
 };
 
 type Routes = Record<Pages, PathRouteProps & PathRouteCustomProps>;

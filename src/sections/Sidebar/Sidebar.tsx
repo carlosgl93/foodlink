@@ -12,6 +12,7 @@ import { Theme } from '@mui/material/styles';
 
 import routes from '@/routes';
 import useSidebar from '@/store/sidebar';
+import { routesToExcludeInHeader } from '../Header/routesToExcludeInHeader';
 
 function Sidebar() {
   const [isSidebarOpen, sidebarActions] = useSidebar();
@@ -31,7 +32,7 @@ function Sidebar() {
         {Object.values(routes)
           .filter((route) => route.title)
           .map(({ path, title, icon: Icon }) =>
-            path === '/ingresar' || path === '/registrarse' || path === '/comenzar' ? null : (
+            routesToExcludeInHeader.includes(path) ? null : (
               <div
                 key={path}
                 style={{

@@ -1,18 +1,11 @@
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material';
-import SearchBarComponent from './SearchBar';
+import SearchBar from './SearchBar';
 
 interface ImageSliderProps {
   interval?: number;
 }
-
-const ImageSliderContainer = styled(Box)({
-  position: 'relative',
-  width: '100%',
-  height: '100%',
-  overflow: 'hidden',
-});
 
 const ImageSliderImage = styled(Box)({
   position: 'absolute',
@@ -53,11 +46,27 @@ function ImageSlider({ interval = 5000 }: ImageSliderProps) {
   }, [currentImageIndex, interval]);
 
   return (
-    <ImageSliderContainer>
+    <Box
+      sx={{
+        position: 'relative',
+        width: '100%',
+        height: {
+          xs: '100vh',
+          sm: '95vh',
+          md: '85vh',
+          lg: '80vh',
+        },
+        overflow: 'hidden',
+      }}
+    >
       {images.map((image, index) => (
         <ImageSliderImage
           key={index}
-          style={{ backgroundImage: `url(${image})`, opacity: index === currentImageIndex ? 1 : 0 }}
+          style={{
+            backgroundImage: `url(${image})`,
+            backgroundPosition: 'center',
+            opacity: index === currentImageIndex ? 1 : 0,
+          }}
         >
           {index === currentImageIndex && <ImageSliderOverlay />}
         </ImageSliderImage>
@@ -94,9 +103,9 @@ function ImageSlider({ interval = 5000 }: ImageSliderProps) {
         >
           Blui conecta a personas para construir una red de apoyo segura y comunitaria
         </ImageSliderText>
-        <SearchBarComponent />
+        <SearchBar />
       </Box>
-    </ImageSliderContainer>
+    </Box>
   );
 }
 

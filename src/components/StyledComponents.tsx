@@ -25,7 +25,7 @@ export const TextContainer = styled(Container)(({ theme }) => ({
 
 export const Text = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.dark,
-  fontSize: '1rem',
+  fontSize: '1.1rem',
   fontWeight: 400,
   textAlign: 'justify',
   textRendering: 'optimizeLegibility',
