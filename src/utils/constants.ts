@@ -346,3 +346,202 @@ export const allComunas = [
   'YUNGAY',
   'ZAPALLAR',
 ];
+
+export const availability = [
+  {
+    id: 1,
+    name: 'Lunes',
+  },
+  {
+    id: 2,
+    name: 'Martes',
+  },
+  {
+    id: 3,
+    name: 'Miercoles',
+  },
+  {
+    id: 4,
+    name: 'Jueves',
+  },
+  {
+    id: 5,
+    name: 'Viernes',
+  },
+  {
+    id: 6,
+    name: 'Sabado',
+  },
+  {
+    id: 7,
+    name: 'Domingo',
+  },
+];
+
+export type Prestador = {
+  firstname: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  comunas: string[];
+  service: string;
+  speciality: string;
+  profile_pic: string;
+  availability: string[];
+};
+
+export type Service = {
+  id: number;
+  text: string;
+  speciality: {
+    id: number;
+    text: string;
+  }[];
+};
+
+export const dummyPrestadores: Prestador[] = [
+  {
+    firstname: 'Juan',
+    email: 'juan@prestador1.com',
+    phone: '1234551234',
+    address: '423 Julio Prado',
+    city: 'Santiago',
+    state: 'Metropolitana',
+    country: 'Chile',
+    comunas: ['SANTIAGO', 'PROVIDENCIA', 'LAS CONDES'],
+    service: 'Soporte Terapéutico',
+    speciality: 'Kinesiología',
+    profile_pic: 'https://icon-library.com/images/google-user-icon/google-user-icon-7.jpg',
+    availability: ['1', '2', '3', '4', '5', '6', '7'],
+  },
+  {
+    firstname: 'Pedro',
+    email: 'pedro@prestador1.com',
+    phone: '1234551234',
+    address: '423 Julio Prado',
+    city: 'Rancagua',
+    state: 'Sexta Region',
+    country: 'Chile',
+    comunas: ['MACHALI', 'RANCAGUA'],
+    service: 'Soporte Terapéutico',
+    speciality: 'Fonoaudiología',
+    profile_pic:
+      'https://cambodiaict.net/wp-content/uploads/2019/12/computer-icons-user-profile-google-account-photos-icon-account.jpg',
+    availability: ['4', '5', '6', '7'],
+  },
+];
+
+export const services = [
+  {
+    id: 1,
+    text: 'Apoyo en el hogar',
+    speciality: [
+      {
+        id: 1,
+        text: 'Apoyo en el hogar',
+      },
+    ],
+  },
+  {
+    id: 2,
+    text: 'Cuidadora',
+    speciality: [
+      {
+        id: 2,
+        text: 'Cuidadora',
+      },
+    ],
+  },
+  {
+    id: 3,
+    text: 'Soporte Terapéutico',
+    speciality: [
+      {
+        id: 1,
+        text: 'Kinesiología',
+      },
+      {
+        id: 2,
+        text: 'Quiropráctica',
+      },
+      {
+        id: 3,
+        text: 'Odontología',
+      },
+      {
+        id: 4,
+        text: 'Fonoaudiología',
+      },
+      {
+        id: 5,
+        text: 'Podología',
+      },
+      {
+        id: 6,
+        text: 'Psicología',
+      },
+      {
+        id: 7,
+        text: 'Terapeuta Ocupacional',
+      },
+    ],
+  },
+  {
+    id: 4,
+    text: 'Servicios de enfermería',
+    speciality: [
+      {
+        id: 1,
+        text: 'Enfermería',
+      },
+      {
+        id: 2,
+        text: 'Técnico en enfermería',
+      },
+    ],
+  },
+  {
+    id: 5,
+    text: 'Sana compañía',
+    speciality: [
+      {
+        id: 1,
+        text: 'Sana compañía',
+      },
+    ],
+  },
+];
+
+export const days = [
+  {
+    id: 1,
+    name: 'Lunes',
+  },
+  {
+    id: 2,
+    name: 'Martes',
+  },
+  {
+    id: 3,
+    name: 'Miercoles',
+  },
+  {
+    id: 4,
+    name: 'Jueves',
+  },
+  {
+    id: 5,
+    name: 'Viernes',
+  },
+  {
+    id: 6,
+    name: 'Sabado',
+  },
+  {
+    id: 7,
+    name: 'Domingo',
+  },
+];

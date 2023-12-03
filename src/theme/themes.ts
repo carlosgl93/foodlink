@@ -70,6 +70,7 @@ const themes: Record<Themes, ThemeOptions> = {
       primary: {
         main: '#970B80',
         dark: '#502048',
+        light: '#fff7fe',
       },
       secondary: {
         main: '#fff7fe',

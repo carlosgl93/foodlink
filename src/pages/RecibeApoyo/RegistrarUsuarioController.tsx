@@ -9,6 +9,10 @@ type FormState = {
   contrasena: string;
   confirmarContrasena: string;
   comoEnteraste: string;
+  nombrePaciente: string;
+  direccionCliente: string;
+  telefonoCliente: string;
+  correoCliente: string;
 };
 
 type FormActions =
@@ -43,7 +47,7 @@ const reducer = (state: FormState, action: FormActions) => {
   }
 };
 
-const RegistrarPrestadorController = () => {
+const RegistrarUsuarioController = () => {
   const router = useNavigate();
   const initialState = {
     error: '',
@@ -54,6 +58,10 @@ const RegistrarPrestadorController = () => {
     contrasena: '',
     confirmarContrasena: '',
     comoEnteraste: '',
+    nombrePaciente: '',
+    direccionCliente: '',
+    telefonoCliente: '',
+    correoCliente: '',
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -102,4 +110,4 @@ const RegistrarPrestadorController = () => {
   };
 };
 
-export default RegistrarPrestadorController;
+export default RegistrarUsuarioController;

@@ -1,8 +1,6 @@
 import { atom, useRecoilState } from 'recoil';
-import { services } from './services';
 
 import type { Actions } from './types';
-// import { recibeApoyoSteps } from '../../pages/RecibeApoyo/recibeApoyoSteps';
 
 type RecibeApoyoState = {
   step: number;
@@ -10,20 +8,26 @@ type RecibeApoyoState = {
   servicio: string;
   especialidad: string;
   forWhom: string;
+  disponibilidad: {
+    id: number;
+    name: string;
+  }[];
 };
-const RecibeApoyoState = atom<RecibeApoyoState>({
-  key: 'RecibeApoyoState',
+
+const recibeApoyoState = atom<RecibeApoyoState>({
+  key: 'recibeApoyoState',
   default: {
     step: 0,
     comunas: [],
     servicio: '',
     forWhom: '',
     especialidad: '',
+    disponibilidad: [],
   },
 });
 
 function useRecibeApoyo(): [RecibeApoyoState, Actions] {
-  const [apoyo, setApoyo] = useRecoilState(RecibeApoyoState);
+  const [apoyo, setApoyo] = useRecoilState(recibeApoyoState);
 
   const addComuna = (comuna: string) => {
     if (apoyo.comunas.find((c: string) => c === comuna)) return;
@@ -61,19 +65,57 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
     }));
   };
 
-  const filterByServicio = (servicio: string) => {
-    const servicioObj = services.find((s) => s.text === servicio);
+  // const filterByServicio = (servicio: string) => {
+  //   const servicioObj = services.find((s) => s.text === servicio);
 
+  //   setApoyo((prev) => ({
+  //     ...prev,
+  //     servicio: servicio,
+  //     especialidad: servicioObj?.speciality[0].text || '',
+  //   }));
+  // };
+
+  const selectServicio = (servicio: string) => {
     setApoyo((prev) => ({
       ...prev,
-      servicio: servicio,
-      especialidad: servicioObj?.speciality[0].text || '',
+      servicio,
     }));
+  };
+  const selectEspecialidad = (especialidad: string) => {
+    setApoyo((prev) => ({
+      ...prev,
+      especialidad,
+    }));
+  };
+
+  const setAvailability = (availability: { id: number; name: string }) => {
+    if (apoyo.disponibilidad.find((d) => d.id === availability.id)) {
+      setApoyo((prev) => ({
+        ...prev,
+        disponibilidad: prev.disponibilidad.filter((d) => d.id !== availability.id),
+      }));
+      return;
+    } else {
+      setApoyo((prev) => ({
+        ...prev,
+        disponibilidad: [...prev.disponibilidad, availability],
+      }));
+    }
   };
 
   return [
     apoyo,
-    { addComuna, removeComuna, increaseStep, decreaseStep, selectForWhom, filterByServicio },
+    {
+      addComuna,
+      removeComuna,
+      increaseStep,
+      decreaseStep,
+      selectForWhom,
+      // filterByServicio,
+      selectServicio,
+      selectEspecialidad,
+      setAvailability,
+    },
   ];
 }
 

@@ -1,3 +1,5 @@
+import { services } from '@/utils/constants';
+
 export const recibeApoyoSteps = [
   {
     title: '¿Quién busca apoyo?',
@@ -12,7 +14,11 @@ export const recibeApoyoSteps = [
     ],
   },
   {
-    title: '¿Donde quieres recibir apoyo?',
+    title: '¿Donde necesitas apoyo?',
     options: [],
+  },
+  {
+    title: '¿Que tipo de apoyo necesitas?',
+    options: services,
   },
 ];

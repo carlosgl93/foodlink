@@ -1,21 +1,20 @@
 import { List, ListItemButton, ListItemText, ListItemIcon } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useRecibeApoyo from '@/store/recibeApoyo';
+import { Service } from '@/utils/constants';
 
 type ListProps = {
-  options:
-    | {
-        text: string;
-      }[];
+  items: Service[];
 };
 
-const ForWhomList = ({ options }: ListProps) => {
-  const [{ forWhom }, { selectForWhom }] = useRecibeApoyo();
+const ServiceTypeList = ({ items }: ListProps) => {
+  const [{ servicio }, { selectServicio }] = useRecibeApoyo();
 
-  const handleSelectForWhom = (whom: string) => {
-    console.log(whom);
-    selectForWhom(whom);
+  const handleSelectServicio = (servicio: string) => {
+    selectServicio(servicio);
   };
+
+  console.log(servicio);
 
   return (
     <>
@@ -24,11 +23,11 @@ const ForWhomList = ({ options }: ListProps) => {
           gap: 1,
         }}
       >
-        {options.map((item) => {
-          const alreadySelected = forWhom.includes(item.text);
+        {items.map((item) => {
+          const alreadySelected = servicio.includes(item.text);
           return (
             <ListItemButton
-              onClick={() => handleSelectForWhom(item.text)}
+              onClick={() => handleSelectServicio(item.text)}
               sx={{
                 color: alreadySelected ? 'secondary.main' : 'primary.main',
                 display: 'grid',
@@ -64,4 +63,4 @@ const ForWhomList = ({ options }: ListProps) => {
   );
 };
 
-export default ForWhomList;
+export default ServiceTypeList;

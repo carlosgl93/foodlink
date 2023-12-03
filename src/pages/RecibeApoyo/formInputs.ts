@@ -19,7 +19,7 @@ export const formInputs = [
   },
   {
     inputName: 'correo',
-    placeholder: 'Ingresa tu email',
+    placeholder: 'Ingresa tu correo electrónico',
     label: 'Correo electrónico (*)',
     type: 'email',
   },

@@ -1,16 +1,22 @@
-import { Text, TextContainer, Title } from '@/components/StyledComponents';
+import { Box, Button } from '@mui/material';
+import { TextContainer, Title } from '@/components/StyledComponents';
 import { recibeApoyoSteps } from './recibeApoyoSteps';
 import useRecibeApoyo from '@/store/recibeApoyo';
-import { Box, Button } from '@mui/material';
-import ForWhomList from './ForWhomList';
+import ServiceTypeList from './ServiceTypeList';
 import { useNavigate } from 'react-router-dom';
+import { services } from '@/utils/constants';
 
-const Step1 = () => {
-  const [{ forWhom }, { increaseStep }] = useRecibeApoyo();
+const Step3 = () => {
+  const [{ step, servicio }, { decreaseStep }] = useRecibeApoyo();
+
   const router = useNavigate();
 
+  const handleNext = () => {
+    router('/resultados');
+  };
+
   const handlePrevious = () => {
-    router('/comienzo');
+    decreaseStep();
   };
 
   return (
@@ -19,8 +25,6 @@ const Step1 = () => {
         sx={{
           maxWidth: 500,
           textAlign: 'center',
-          alignContent: 'center',
-          justifyContent: 'center',
         }}
       >
         <Title
@@ -30,23 +34,21 @@ const Step1 = () => {
             my: '2.5vh',
           }}
         >
-          {recibeApoyoSteps[0].title}
+          {recibeApoyoSteps[step].title}
         </Title>
       </TextContainer>
-      <Text>{recibeApoyoSteps[0].text}</Text>
-      <ForWhomList options={recibeApoyoSteps[0].options} />
+      <ServiceTypeList items={services} />
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
           my: '2.5vh',
-          gap: '5vw',
+          gap: '1rem',
         }}
       >
         <Button variant="contained" onClick={handlePrevious}>
           Atras
         </Button>
-        <Button disabled={forWhom.length === 0} variant="contained" onClick={increaseStep}>
+        <Button disabled={servicio.length === 0} variant="contained" onClick={handleNext}>
           Siguiente
         </Button>
       </Box>
@@ -54,4 +56,4 @@ const Step1 = () => {
   );
 };
 
-export default Step1;
+export default Step3;

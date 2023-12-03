@@ -3,10 +3,11 @@ type Actions = {
   removeComuna: (comuna: string) => void;
   increaseStep: () => void;
   selectForWhom: (forWhom: string) => void;
-  // selectServicio: (servicio: string) => void;
-  // selectEspecialidad: (especialidad: string) => void;
+  selectServicio: (servicio: string) => void;
+  selectEspecialidad: (especialidad: string) => void;
   decreaseStep: () => void;
-  filterByServicio: (servicio: string) => void;
+  // filterByServicio: (servicio: Service) => void;
+  setAvailability: (availability: { id: number; name: string }) => void;
 };
 
 export type { Actions };
