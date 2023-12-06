@@ -12,12 +12,9 @@ function Resultados() {
   const isTablet = useMediaQuery(tablet);
   const [filteredPrestadores, setFilteredPrestadores] = useState<[] | Prestador[]>([]);
 
-  // let filteredPrestadores: Prestador[] = [];
   useEffect(() => {
     if (servicio && comunas && especialidad.length === 0) {
-      // por cada prestador,
       dummyPrestadores.forEach((p) => {
-        // debo iterar por sus comunas y ver si las comunas seleccionadas matchean
         if (p.service === servicio) {
           p.comunas.forEach((c) => {
             if (comunas.includes(c)) {
@@ -26,8 +23,6 @@ function Resultados() {
           });
         } else return;
       });
-
-      // console.log(matchesComuna);
     } else if (servicio && comunas && especialidad) {
       dummyPrestadores.forEach((p) => {
         if (p.service === servicio) {
@@ -47,7 +42,11 @@ function Resultados() {
     <>
       <Meta title="Resultados" />
 
-      {isTablet ? <MobileResults /> : <DesktopResults filteredPrestadores={filteredPrestadores} />}
+      {isTablet ? (
+        <MobileResults filteredPrestadores={filteredPrestadores} />
+      ) : (
+        <DesktopResults filteredPrestadores={filteredPrestadores} />
+      )}
     </>
   );
 }
