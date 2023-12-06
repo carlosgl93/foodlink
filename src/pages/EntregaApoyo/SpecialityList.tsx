@@ -38,7 +38,7 @@ const SpecialityList = ({ items }: ListProps) => {
                 backgroundColor: alreadySelected ? 'primary.dark' : 'white',
                 ':hover': {
                   backgroundColor: alreadySelected ? 'primary.dark' : 'primary.light',
-                  color: alreadySelected ? 'white' : 'white',
+                  color: alreadySelected ? 'white' : 'primary.dark',
                 },
               }}
               key={item}
