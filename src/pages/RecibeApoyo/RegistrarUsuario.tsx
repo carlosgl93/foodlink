@@ -5,7 +5,7 @@ import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
 import { Image } from '@/components/ImageContainer';
 import { TextContainer, Title } from '@/components/StyledComponents';
 
-import RegistrarPrestadorController from './RegistrarPrestadorController';
+import RegistrarPrestadorController from './RegistrarUsuarioController';
 import { formInputs } from './formInputs';
 
 function RegistrarPrestador() {

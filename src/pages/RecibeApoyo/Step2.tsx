@@ -4,14 +4,16 @@ import SearchBar from './SearchBar';
 import { TextContainer, Title } from '@/components/StyledComponents';
 import { recibeApoyoSteps } from './recibeApoyoSteps';
 import useRecibeApoyo from '@/store/recibeApoyo';
-import { useNavigate } from 'react-router-dom';
 
 const Step2 = () => {
-  const [{ comunas }, { removeComuna }] = useRecibeApoyo();
-  const router = useNavigate();
+  const [{ comunas }, { removeComuna, increaseStep, decreaseStep }] = useRecibeApoyo();
 
   const handleNext = () => {
-    router('/resultados');
+    increaseStep();
+  };
+
+  const handlePrevious = () => {
+    decreaseStep();
   };
 
   return (
@@ -77,9 +79,14 @@ const Step2 = () => {
       <SearchBar />
       <Box
         sx={{
+          display: 'flex',
           my: '2.5vh',
+          gap: '1rem',
         }}
       >
+        <Button variant="contained" onClick={handlePrevious}>
+          Atras
+        </Button>
         <Button disabled={comunas.length === 0} variant="contained" onClick={handleNext}>
           Siguiente
         </Button>

@@ -77,3 +77,66 @@ export const StyledButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary.dark,
   },
 }));
+
+export const StyledSelect = styled('select')(({ theme }) => ({
+  width: '100%',
+  border: '1px solid',
+  padding: '1rem',
+  borderRadius: '2rem',
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.common.white,
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+  },
+  fontFamily: 'inherit',
+  fontSize: '0.8rem',
+  margin: '2.5vh 0',
+  justifyContent: 'space-around',
+}));
+
+export const StyledUnorderedList = styled('ul')(({ theme }) => ({
+  listStyle: 'none',
+  padding: 0,
+  margin: 0,
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  gap: theme.spacing(2),
+}));
+
+export const StyledListItem = styled('li')(({ theme }) => ({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  gap: theme.spacing(1),
+  padding: '1rem',
+  backgroundColor: theme.palette.background.paper,
+  justifyContent: 'flex-start',
+  '&:hover': {
+    color: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.light,
+  },
+}));
+
+export const StyledRadioInput = styled('input')(({ theme }) => ({
+  width: '1.5rem',
+  height: '1.5rem',
+  borderRadius: '50%',
+  border: `1px solid ${theme.palette.primary.main}`,
+  backgroundColor: theme.palette.background.paper,
+  '&:hover': {
+    backgroundColor: theme.palette.primary.light,
+  },
+}));
+
+export const StyledCheckboxInput = styled('input')(({ theme }) => ({
+  width: '1.5rem',
+  height: '1.5rem',
+  borderRadius: '0.25rem',
+  border: `1px solid ${theme.palette.primary.main}`,
+  backgroundColor: theme.palette.background.paper,
+  '&:hover': {
+    backgroundColor: theme.palette.primary.light,
+  },
+}));

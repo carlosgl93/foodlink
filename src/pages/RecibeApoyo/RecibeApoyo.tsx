@@ -2,6 +2,8 @@ import { Suspense, lazy } from 'react';
 import { Box, LinearProgress } from '@mui/material';
 const Step1 = lazy(() => import('./Step1'));
 const Step2 = lazy(() => import('./Step2'));
+const Step3 = lazy(() => import('./Step3'));
+// const Step4 = lazy(() => import('./Step4'));
 import Meta from '@/components/Meta';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { Image } from '@/components/ImageContainer';
@@ -46,6 +48,7 @@ function Comienzo() {
         <Suspense fallback={<Loading />}>
           {step === 0 && <Step1 />}
           {step === 1 && <Step2 />}
+          {step === 2 && <Step3 />}
         </Suspense>
       </FullSizeCenteredFlexBox>
     </>
