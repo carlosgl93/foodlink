@@ -1,9 +1,12 @@
+import { Comuna } from '@/types/Comuna';
+import { Servicio } from '@/types/Servicio';
+
 type Actions = {
-  addComuna: (comuna: string) => void;
-  removeComuna: (comuna: string) => void;
+  addComuna: (comuna: Comuna) => void;
+  removeComuna: (comuna: Comuna) => void;
   increaseStep: () => void;
   selectForWhom: (forWhom: string) => void;
-  selectServicio: (servicio: string) => void;
+  selectServicio: (servicio: Servicio) => void;
   selectEspecialidad: (especialidad: string) => void;
   decreaseStep: () => void;
   // filterByServicio: (servicio: Service) => void;

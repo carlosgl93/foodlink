@@ -1,54 +1,52 @@
-import { useEffect, useState } from 'react';
 import Meta from '@/components/Meta';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { useMediaQuery } from '@mui/material';
 import { tablet } from '../../theme/breakpoints';
 import DesktopResults from './DesktopResults';
 import MobileResults from './MobileResults';
-import { dummyPrestadores, Prestador } from '@/utils/constants';
+import { useRecoilValueLoadable } from 'recoil';
+import { getPrestadoresByComunaAndServicio } from '@/api/prestadores/getPrestadoresByComunaAndServicio';
+import Loading from '@/components/Loading';
 
 function Resultados() {
-  const [{ servicio, especialidad, comunas }] = useRecibeApoyo();
+  const [{ servicio, comuna }] = useRecibeApoyo();
   const isTablet = useMediaQuery(tablet);
-  const [filteredPrestadores, setFilteredPrestadores] = useState<[] | Prestador[]>([]);
-
-  useEffect(() => {
-    if (servicio && comunas && especialidad.length === 0) {
-      dummyPrestadores.forEach((p) => {
-        if (p.service === servicio) {
-          p.comunas.forEach((c) => {
-            if (comunas.includes(c)) {
-              setFilteredPrestadores((prev) => [...prev, p]);
-            }
-          });
-        } else return;
-      });
-    } else if (servicio && comunas && especialidad) {
-      dummyPrestadores.forEach((p) => {
-        if (p.service === servicio) {
-          p.comunas.forEach((c) => {
-            if (comunas.includes(c)) {
-              if (p.speciality === especialidad) {
-                setFilteredPrestadores((prev) => [...prev, p]);
-              }
-            }
-          });
-        } else return;
-      });
-    }
-  }, [comunas, servicio, especialidad]);
-
-  return (
-    <>
-      <Meta title="Resultados" />
-
-      {isTablet ? (
-        <MobileResults filteredPrestadores={filteredPrestadores} />
-      ) : (
-        <DesktopResults filteredPrestadores={filteredPrestadores} />
-      )}
-    </>
+  const prestadoresByComunaAndServicio = useRecoilValueLoadable(
+    getPrestadoresByComunaAndServicio({
+      comuna: comuna?.id || null,
+      servicio: servicio?.service_id,
+    }),
   );
+
+  switch (prestadoresByComunaAndServicio.state) {
+    case 'hasValue':
+      if (prestadoresByComunaAndServicio.contents.length === 0) {
+        return (
+          <>
+            <Meta title="Resultados" />
+            <h1>
+              No hay prestadores para esa comuna y ese servicio. Conoces a alguno? Invitalo a Blui!
+            </h1>
+          </>
+        );
+      }
+
+      return (
+        <>
+          <Meta title="Resultados" />
+
+          {isTablet ? (
+            <MobileResults filteredPrestadores={prestadoresByComunaAndServicio.contents} />
+          ) : (
+            <DesktopResults filteredPrestadores={prestadoresByComunaAndServicio.contents} />
+          )}
+        </>
+      );
+    case 'loading':
+      return <Loading />;
+    case 'hasError':
+      return <>There was an error</>;
+  }
 }
 
 export default Resultados;

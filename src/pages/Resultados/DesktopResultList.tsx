@@ -1,5 +1,6 @@
 import { Text, Title } from '@/components/StyledComponents';
-import { Prestador } from '@/utils/constants';
+import useRecibeApoyo from '@/store/recibeApoyo';
+import { Prestador } from '@/types/Prestador';
 import { Box, ListItem, Avatar, Button } from '@mui/material';
 
 type DesktopResultListProps = {
@@ -7,6 +8,8 @@ type DesktopResultListProps = {
 };
 
 const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
+  const [{ servicio, especialidad }] = useRecibeApoyo();
+
   return (
     <Box
       component={'ul'}
@@ -57,12 +60,12 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
               </Title>
               {/* TODO: REVIEWS */}
             </Box>
-            <Text>{prestador.service}</Text>
+            <Text>{servicio?.service_name}</Text>
             <Text>Phone: {prestador.phone}</Text>
             <Text>
-              Address: {prestador.address}, {prestador.city}, {prestador.state}
+              Address: {prestador.address}, {prestador.city}, {prestador.region}
             </Text>
-            <Text>Speciality: {prestador.speciality}</Text>
+            <Text>Speciality: {especialidad}</Text>
             <Button
               variant="outlined"
               sx={{
@@ -72,6 +75,7 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
               Ver perfil
             </Button>
           </Box>
+          {/* TODO implement availability */}
           {/* <Text>Availability: {prestador.availability.map((a) => a.name).join(', ')}</Text> */}
         </ListItem>
       ))}

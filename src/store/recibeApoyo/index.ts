@@ -1,11 +1,13 @@
 import { atom, useRecoilState } from 'recoil';
 
 import type { Actions } from './types';
+import { Comuna } from '@/types/Comuna';
+import { Servicio } from '@/types/Servicio';
 
 type RecibeApoyoState = {
   step: number;
-  comunas: string[];
-  servicio: string;
+  comuna: Comuna | null;
+  servicio: Servicio | null;
   especialidad: string;
   forWhom: string;
   disponibilidad: {
@@ -18,8 +20,8 @@ const recibeApoyoState = atom<RecibeApoyoState>({
   key: 'recibeApoyoState',
   default: {
     step: 0,
-    comunas: [],
-    servicio: '',
+    comuna: null,
+    servicio: null,
     forWhom: '',
     especialidad: '',
     disponibilidad: [],
@@ -29,18 +31,18 @@ const recibeApoyoState = atom<RecibeApoyoState>({
 function useRecibeApoyo(): [RecibeApoyoState, Actions] {
   const [apoyo, setApoyo] = useRecoilState(recibeApoyoState);
 
-  const addComuna = (comuna: string) => {
-    if (apoyo.comunas.find((c: string) => c === comuna)) return;
+  const addComuna = (comuna: Comuna) => {
+    if (apoyo.comuna === comuna) return;
     setApoyo((prev) => ({
       ...prev,
-      comunas: [...prev.comunas, comuna],
+      comuna: comuna,
     }));
   };
 
-  const removeComuna = (comuna: string) => {
+  const removeComuna = () => {
     setApoyo((prev) => ({
       ...prev,
-      comunas: prev.comunas.filter((c) => c !== comuna),
+      comuna: null,
     }));
   };
 
@@ -65,17 +67,8 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
     }));
   };
 
-  // const filterByServicio = (servicio: string) => {
-  //   const servicioObj = services.find((s) => s.text === servicio);
-
-  //   setApoyo((prev) => ({
-  //     ...prev,
-  //     servicio: servicio,
-  //     especialidad: servicioObj?.speciality[0].text || '',
-  //   }));
-  // };
-
-  const selectServicio = (servicio: string) => {
+  const selectServicio = (servicio: Servicio) => {
+    console.log(servicio);
     setApoyo((prev) => ({
       ...prev,
       servicio,

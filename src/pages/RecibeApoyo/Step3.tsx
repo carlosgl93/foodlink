@@ -4,7 +4,6 @@ import { recibeApoyoSteps } from './recibeApoyoSteps';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import ServiceTypeList from './ServiceTypeList';
 import { useNavigate } from 'react-router-dom';
-import { services } from '@/utils/constants';
 
 const Step3 = () => {
   const [{ step, servicio }, { decreaseStep }] = useRecibeApoyo();
@@ -37,7 +36,7 @@ const Step3 = () => {
           {recibeApoyoSteps[step].title}
         </Title>
       </TextContainer>
-      <ServiceTypeList items={services} />
+      <ServiceTypeList />
       <Box
         sx={{
           display: 'flex',
@@ -48,7 +47,11 @@ const Step3 = () => {
         <Button variant="contained" onClick={handlePrevious}>
           Atras
         </Button>
-        <Button disabled={servicio.length === 0} variant="contained" onClick={handleNext}>
+        <Button
+          disabled={servicio?.service_name.length === 0}
+          variant="contained"
+          onClick={handleNext}
+        >
           Siguiente
         </Button>
       </Box>
