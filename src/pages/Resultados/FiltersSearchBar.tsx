@@ -1,28 +1,27 @@
-import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
+import { IconButton, InputAdornment, OutlinedInput, Box } from '@mui/material';
 import { Search } from '@mui/icons-material';
-import { Box } from '@mui/system';
-import { allComunas } from '@/utils/constants';
+// import { allComunas } from '@/utils/constants';
 import { useState } from 'react';
 import useRecibeApoyo from '@/store/recibeApoyo';
+import { Comuna } from '@/types/Comuna';
 
 function FiltersSearchBar() {
-  const [{ comunas }, { addComuna, removeComuna }] = useRecibeApoyo();
+  const [{ comuna, allComunas }, { addComuna, removeComuna }] = useRecibeApoyo();
   const [comunasState, setComunasState] = useState(allComunas);
 
-  const clickComunaHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const comuna = e.currentTarget.innerText;
-    if (comunas.includes(comuna)) {
+  const clickComunaHandler = (_comuna: Comuna) => {
+    if (comuna === _comuna) {
       removeComuna(comuna);
       setComunasState(allComunas);
     } else {
-      addComuna(comuna);
+      addComuna(_comuna);
       setComunasState(allComunas);
     }
   };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const match = allComunas.filter((comuna) => {
-      if (comuna.toLowerCase().includes(e.target.value.toLowerCase())) {
+    const match = allComunas.filter((comuna: Comuna) => {
+      if (comuna.name.toLowerCase().includes(e.target.value.toLowerCase())) {
         return comuna;
       }
     });
@@ -76,9 +75,9 @@ function FiltersSearchBar() {
         }}
       >
         {comunasState.length <= 5 &&
-          comunasState.map((comuna) => (
+          comunasState.map((_comuna) => (
             <Box
-              key={comuna}
+              key={_comuna.id}
               sx={{
                 px: '1rem',
                 py: '1rem',
@@ -87,9 +86,9 @@ function FiltersSearchBar() {
                   backgroundColor: '#ccc',
                 },
               }}
-              onClick={clickComunaHandler}
+              onClick={() => clickComunaHandler(_comuna as Comuna)}
             >
-              {comuna}
+              {_comuna.name}
             </Box>
           ))}
       </Box>

@@ -5,16 +5,23 @@ import { useRecoilValueLoadable } from 'recoil';
 import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
 import { Servicio } from '@/types/Servicio';
 import Loading from '@/components/Loading';
+import { useEffect } from 'react';
 
 const ServiceTypeList = () => {
-  const [{ servicio }, { selectServicio }] = useRecibeApoyo();
+  const [{ servicio, allServicios }, { selectServicio, setServicios }] = useRecibeApoyo();
 
   const servicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
   const handleSelectServicio = (servicio: Servicio) => {
     selectServicio(servicio);
   };
 
-  console.log(servicios);
+  console.log('all servicios from state', allServicios);
+
+  useEffect(() => {
+    if (servicios.state === 'hasValue') {
+      setServicios(servicios.contents?.data);
+    }
+  }, [servicios, setServicios]);
 
   switch (servicios.state) {
     case 'hasValue':

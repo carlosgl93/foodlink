@@ -3,6 +3,7 @@ import { atom, useRecoilState } from 'recoil';
 import type { Actions } from './types';
 import { Comuna } from '@/types/Comuna';
 import { Servicio } from '@/types/Servicio';
+import { getPrestadoresByComunaAndServicio } from '@/api/prestadores/getPrestadoresByComunaAndServicio';
 
 type RecibeApoyoState = {
   step: number;
@@ -14,6 +15,8 @@ type RecibeApoyoState = {
     id: number;
     name: string;
   }[];
+  allServicios: Servicio[] | null;
+  allComunas: Comuna[] | [];
 };
 
 const recibeApoyoState = atom<RecibeApoyoState>({
@@ -25,11 +28,27 @@ const recibeApoyoState = atom<RecibeApoyoState>({
     forWhom: '',
     especialidad: '',
     disponibilidad: [],
+    allServicios: null,
+    allComunas: [],
   },
 });
 
 function useRecibeApoyo(): [RecibeApoyoState, Actions] {
   const [apoyo, setApoyo] = useRecoilState(recibeApoyoState);
+
+  const setComunas = (comunas: Comuna[]) => {
+    setApoyo((prev) => ({
+      ...prev,
+      allComunas: Object.values(comunas),
+    }));
+  };
+
+  const setServicios = (servicios: Servicio[]) => {
+    setApoyo((prev) => ({
+      ...prev,
+      allServicios: Object.values(servicios),
+    }));
+  };
 
   const addComuna = (comuna: Comuna) => {
     if (apoyo.comuna === comuna) return;
@@ -69,6 +88,10 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
 
   const selectServicio = (servicio: Servicio) => {
     console.log(servicio);
+    getPrestadoresByComunaAndServicio({
+      comuna: apoyo.comuna?.id || null,
+      servicio: servicio.service_id,
+    });
     setApoyo((prev) => ({
       ...prev,
       servicio,
@@ -108,6 +131,8 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
       selectServicio,
       selectEspecialidad,
       setAvailability,
+      setServicios,
+      setComunas,
     },
   ];
 }

@@ -11,6 +11,8 @@ type Actions = {
   decreaseStep: () => void;
   // filterByServicio: (servicio: Service) => void;
   setAvailability: (availability: { id: number; name: string }) => void;
+  setServicios: (servicios: Servicio[]) => void;
+  setComunas: (comunas: Comuna[]) => void;
 };
 
 export type { Actions };

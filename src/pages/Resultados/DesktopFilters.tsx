@@ -27,6 +27,7 @@ const DesktopFilters = () => {
 
   const servicios: Servicio[] =
     serviciosAdEspecialidades !== undefined ? Object?.values(serviciosAdEspecialidades) : [];
+
   const especialidades =
     servicios
       ?.find((s: Servicio) => s.service_id === servicio?.service_id)
@@ -49,29 +50,32 @@ const DesktopFilters = () => {
         Comunas
       </Title>
       <FiltersSearchBar />
-      <List>
-        <ListItemButton
-          onClick={() => removeComuna(comuna!)}
-          sx={{
-            color: 'secondary.main',
-            display: 'grid',
-            gridTemplateColumns: '90% 10%',
-            alignItems: 'center',
-            border: '1px solid',
-            borderColor: 'primary.dark',
-            borderRadius: '0.25rem',
-            padding: '0.5rem 1rem',
-            backgroundColor: 'primary.dark',
-            ':hover': {
-              backgroundColor: 'primary.light',
-              color: 'primary.dark',
-            },
-            my: '1vh',
-          }}
-        >
-          <ListItemText primary={comuna ? comuna.name : 'Selecciona una comuna'} />
-        </ListItemButton>
-      </List>
+      {comuna && (
+        <List>
+          <ListItemButton
+            onClick={() => removeComuna(comuna!)}
+            sx={{
+              color: 'secondary.main',
+              display: 'grid',
+              gridTemplateColumns: '90% 10%',
+              alignItems: 'center',
+              border: '1px solid',
+              borderColor: 'primary.dark',
+              borderRadius: '0.25rem',
+              padding: '0.5rem 1rem',
+              backgroundColor: 'primary.dark',
+              ':hover': {
+                backgroundColor: 'primary.light',
+                color: 'primary.dark',
+              },
+              my: '1vh',
+            }}
+          >
+            <ListItemText primary={comuna.name} />
+          </ListItemButton>
+        </List>
+      )}
+
       {/* SERVICIO */}
       <Title
         variant="h6"

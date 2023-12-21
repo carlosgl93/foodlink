@@ -20,17 +20,6 @@ function Resultados() {
 
   switch (prestadoresByComunaAndServicio.state) {
     case 'hasValue':
-      if (prestadoresByComunaAndServicio.contents.length === 0) {
-        return (
-          <>
-            <Meta title="Resultados" />
-            <h1>
-              No hay prestadores para esa comuna y ese servicio. Conoces a alguno? Invitalo a Blui!
-            </h1>
-          </>
-        );
-      }
-
       return (
         <>
           <Meta title="Resultados" />

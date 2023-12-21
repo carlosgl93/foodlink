@@ -1,7 +1,7 @@
 import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import { Box } from '@mui/system';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { getAllComunas } from '@/api/comunas/getAllComunas';
 import { useRecoilValueLoadable } from 'recoil';
@@ -9,10 +9,18 @@ import Loading from '@/components/Loading';
 import { Comuna } from '@/types/Comuna';
 
 function SearchBar() {
-  const [{ comuna }, { addComuna, removeComuna }] = useRecibeApoyo();
+  const [{ comuna, allComunas }, { addComuna, removeComuna, setComunas }] = useRecibeApoyo();
   const [comunasState, setComunasState] = useState<Comuna[]>([]);
 
   const comunasFetched = useRecoilValueLoadable(getAllComunas);
+
+  console.log(comunasFetched);
+
+  useEffect(() => {
+    if (comunasFetched.state === 'hasValue') {
+      setComunas(comunasFetched.contents?.data);
+    }
+  }, [comunasFetched, setComunas]);
 
   const clickComunaHandler = (c: Comuna) => {
     const textInput = document.getElementById('searchByComuna') as HTMLInputElement;
@@ -26,7 +34,7 @@ function SearchBar() {
   };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const match = comunasFetched.contents.data.data.filter((comuna: Comuna) => {
+    const match = allComunas.filter((comuna: Comuna) => {
       if (comuna.name.toLowerCase().includes(e.target.value.toLowerCase())) {
         return comuna;
       }
