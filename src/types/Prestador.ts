@@ -13,4 +13,5 @@ export type Prestador = {
   speciality_id: number;
   profile_pic: string;
   availability: string[];
+  average_review: number;
 };

@@ -115,6 +115,7 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
   };
   const selectEspecialidad = (especialidad: Especialidad) => {
     console.log('selected Especialidad', especialidad);
+    // TODO: FIX WHY FETCHING PRESTADORES WITH ESPECIALIDAD IS NOT BEING TRIGGERED AFTER SELECTING ESPECIALIDAD
     getPrestadoresByEspecialidad({
       comuna: apoyo.comuna?.id || null,
       servicio: apoyo.servicio!.service_id,

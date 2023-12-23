@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
-import { Box, ListItem, Avatar, Button } from '@mui/material';
+import { Box, ListItem, Avatar, Button, useTheme } from '@mui/material';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
 import { Text, Title } from '@/components/StyledComponents';
 import useRecibeApoyo from '@/store/recibeApoyo';
@@ -11,6 +13,8 @@ type DesktopResultListProps = {
 };
 
 const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
+  const theme = useTheme();
+
   const [{ allServicios }, { setServicios }] = useRecibeApoyo();
 
   const fetchServicios = useRecoilValue(getAllServiciosAndEspecialidades);
@@ -28,9 +32,10 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
           justifyContent: 'center',
           alignItems: 'center',
           height: '80vh',
+          px: '2rem',
         }}
       >
-        <Text>No hay prestadores para esta comuna y servicio.</Text>
+        <Text>Conoces a alguien para esta comuna y servicio? Invitalo a Blui!</Text>
       </Box>
     );
   }
@@ -90,6 +95,30 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
                 >
                   {prestador.firstname} {prestador.lastname}
                 </Title>
+                <Box>
+                  {prestador.average_review ? (
+                    <>
+                      {Array.from(Array(prestador.average_review).keys()).map((i) => (
+                        <StarOutlinedIcon key={i} sx={{ color: theme.palette.primary.main }} />
+                      ))}
+                      {Array.from(Array(5 - prestador.average_review).keys()).map((i) => (
+                        <StarBorderOutlinedIcon
+                          key={i}
+                          sx={{ color: theme.palette.primary.main }}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      {Array.from(Array(5).keys()).map((i) => (
+                        <StarBorderOutlinedIcon
+                          key={i}
+                          sx={{ color: theme.palette.primary.main }}
+                        />
+                      ))}
+                    </>
+                  )}
+                </Box>
                 {/* TODO: REVIEWS */}
               </Box>
               <Text>Servicio: {thisPrestadorServicio?.service_name}</Text>
