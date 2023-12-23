@@ -5,6 +5,7 @@ export const getPrestadoresByComunaAndServicio = selectorFamily({
   key: 'prestadoresByComunaAndServicio',
   get: (filters: { comuna: number | null; servicio: number | null | undefined }) => async () => {
     try {
+      console.log('getting prestadores');
       const response = await api.get(`/prestadores`, {
         params: {
           comuna: filters.comuna,

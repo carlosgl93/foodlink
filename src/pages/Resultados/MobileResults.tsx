@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Box, Drawer, useTheme, Button, ListItem, Avatar } from '@mui/material';
 
-import { Prestador } from '@/utils/constants';
 import { Text, Title } from '@/components/StyledComponents';
+import { Prestador } from '@/types/Prestador';
 
 type MobileResultsProps = {
   filteredPrestadores: Prestador[];
@@ -78,12 +78,12 @@ const MobileResults = ({ filteredPrestadores }: MobileResultsProps) => {
                 </Title>
                 {/* TODO: REVIEWS */}
               </Box>
-              <Text>{prestador.service}</Text>
+              <Text>{prestador.service_id}</Text>
               <Text>Phone: {prestador.phone}</Text>
               <Text>
-                Address: {prestador.address}, {prestador.city}, {prestador.state}
+                Address: {prestador.address}, {prestador.city}, {prestador.region}
               </Text>
-              <Text>Speciality: {prestador.speciality}</Text>
+              <Text>Speciality: {prestador.speciality_id}</Text>
               <Button
                 variant="outlined"
                 sx={{

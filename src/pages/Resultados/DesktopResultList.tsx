@@ -12,8 +12,6 @@ type DesktopResultListProps = {
 
 const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
   const [{ allServicios }, { setServicios }] = useRecibeApoyo();
-  console.log(allServicios);
-  console.log(filteredResults);
 
   const fetchServicios = useRecoilValue(getAllServiciosAndEspecialidades);
   useEffect(() => {
@@ -46,6 +44,10 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
       {filteredResults.map((prestador) => {
         const thisPrestadorServicio = allServicios?.find(
           (s) => s.service_id === prestador.service_id,
+        );
+
+        const thisPrestadorEspecialidad = thisPrestadorServicio?.especialidades.find(
+          (e) => e.especialidad_id === prestador.speciality_id,
         );
         return (
           <ListItem
@@ -91,14 +93,7 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
                 {/* TODO: REVIEWS */}
               </Box>
               <Text>Servicio: {thisPrestadorServicio?.service_name}</Text>
-              <Text>
-                Especialidad:{' '}
-                {
-                  thisPrestadorServicio?.especialidades.find(
-                    (e) => e.especialidad_id === prestador.speciality_id,
-                  )?.especialidad_name
-                }
-              </Text>
+              <Text>Especialidad: {thisPrestadorEspecialidad?.especialidad_name}</Text>
               <Button
                 variant="outlined"
                 sx={{

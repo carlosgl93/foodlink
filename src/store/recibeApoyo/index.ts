@@ -1,15 +1,18 @@
+import { useCallback } from 'react';
+
 import { atom, useRecoilState } from 'recoil';
 
 import type { Actions } from './types';
 import { Comuna } from '@/types/Comuna';
-import { Servicio } from '@/types/Servicio';
+import { Especialidad, Servicio } from '@/types/Servicio';
 import { getPrestadoresByComunaAndServicio } from '@/api/prestadores/getPrestadoresByComunaAndServicio';
+import { getPrestadoresByEspecialidad } from '@/api/prestadores/getPrestadoresByEspecialidad';
 
 type RecibeApoyoState = {
   step: number;
   comuna: Comuna | null;
   servicio: Servicio | null;
-  especialidad: string;
+  especialidad: Especialidad | null;
   forWhom: string;
   disponibilidad: {
     id: number;
@@ -26,7 +29,7 @@ const recibeApoyoState = atom<RecibeApoyoState>({
     comuna: null,
     servicio: null,
     forWhom: '',
-    especialidad: '',
+    especialidad: null,
     disponibilidad: [],
     allServicios: null,
     allComunas: [],
@@ -36,19 +39,25 @@ const recibeApoyoState = atom<RecibeApoyoState>({
 function useRecibeApoyo(): [RecibeApoyoState, Actions] {
   const [apoyo, setApoyo] = useRecoilState(recibeApoyoState);
 
-  const setComunas = (comunas: Comuna[]) => {
-    setApoyo((prev) => ({
-      ...prev,
-      allComunas: Object.values(comunas),
-    }));
-  };
+  const setComunas = useCallback(
+    (comunas: Comuna[]) => {
+      setApoyo((prev) => ({
+        ...prev,
+        allComunas: Object.values(comunas),
+      }));
+    },
+    [setApoyo],
+  );
 
-  const setServicios = (servicios: Servicio[]) => {
-    setApoyo((prev) => ({
-      ...prev,
-      allServicios: Object.values(servicios),
-    }));
-  };
+  const setServicios = useCallback(
+    (servicios: Servicio[]) => {
+      setApoyo((prev) => ({
+        ...prev,
+        allServicios: Object.values(servicios),
+      }));
+    },
+    [setApoyo],
+  );
 
   const addComuna = (comuna: Comuna) => {
     if (apoyo.comuna === comuna) return;
@@ -56,6 +65,10 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
       ...prev,
       comuna: comuna,
     }));
+    getPrestadoresByComunaAndServicio({
+      comuna: comuna.id,
+      servicio: apoyo.servicio?.service_id || null,
+    });
   };
 
   const removeComuna = () => {
@@ -63,6 +76,10 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
       ...prev,
       comuna: null,
     }));
+    getPrestadoresByComunaAndServicio({
+      comuna: null,
+      servicio: apoyo.servicio?.service_id || null,
+    });
   };
 
   const increaseStep = () => {
@@ -87,7 +104,6 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
   };
 
   const selectServicio = (servicio: Servicio) => {
-    console.log(servicio);
     getPrestadoresByComunaAndServicio({
       comuna: apoyo.comuna?.id || null,
       servicio: servicio.service_id,
@@ -97,7 +113,13 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
       servicio,
     }));
   };
-  const selectEspecialidad = (especialidad: string) => {
+  const selectEspecialidad = (especialidad: Especialidad) => {
+    console.log('selected Especialidad', especialidad);
+    getPrestadoresByEspecialidad({
+      comuna: apoyo.comuna?.id || null,
+      servicio: apoyo.servicio!.service_id,
+      especialidad: especialidad,
+    });
     setApoyo((prev) => ({
       ...prev,
       especialidad,

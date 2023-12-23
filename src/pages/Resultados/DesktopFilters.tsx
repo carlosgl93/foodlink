@@ -14,12 +14,15 @@ import { availability } from '@/utils/constants';
 import { useRecoilValueLoadable } from 'recoil';
 import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
 import { Especialidad, Servicio } from '@/types/Servicio';
+import { ChangeEvent } from 'react';
 
 const DesktopFilters = () => {
   const [
     { servicio, especialidad, comuna },
     { removeComuna, selectServicio, selectEspecialidad, setAvailability },
   ] = useRecibeApoyo();
+
+  console.log('servicio from state', servicio);
 
   const fetchServicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
 
@@ -32,6 +35,11 @@ const DesktopFilters = () => {
     servicios
       ?.find((s: Servicio) => s.service_id === servicio?.service_id)
       ?.especialidades.map((e: Especialidad) => e) || [];
+
+  const handleSelectServicio = (e: ChangeEvent<HTMLSelectElement>) => {
+    const selectedService = servicios.find((s: Servicio) => s.service_name === e.target.value);
+    selectServicio(selectedService as Servicio);
+  };
 
   return (
     <Box
@@ -87,14 +95,11 @@ const DesktopFilters = () => {
       </Title>
       {servicios && (
         <StyledSelect
-          value={servicio?.service_name}
-          // how can i pass the servicio to the selectServicio function?
-          onChange={(e) => {
-            const selectedService = servicios.find(
-              (s: Servicio) => s.service_name === e.target.value,
-            );
-            selectServicio(selectedService as Servicio);
-          }}
+          // todo fix bug: if there is no state (servicios === null)
+          // the select should render "Selecciona un servicio"
+          // but it always defaults to the first service.name in the array
+          value={servicio?.service_name || ''}
+          onChange={handleSelectServicio}
         >
           {servicios.map((servicio: Servicio) => {
             return (
@@ -106,32 +111,34 @@ const DesktopFilters = () => {
         </StyledSelect>
       )}
 
-      <Title
-        variant="h6"
-        sx={{
-          fontSize: '1.2rem',
-        }}
-      >
-        Especialidad
-      </Title>
-      {especialidades && (
-        <StyledSelect
-          // set the default selected value to the servicio from useRecibeApoyo
-          value={especialidad}
-          onChange={(e) => selectEspecialidad(e.target.value)}
-        >
-          {servicio ? (
-            servicio.especialidades?.map((especialidad) => {
+      {servicio && especialidades && (
+        <>
+          <Title
+            variant="h6"
+            sx={{
+              fontSize: '1.2rem',
+            }}
+          >
+            Especialidad
+          </Title>
+          <StyledSelect
+            value={especialidad?.especialidad_name}
+            onChange={(e) => {
+              const selectedEspecialidad = especialidades.find(
+                (esp: Especialidad) => esp.especialidad_name === e.target.value,
+              );
+              selectEspecialidad(selectedEspecialidad as Especialidad);
+            }}
+          >
+            {servicio.especialidades?.map((especialidad) => {
               return (
                 <option key={especialidad.especialidad_id} value={especialidad.especialidad_name}>
                   {especialidad.especialidad_name}
                 </option>
               );
-            })
-          ) : (
-            <option>Selecciona un servicio</option>
-          )}
-        </StyledSelect>
+            })}
+          </StyledSelect>
+        </>
       )}
 
       {/* ESPECIALIDAD */}
