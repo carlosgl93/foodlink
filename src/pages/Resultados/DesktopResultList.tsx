@@ -58,8 +58,8 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
           <ListItem
             key={prestador.email}
             sx={{
-              display: 'flex',
-              justifyContent: 'space-around',
+              display: 'grid',
+              gridTemplateColumns: '20% 80%',
             }}
           >
             <Box
@@ -122,11 +122,17 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
                 {/* TODO: REVIEWS */}
               </Box>
               <Text>Servicio: {thisPrestadorServicio?.service_name}</Text>
-              <Text>Especialidad: {thisPrestadorEspecialidad?.especialidad_name}</Text>
+              <Text>
+                {thisPrestadorServicio?.service_name ===
+                thisPrestadorEspecialidad?.especialidad_name
+                  ? null
+                  : `Especialidad: ${thisPrestadorEspecialidad?.especialidad_name}`}
+              </Text>
               <Button
                 variant="outlined"
                 sx={{
-                  mt: '2vh',
+                  mt: '1vh',
+                  maxWidth: '50%',
                 }}
               >
                 Ver perfil
