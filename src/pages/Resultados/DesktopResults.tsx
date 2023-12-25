@@ -1,8 +1,8 @@
 import { Box, useTheme } from '@mui/material';
 
 import DesktopFilters from './DesktopFilters';
-import { Prestador } from '@/utils/constants';
 import DesktopResultList from './DesktopResultList';
+import { Prestador } from '@/types/Prestador';
 
 type DesktopResultsProps = {
   filteredPrestadores: Prestador[];
@@ -10,6 +10,8 @@ type DesktopResultsProps = {
 
 const DesktopResults = ({ filteredPrestadores }: DesktopResultsProps) => {
   const theme = useTheme();
+
+  console.log('filteredPrestadores', filteredPrestadores);
 
   return (
     <Box

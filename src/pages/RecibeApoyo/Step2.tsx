@@ -6,7 +6,7 @@ import { recibeApoyoSteps } from './recibeApoyoSteps';
 import useRecibeApoyo from '@/store/recibeApoyo';
 
 const Step2 = () => {
-  const [{ comunas }, { removeComuna, increaseStep, decreaseStep }] = useRecibeApoyo();
+  const [{ comuna }, { removeComuna, increaseStep, decreaseStep }] = useRecibeApoyo();
 
   const handleNext = () => {
     increaseStep();
@@ -40,22 +40,22 @@ const Step2 = () => {
               fontSize: '1.1rem',
             }}
           >
-            Comunas seleccionadas:
+            Comuna seleccionada:
           </Title>
-          <List
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              maxWidth: '600px',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto',
-            }}
-          >
-            {comunas.map((comuna) => (
+          {comuna && (
+            <List
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                maxWidth: '600px',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto',
+              }}
+            >
               <ListItemButton
-                key={comuna}
+                key={comuna.id}
                 onClick={() => removeComuna(comuna)}
                 sx={{
                   display: 'flex',
@@ -69,11 +69,11 @@ const Step2 = () => {
                   maxWidth: 'fit-content',
                 }}
               >
-                {comuna}
+                {comuna.name}
                 <CloseIcon sx={{ marginLeft: '0.5rem' }} />
               </ListItemButton>
-            ))}
-          </List>
+            </List>
+          )}
         </Box>
       </TextContainer>
       <SearchBar />
@@ -87,7 +87,7 @@ const Step2 = () => {
         <Button variant="contained" onClick={handlePrevious}>
           Atras
         </Button>
-        <Button disabled={comunas.length === 0} variant="contained" onClick={handleNext}>
+        <Button disabled={comuna === null} variant="contained" onClick={handleNext}>
           Siguiente
         </Button>
       </Box>

@@ -1,13 +1,18 @@
+import { Comuna } from '@/types/Comuna';
+import { Especialidad, Servicio } from '@/types/Servicio';
+
 type Actions = {
-  addComuna: (comuna: string) => void;
-  removeComuna: (comuna: string) => void;
+  addComuna: (comuna: Comuna) => void;
+  removeComuna: (comuna: Comuna) => void;
   increaseStep: () => void;
   selectForWhom: (forWhom: string) => void;
-  selectServicio: (servicio: string) => void;
-  selectEspecialidad: (especialidad: string) => void;
+  selectServicio: (servicio: Servicio) => void;
+  selectEspecialidad: (especialidad: Especialidad) => void;
   decreaseStep: () => void;
   // filterByServicio: (servicio: Service) => void;
   setAvailability: (availability: { id: number; name: string }) => void;
+  setServicios: (servicios: Servicio[]) => void;
+  setComunas: (comunas: Comuna[]) => void;
 };
 
 export type { Actions };

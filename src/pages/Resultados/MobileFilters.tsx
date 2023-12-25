@@ -1,3 +1,8 @@
+import { ChangeEvent } from 'react';
+import { List, ListItemButton, ListItemText, Box, Button } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { useRecoilValueLoadable } from 'recoil';
+
 import {
   StyledSelect,
   StyledUnorderedList,
@@ -5,18 +10,17 @@ import {
   StyledCheckboxInput,
   Title,
 } from '@/components/StyledComponents';
-import { List, ListItemButton, ListItemText } from '@mui/material';
-import { Box } from '@mui/system';
 import FiltersSearchBar from './FiltersSearchBar';
 import useRecibeApoyo from '@/store/recibeApoyo';
-
 import { availability } from '@/utils/constants';
-import { useRecoilValueLoadable } from 'recoil';
 import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
 import { Especialidad, Servicio } from '@/types/Servicio';
-import { ChangeEvent } from 'react';
 
-const DesktopFilters = () => {
+type MobileFiltersProps = {
+  closeFilters: () => void;
+};
+
+export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
   const [
     { servicio, especialidad, comuna },
     { removeComuna, selectServicio, selectEspecialidad, setAvailability },
@@ -47,16 +51,29 @@ const DesktopFilters = () => {
         display: 'flex',
         flexDirection: 'column',
         alignContent: 'center',
+        maxWidth: '80vw',
+        p: '1rem',
       }}
     >
-      <Title
-        variant="h6"
+      <Box
         sx={{
-          fontSize: '1.2rem',
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
-        Comunas
-      </Title>
+        <Title
+          variant="h6"
+          sx={{
+            fontSize: '1.2rem',
+          }}
+        >
+          Comunas
+        </Title>
+
+        <Button variant="outlined" onClick={closeFilters}>
+          <CloseIcon />
+        </Button>
+      </Box>
       <FiltersSearchBar />
       {comuna && (
         <List>
@@ -171,4 +188,3 @@ const DesktopFilters = () => {
     </Box>
   );
 };
-export default DesktopFilters;

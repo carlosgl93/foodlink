@@ -378,21 +378,6 @@ export const availability = [
   },
 ];
 
-export type Prestador = {
-  firstname: string;
-  email: string;
-  phone: string;
-  address: string;
-  city: string;
-  state: string;
-  country: string;
-  comunas: string[];
-  service: string;
-  speciality: string;
-  profile_pic: string;
-  availability: string[];
-};
-
 export type Service = {
   id: number;
   text: string;
@@ -402,37 +387,37 @@ export type Service = {
   }[];
 };
 
-export const dummyPrestadores: Prestador[] = [
-  {
-    firstname: 'Juan',
-    email: 'juan@prestador1.com',
-    phone: '1234551234',
-    address: '423 Julio Prado',
-    city: 'Santiago',
-    state: 'Metropolitana',
-    country: 'Chile',
-    comunas: ['SANTIAGO', 'PROVIDENCIA', 'LAS CONDES'],
-    service: 'Soporte Terapéutico',
-    speciality: 'Kinesiología',
-    profile_pic: 'https://icon-library.com/images/google-user-icon/google-user-icon-7.jpg',
-    availability: ['1', '2', '3', '4', '5', '6', '7'],
-  },
-  {
-    firstname: 'Pedro',
-    email: 'pedro@prestador1.com',
-    phone: '1234551234',
-    address: '423 Julio Prado',
-    city: 'Rancagua',
-    state: 'Sexta Region',
-    country: 'Chile',
-    comunas: ['MACHALI', 'RANCAGUA'],
-    service: 'Soporte Terapéutico',
-    speciality: 'Fonoaudiología',
-    profile_pic:
-      'https://cambodiaict.net/wp-content/uploads/2019/12/computer-icons-user-profile-google-account-photos-icon-account.jpg',
-    availability: ['4', '5', '6', '7'],
-  },
-];
+// export const dummyPrestadores: Prestador[] = [
+//   {
+//     firstname: 'Juan',
+//     email: 'juan@prestador1.com',
+//     phone: '1234551234',
+//     address: '423 Julio Prado',
+//     city: 'Santiago',
+//     state: 'Metropolitana',
+//     country: 'Chile',
+//     comunas: ['SANTIAGO', 'PROVIDENCIA', 'LAS CONDES'],
+//     service: 'Soporte Terapéutico',
+//     speciality: 'Kinesiología',
+//     profile_pic: 'https://icon-library.com/images/google-user-icon/google-user-icon-7.jpg',
+//     availability: ['1', '2', '3', '4', '5', '6', '7'],
+//   },
+//   {
+//     firstname: 'Pedro',
+//     email: 'pedro@prestador1.com',
+//     phone: '1234551234',
+//     address: '423 Julio Prado',
+//     city: 'Rancagua',
+//     state: 'Sexta Region',
+//     country: 'Chile',
+//     comunas: ['MACHALI', 'RANCAGUA'],
+//     service: 'Soporte Terapéutico',
+//     speciality: 'Fonoaudiología',
+//     profile_pic:
+//       'https://cambodiaict.net/wp-content/uploads/2019/12/computer-icons-user-profile-google-account-photos-icon-account.jpg',
+//     availability: ['4', '5', '6', '7'],
+//   },
+// ];
 
 export const services = [
   {

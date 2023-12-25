@@ -1,11 +1,13 @@
-import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
+import { IconButton, InputAdornment, List, ListItem, OutlinedInput } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import { Box } from '@mui/system';
 import { allComunas } from '@/utils/constants';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SearchBar() {
   const [comunasState, setComunasState] = useState(allComunas);
+  const router = useNavigate();
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const match = allComunas.filter((comuna) => {
@@ -16,9 +18,16 @@ function SearchBar() {
     setComunasState(match);
   };
 
-  const clickComunaHandler = () => {
+  const clickComunaHandler = (comuna: string) => {
     // TODO: IMPLEMENT COMUNA HANDLER
+    console.log(comuna);
     console.log('handler comuna');
+    setComunasState(allComunas);
+    router('/resultados', {
+      state: {
+        comuna: comuna,
+      },
+    });
   };
 
   return (
@@ -65,38 +74,45 @@ function SearchBar() {
         }}
         onChange={onChangeHandler}
       />
-      <Box
-        sx={{
-          width: {
-            xs: '80%',
-            sm: '80vw',
-            md: '60vw',
-            lg: '50vw',
-          },
-          backgroundColor: 'white',
-          borderRadius: '5px',
-          maxHeight: '10rem',
-          overflow: 'auto',
-        }}
-      >
-        {comunasState.length <= 5 &&
-          comunasState.map((comuna) => (
-            <Box
+
+      {comunasState.length <= 1 && (
+        <List
+          sx={{
+            width: {
+              xs: '80%',
+              sm: '80vw',
+              md: '60vw',
+              lg: '50vw',
+            },
+            backgroundColor: 'white',
+            borderRadius: '5px',
+            maxHeight: '10rem',
+            overflow: 'auto',
+          }}
+        >
+          {comunasState.map((comuna) => (
+            <ListItem
+              value={comuna}
+              defaultValue={comuna}
               key={comuna}
+              onClick={() => clickComunaHandler(comuna)}
               sx={{
-                px: '1rem',
-                py: '1rem',
-                borderBottom: '1px solid #ccc',
-                '&:hover': {
-                  backgroundColor: '#ccc',
-                },
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                margin: '0.5rem',
+                padding: '0.5rem',
+                border: '1px solid #ccc',
+                borderRadius: '0.5rem',
+                cursor: 'pointer',
+                maxWidth: 'fit-content',
               }}
-              onClick={clickComunaHandler}
             >
               {comuna}
-            </Box>
+            </ListItem>
           ))}
-      </Box>
+        </List>
+      )}
     </>
   );
 }
