@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { Text } from '@/components/StyledComponents';
 
 function Resultados() {
-  const [{ servicio, comuna }, { setComunas }] = useRecibeApoyo();
+  const [{ servicio, comuna }, { setComunas, setPrestadores }] = useRecibeApoyo();
   const isTablet = useMediaQuery(tablet);
 
   const comunasFetched = useRecoilValueLoadable(getAllComunas);
@@ -30,10 +30,13 @@ function Resultados() {
     }),
   );
 
-  console.log('prestadoresByComunaAndServicio state', prestadoresByComunaAndServicio.state);
+  useEffect(() => {
+    if (prestadoresByComunaAndServicio.state === 'hasValue') {
+      setPrestadores(prestadoresByComunaAndServicio.contents?.data);
+    }
+  }, [prestadoresByComunaAndServicio, setPrestadores]);
 
   const resultsLength = prestadoresByComunaAndServicio.contents?.length;
-  console.log('resultsLength', resultsLength);
 
   switch (prestadoresByComunaAndServicio.state) {
     case 'hasValue':

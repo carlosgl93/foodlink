@@ -11,8 +11,6 @@ type DesktopResultsProps = {
 const DesktopResults = ({ filteredPrestadores }: DesktopResultsProps) => {
   const theme = useTheme();
 
-  console.log('filteredPrestadores', filteredPrestadores);
-
   return (
     <Box
       sx={{

@@ -7,6 +7,7 @@ import { Text, Title } from '@/components/StyledComponents';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { Prestador } from '@/types/Prestador';
 import { useRecoilValue } from 'recoil';
+import { Link } from 'react-router-dom';
 
 type DesktopResultListProps = {
   filteredResults: Prestador[];
@@ -55,92 +56,100 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
           (e) => e.especialidad_id === prestador.speciality_id,
         );
         return (
-          <ListItem
-            key={prestador.email}
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: '20% 80%',
+          <Link
+            to={`/perfil-prestador/${prestador.id}`}
+            style={{
+              textDecoration: 'none',
             }}
+            key={prestador.email}
           >
-            <Box
+            <ListItem
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'start',
-                alignContent: 'start',
-                alignItems: 'start',
+                display: 'grid',
+                gridTemplateColumns: '20% 80%',
+                mb: '1rem',
               }}
             >
-              <Avatar
+              <Box
                 sx={{
-                  height: '120px',
-                  width: '120px',
-                }}
-              />
-            </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                py: '3vh',
-              }}
-            >
-              <Box>
-                <Title
-                  variant="h6"
-                  color="primary"
-                  sx={{
-                    fontSize: '1.4rem',
-                  }}
-                >
-                  {prestador.firstname} {prestador.lastname}
-                </Title>
-                <Box>
-                  {prestador.average_review ? (
-                    <>
-                      {Array.from(Array(prestador.average_review).keys()).map((i) => (
-                        <StarOutlinedIcon key={i} sx={{ color: theme.palette.primary.main }} />
-                      ))}
-                      {Array.from(Array(5 - prestador.average_review).keys()).map((i) => (
-                        <StarBorderOutlinedIcon
-                          key={i}
-                          sx={{ color: theme.palette.primary.main }}
-                        />
-                      ))}
-                    </>
-                  ) : (
-                    <>
-                      {Array.from(Array(5).keys()).map((i) => (
-                        <StarBorderOutlinedIcon
-                          key={i}
-                          sx={{ color: theme.palette.primary.main }}
-                        />
-                      ))}
-                    </>
-                  )}
-                </Box>
-                {/* TODO: REVIEWS */}
-              </Box>
-              <Text>Servicio: {thisPrestadorServicio?.service_name}</Text>
-              <Text>
-                {thisPrestadorServicio?.service_name ===
-                thisPrestadorEspecialidad?.especialidad_name
-                  ? null
-                  : `Especialidad: ${thisPrestadorEspecialidad?.especialidad_name}`}
-              </Text>
-              <Button
-                variant="outlined"
-                sx={{
-                  mt: '1vh',
-                  maxWidth: '50%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'start',
+                  alignContent: 'start',
+                  alignItems: 'start',
                 }}
               >
-                Ver perfil
-              </Button>
-            </Box>
-            {/* TODO implement availability */}
-            {/* <Text>Availability: {prestador.availability.map((a) => a.name).join(', ')}</Text> */}
-          </ListItem>
+                <Avatar
+                  sx={{
+                    height: '120px',
+                    width: '120px',
+                  }}
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  py: '3vh',
+                }}
+              >
+                <Box>
+                  <Title
+                    variant="h6"
+                    color="primary"
+                    sx={{
+                      fontSize: '1.4rem',
+                    }}
+                  >
+                    {prestador.firstname} {prestador.lastname}
+                  </Title>
+                  <Box>
+                    {prestador.average_review ? (
+                      <>
+                        {Array.from(Array(prestador.average_review).keys()).map((i) => (
+                          <StarOutlinedIcon key={i} sx={{ color: theme.palette.primary.main }} />
+                        ))}
+                        {Array.from(Array(5 - prestador.average_review).keys()).map((i) => (
+                          <StarBorderOutlinedIcon
+                            key={i}
+                            sx={{ color: theme.palette.primary.main }}
+                          />
+                        ))}
+                      </>
+                    ) : (
+                      <>
+                        {Array.from(Array(5).keys()).map((i) => (
+                          <StarBorderOutlinedIcon
+                            key={i}
+                            sx={{ color: theme.palette.primary.main }}
+                          />
+                        ))}
+                      </>
+                    )}
+                  </Box>
+                  {/* TODO: REVIEWS */}
+                </Box>
+                <Text>Servicio: {thisPrestadorServicio?.service_name}</Text>
+                <Text>
+                  {thisPrestadorServicio?.service_name ===
+                  thisPrestadorEspecialidad?.especialidad_name
+                    ? null
+                    : `Especialidad: ${thisPrestadorEspecialidad?.especialidad_name}`}
+                </Text>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    mt: '1vh',
+                    maxWidth: '50%',
+                  }}
+                >
+                  Ver perfil
+                </Button>
+              </Box>
+              {/* TODO implement availability */}
+              {/* <Text>Availability: {prestador.availability.map((a) => a.name).join(', ')}</Text> */}
+            </ListItem>
+          </Link>
         );
       })}
     </Box>

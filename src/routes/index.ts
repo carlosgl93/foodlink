@@ -77,7 +77,7 @@ const routes: Routes = {
   },
   [Pages.PerfilPrestador]: {
     component: asyncComponentLoader(() => import('@/pages/PerfilPrestador')),
-    path: '/perfil-prestador',
+    path: '/perfil-prestador/:id',
     // title: 'Ingresar',
     // icon: AddTaskIcon,
   },

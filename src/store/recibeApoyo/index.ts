@@ -1,12 +1,14 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
-import { atom, useRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValueLoadable } from 'recoil';
 
 import type { Actions } from './types';
 import { Comuna } from '@/types/Comuna';
 import { Especialidad, Servicio } from '@/types/Servicio';
 import { getPrestadoresByComunaAndServicio } from '@/api/prestadores/getPrestadoresByComunaAndServicio';
 import { getPrestadoresByEspecialidad } from '@/api/prestadores/getPrestadoresByEspecialidad';
+import { Prestador } from '@/types/Prestador';
+import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
 
 type RecibeApoyoState = {
   step: number;
@@ -20,6 +22,7 @@ type RecibeApoyoState = {
   }[];
   allServicios: Servicio[] | null;
   allComunas: Comuna[] | [];
+  prestadores: Prestador[] | [];
 };
 
 const recibeApoyoState = atom<RecibeApoyoState>({
@@ -33,11 +36,27 @@ const recibeApoyoState = atom<RecibeApoyoState>({
     disponibilidad: [],
     allServicios: null,
     allComunas: [],
+    prestadores: [],
   },
 });
 
 function useRecibeApoyo(): [RecibeApoyoState, Actions] {
   const [apoyo, setApoyo] = useRecoilState(recibeApoyoState);
+
+  const { allServicios } = apoyo;
+
+  const fetchServicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
+  console.log(fetchServicios);
+  useEffect(() => {
+    if (!allServicios) {
+      if (fetchServicios.state === 'hasValue') {
+        setApoyo((prev) => ({
+          ...prev,
+          allServicios: Object.values(fetchServicios.contents?.data),
+        }));
+      }
+    }
+  }, [allServicios, fetchServicios, setApoyo]);
 
   const setComunas = useCallback(
     (comunas: Comuna[]) => {
@@ -51,6 +70,7 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
 
   const setServicios = useCallback(
     (servicios: Servicio[]) => {
+      console.log(servicios);
       setApoyo((prev) => ({
         ...prev,
         allServicios: Object.values(servicios),
@@ -142,6 +162,15 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
     }
   };
 
+  const setPrestadores = useCallback(
+    (prestadores: Prestador[]) => {
+      setApoyo((prev) => ({
+        ...prev,
+        prestadores,
+      }));
+    },
+    [setApoyo],
+  );
   return [
     apoyo,
     {
@@ -156,6 +185,7 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
       setAvailability,
       setServicios,
       setComunas,
+      setPrestadores,
     },
   ];
 }
