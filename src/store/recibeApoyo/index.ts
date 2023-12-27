@@ -46,7 +46,6 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
   const { allServicios } = apoyo;
 
   const fetchServicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
-  console.log(fetchServicios);
   useEffect(() => {
     if (!allServicios) {
       if (fetchServicios.state === 'hasValue') {

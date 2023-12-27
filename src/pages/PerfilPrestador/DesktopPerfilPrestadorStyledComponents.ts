@@ -56,7 +56,7 @@ export const StyledCTAs = styled(Box)(() => ({
 
 export const StyledContactButton = styled(Button)(({ theme }) => ({
   color: theme.palette.background.paper,
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.secondary.contrastText,
   borderRadius: '0.5rem',
   padding: '0.5rem 1rem',
   '&:hover': {
@@ -74,4 +74,20 @@ export const StyledShortListButton = styled(Button)(({ theme }) => ({
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.background.paper,
   },
+}));
+
+export const StyledAbout = styled(Box)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  backgroundColor: 'lightgray',
+  padding: '1rem',
+}));
+
+export const ProfileGrid = styled(Box)(() => ({
+  display: 'grid',
+  gridTemplateColumns: '0.75fr 1fr',
+  gap: '1rem',
+  margin: '1rem 10%',
+  backgroundColor: 'white',
+  padding: '1rem',
 }));

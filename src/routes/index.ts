@@ -22,7 +22,7 @@ const routes: Routes = {
     // icon: AddTaskIcon,
   },
   [Pages.Ingresar]: {
-    component: asyncComponentLoader(() => import('@/pages/Page2')),
+    component: asyncComponentLoader(() => import('@/pages/Ingresar')),
     path: '/ingresar',
     title: 'Ingresar',
     // icon: AddTaskIcon,

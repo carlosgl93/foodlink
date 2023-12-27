@@ -71,9 +71,11 @@ const themes: Record<Themes, ThemeOptions> = {
         main: '#970B80',
         dark: '#502048',
         light: '#fff7fe',
+        contrastText: '#fff',
       },
       secondary: {
         main: '#fff7fe',
+        contrastText: '#f56b0c',
       },
     },
   }),

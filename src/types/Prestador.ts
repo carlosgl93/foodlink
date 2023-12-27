@@ -16,4 +16,5 @@ export type Prestador = {
   average_review?: number;
   imageUrl?: string;
   description?: string;
+  total_reviews?: number;
 };

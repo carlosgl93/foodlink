@@ -1,21 +1,18 @@
 import { useEffect } from 'react';
-import { Box, ListItem, Avatar, Button, useTheme } from '@mui/material';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+import { Box, ListItem, Avatar, Button } from '@mui/material';
 import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
 import { Text, Title } from '@/components/StyledComponents';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { Prestador } from '@/types/Prestador';
 import { useRecoilValue } from 'recoil';
 import { Link } from 'react-router-dom';
+import Reviews from '@/components/Reviews';
 
 type DesktopResultListProps = {
   filteredResults: Prestador[];
 };
 
 const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
-  const theme = useTheme();
-
   const [{ allServicios }, { setServicios }] = useRecibeApoyo();
 
   const fetchServicios = useRecoilValue(getAllServiciosAndEspecialidades);
@@ -48,20 +45,29 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
       }}
     >
       {filteredResults.map((prestador) => {
-        const thisPrestadorServicio = allServicios?.find(
-          (s) => s.service_id === prestador.service_id,
-        );
+        const {
+          id,
+          email,
+          firstname,
+          lastname,
+          imageUrl,
+          service_id,
+          speciality_id,
+          average_review,
+          total_reviews,
+        } = prestador;
+        const thisPrestadorServicio = allServicios?.find((s) => s.service_id === service_id);
 
         const thisPrestadorEspecialidad = thisPrestadorServicio?.especialidades.find(
-          (e) => e.especialidad_id === prestador.speciality_id,
+          (e) => e.especialidad_id === speciality_id,
         );
         return (
           <Link
-            to={`/perfil-prestador/${prestador.id}`}
+            to={`/perfil-prestador/${id}`}
             style={{
               textDecoration: 'none',
             }}
-            key={prestador.email}
+            key={email}
           >
             <ListItem
               sx={{
@@ -84,6 +90,7 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
                     height: '120px',
                     width: '120px',
                   }}
+                  src={imageUrl}
                 />
               </Box>
               <Box
@@ -101,33 +108,9 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
                       fontSize: '1.4rem',
                     }}
                   >
-                    {prestador.firstname} {prestador.lastname}
+                    {firstname} {lastname}
                   </Title>
-                  <Box>
-                    {prestador.average_review ? (
-                      <>
-                        {Array.from(Array(prestador.average_review).keys()).map((i) => (
-                          <StarOutlinedIcon key={i} sx={{ color: theme.palette.primary.main }} />
-                        ))}
-                        {Array.from(Array(5 - prestador.average_review).keys()).map((i) => (
-                          <StarBorderOutlinedIcon
-                            key={i}
-                            sx={{ color: theme.palette.primary.main }}
-                          />
-                        ))}
-                      </>
-                    ) : (
-                      <>
-                        {Array.from(Array(5).keys()).map((i) => (
-                          <StarBorderOutlinedIcon
-                            key={i}
-                            sx={{ color: theme.palette.primary.main }}
-                          />
-                        ))}
-                      </>
-                    )}
-                  </Box>
-                  {/* TODO: REVIEWS */}
+                  <Reviews average={average_review || 0} total_reviews={total_reviews || 0} />
                 </Box>
                 <Text>Servicio: {thisPrestadorServicio?.service_name}</Text>
                 <Text>

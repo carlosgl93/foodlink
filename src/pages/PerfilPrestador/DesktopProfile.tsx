@@ -4,6 +4,8 @@ import { styles } from './styles';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import {
+  ProfileGrid,
+  StyledAbout,
   StyledAvatar,
   StyledBackButton,
   StyledCTAs,
@@ -13,20 +15,47 @@ import {
   StyledName,
   StyledServicio,
   StyledShortListButton,
-} from './PerfilPrestadorStyledComponents';
+} from './DesktopPerfilPrestadorStyledComponents';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { useEffect, useState } from 'react';
 import { Especialidad, Servicio } from '@/types/Servicio';
+import { Text, Title } from '@/components/StyledComponents';
+import Reviews from '@/components/Reviews';
+import { useNavigate } from 'react-router-dom';
+import useAuth from '@/store/auth';
 
 type DesktopProfileProps = {
   prestador: Prestador;
 };
 
 export const DesktopProfile = ({ prestador }: DesktopProfileProps) => {
-  const { firstname, lastname, imageUrl, service_id, speciality_id } = prestador;
+  const {
+    id,
+    firstname,
+    lastname,
+    imageUrl,
+    service_id,
+    speciality_id,
+    average_review,
+    total_reviews,
+    description,
+  } = prestador;
   const [{ allServicios }] = useRecibeApoyo();
+  const [{ isLoggedIn, user }, { updateRedirectToAfterLogin }] = useAuth();
   const [prestadorServicio, setPrestadorServicio] = useState({} as Servicio);
   const [prestadorEspecialidad, setPrestadorEspecialidad] = useState({} as Especialidad);
+  const navigate = useNavigate();
+
+  const handleContact = () => {
+    if (isLoggedIn && user) {
+      navigate(`/chat/${id}`);
+      return;
+    }
+
+    updateRedirectToAfterLogin(`/perfil-prestador/${id}`);
+    navigate('/ingresar');
+    return;
+  };
 
   useEffect(() => {
     const thisPrestadorServicio = allServicios?.find((s) => s.service_id === service_id);
@@ -65,11 +94,13 @@ export const DesktopProfile = ({ prestador }: DesktopProfileProps) => {
             <StyledName>
               {firstname} {lastname}
             </StyledName>
+            <Reviews average={average_review || 0} total_reviews={total_reviews || 0} />
+
             <StyledServicio>
               {prestadorServicio?.service_name} / {prestadorEspecialidad?.especialidad_name}
             </StyledServicio>
             <StyledCTAs>
-              <StyledContactButton>Contactar</StyledContactButton>
+              <StyledContactButton onClick={handleContact}>Contactar</StyledContactButton>
               <StyledShortListButton startIcon={<BookmarkBorderOutlinedIcon />}>
                 Guardar
               </StyledShortListButton>
@@ -77,6 +108,58 @@ export const DesktopProfile = ({ prestador }: DesktopProfileProps) => {
           </Box>
         </StyledHeroContent>
       </StyledHeroBox>
+      <StyledAbout>
+        <Box
+          sx={{
+            px: '10%',
+            alignItems: 'start',
+          }}
+        >
+          <Title
+            align="left"
+            sx={{
+              fontSize: '1.3rem',
+            }}
+          >
+            Acerca de {firstname} {lastname && lastname[0]?.toUpperCase() + '.'}
+          </Title>
+        </Box>
+        <Box>
+          <Text
+            sx={{
+              px: '10%',
+              fontSize: '1rem',
+              alignItems: 'start',
+              fontWeight: '600',
+            }}
+          >
+            {description}
+          </Text>
+        </Box>
+      </StyledAbout>
+      <ProfileGrid>
+        {/* top left availability */}
+        {/* Blui Verified */}
+        <Box>Blui Verified</Box>
+        {/* top right services offered */}
+        <Box>Services Offered</Box>
+        {/* left below availability: Indicative rates */}
+        <Box>
+          <Box>Availability</Box>
+          <Box>Indicative rates</Box>
+        </Box>
+        {/* right below services offered: Badges */}
+        <Box>Badges</Box>
+        {/* Inmunizacion */}
+        <Box>
+          <Text>Inmunizacion</Text>
+        </Box>
+        <Box>Experiencia</Box>
+        <Box>Ubicaciones de trabajo</Box>
+        <Box>More Information</Box>
+
+        <Box>Reviews</Box>
+      </ProfileGrid>
     </>
   );
 };
