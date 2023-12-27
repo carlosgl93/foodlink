@@ -4,8 +4,8 @@ import { Box, useTheme } from '@mui/material';
 import { Text } from './StyledComponents';
 
 type ReviewsProps = {
-  average: number;
-  total_reviews: number;
+  average: number | undefined;
+  total_reviews: number | undefined;
 };
 
 const Reviews = ({ average, total_reviews }: ReviewsProps) => {
@@ -35,9 +35,11 @@ const Reviews = ({ average, total_reviews }: ReviewsProps) => {
           >
             {average}{' '}
             {`(${
-              total_reviews > 1 && total_reviews !== 0
-                ? `${total_reviews} reseñas`
-                : `${total_reviews} reseña`
+              total_reviews
+                ? total_reviews > 1 && total_reviews !== 0
+                  ? `de ${total_reviews} reseñas`
+                  : `de ${total_reviews} reseña`
+                : ''
             })`}
           </Text>
         </>

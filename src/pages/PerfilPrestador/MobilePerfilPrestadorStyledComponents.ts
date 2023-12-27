@@ -1,5 +1,5 @@
 import { Title } from '@/components/StyledComponents';
-import { Avatar, Box, styled } from '@mui/material';
+import { Avatar, Box, Typography, styled } from '@mui/material';
 
 export const Wrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -15,7 +15,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
 export const HeroContainer = styled(Box)(({ theme }) => ({
   width: '100%',
   height: '100%',
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.primary.dark,
 }));
 
 export const StyledAvatar = styled(Avatar)(() => ({
@@ -39,4 +39,31 @@ export const StyledTitle = styled(Title)(({ theme }) => ({
   lineHeight: '1.5rem',
   textAlign: 'center',
   color: theme.palette.primary.contrastText,
+}));
+
+export const ReviewsContainer = styled(Box)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+  gap: '1rem',
+  marginTop: '1rem',
+}));
+
+export const StyledServicio = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
+  fontSize: '1rem',
+  fontWeight: 400,
+  textAlign: 'center',
+  margin: '1rem 0',
+}));
+
+export const StyledCTAs = styled(Box)(() => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+  gap: '1rem',
+  marginBottom: '2rem',
 }));
