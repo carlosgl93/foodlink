@@ -46,6 +46,7 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
   const { allServicios } = apoyo;
 
   const fetchServicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
+
   useEffect(() => {
     if (!allServicios) {
       if (fetchServicios.state === 'hasValue') {
@@ -122,7 +123,21 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
     }));
   };
 
-  const selectServicio = (servicio: Servicio) => {
+  const selectServicio = (servicio: Servicio | null) => {
+    if (apoyo.servicio === servicio) return;
+    if (!servicio) {
+      setApoyo((prev) => ({
+        ...prev,
+        servicio: null,
+        especialidad: null,
+      }));
+      getPrestadoresByComunaAndServicio({
+        comuna: apoyo.comuna?.id || null,
+        servicio: null,
+      });
+      return;
+    }
+
     getPrestadoresByComunaAndServicio({
       comuna: apoyo.comuna?.id || null,
       servicio: servicio.service_id,
@@ -132,13 +147,24 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
       servicio,
     }));
   };
-  const selectEspecialidad = (especialidad: Especialidad) => {
-    console.log('selected Especialidad', especialidad);
-    // TODO: FIX WHY FETCHING PRESTADORES WITH ESPECIALIDAD IS NOT BEING TRIGGERED AFTER SELECTING ESPECIALIDAD
+  const selectEspecialidad = (especialidad: Especialidad | null) => {
+    if (apoyo.especialidad === especialidad) return;
+    if (!especialidad) {
+      setApoyo((prev) => ({
+        ...prev,
+        especialidad: null,
+      }));
+      getPrestadoresByComunaAndServicio({
+        comuna: apoyo.comuna?.id || null,
+        servicio: apoyo.servicio?.service_id || null,
+      });
+      return;
+    }
+
     getPrestadoresByEspecialidad({
       comuna: apoyo.comuna?.id || null,
       servicio: apoyo.servicio!.service_id,
-      especialidad: especialidad,
+      especialidad: especialidad.especialidad_id,
     });
     setApoyo((prev) => ({
       ...prev,

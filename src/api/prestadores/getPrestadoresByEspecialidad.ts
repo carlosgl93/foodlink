@@ -1,14 +1,13 @@
 import { selectorFamily } from 'recoil';
 import api from '../api';
-import { Especialidad } from '@/types/Servicio';
 
 export const getPrestadoresByEspecialidad = selectorFamily({
   key: 'prestadoresByEspecialidad',
   get:
     (filters: {
-      comuna: number | null;
+      comuna: number | null | undefined;
       servicio: number | null | undefined;
-      especialidad: Especialidad | null;
+      especialidad: number | null | undefined;
     }) =>
     async () => {
       try {

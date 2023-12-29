@@ -5,14 +5,15 @@ import { tablet } from '../../theme/breakpoints';
 import DesktopResults from './DesktopResults';
 import MobileResults from './MobileResults';
 import { useRecoilValueLoadable } from 'recoil';
-import { getPrestadoresByComunaAndServicio } from '@/api/prestadores/getPrestadoresByComunaAndServicio';
 import Loading from '@/components/Loading';
 import { getAllComunas } from '@/api/comunas/getAllComunas';
 import { useEffect } from 'react';
 import { Text } from '@/components/StyledComponents';
+import { getPrestadoresByEspecialidad } from '@/api/prestadores/getPrestadoresByEspecialidad';
 
 function Resultados() {
-  const [{ servicio, comuna }, { setComunas, setPrestadores }] = useRecibeApoyo();
+  const [{ servicio, comuna, especialidad, prestadores }, { setComunas, setPrestadores }] =
+    useRecibeApoyo();
   const isTablet = useMediaQuery(tablet);
 
   const comunasFetched = useRecoilValueLoadable(getAllComunas);
@@ -23,22 +24,23 @@ function Resultados() {
     }
   }, [comunasFetched, setComunas]);
 
-  const prestadoresByComunaAndServicio = useRecoilValueLoadable(
-    getPrestadoresByComunaAndServicio({
+  const prestadoresByEspecialidad = useRecoilValueLoadable(
+    getPrestadoresByEspecialidad({
       comuna: comuna?.id || null,
       servicio: servicio?.service_id,
+      especialidad: especialidad?.especialidad_id,
     }),
   );
 
   useEffect(() => {
-    if (prestadoresByComunaAndServicio.state === 'hasValue') {
-      setPrestadores(prestadoresByComunaAndServicio.contents?.data);
+    if (prestadoresByEspecialidad.state === 'hasValue') {
+      setPrestadores(prestadoresByEspecialidad.contents);
     }
-  }, [prestadoresByComunaAndServicio, setPrestadores]);
+  }, [prestadoresByEspecialidad, setPrestadores]);
 
-  const resultsLength = prestadoresByComunaAndServicio.contents?.length;
+  const resultsLength = prestadores?.length;
 
-  switch (prestadoresByComunaAndServicio.state) {
+  switch (prestadoresByEspecialidad.state) {
     case 'hasValue':
       return (
         <>
@@ -65,9 +67,9 @@ function Resultados() {
           </Box>
 
           {isTablet ? (
-            <MobileResults filteredPrestadores={prestadoresByComunaAndServicio.contents} />
+            <MobileResults filteredPrestadores={prestadores} />
           ) : (
-            <DesktopResults filteredPrestadores={prestadoresByComunaAndServicio.contents} />
+            <DesktopResults filteredPrestadores={prestadores} />
           )}
         </>
       );
