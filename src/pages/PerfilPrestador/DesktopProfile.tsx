@@ -47,13 +47,14 @@ export const DesktopProfile = ({ prestador }: DesktopProfileProps) => {
   const navigate = useNavigate();
 
   const handleContact = () => {
+    console.log(isLoggedIn, user);
     if (isLoggedIn && user) {
       navigate(`/chat/${id}`);
       return;
     }
 
     updateRedirectToAfterLogin(`/perfil-prestador/${id}`);
-    navigate('/ingresar');
+    navigate('/registrar-usuario');
     return;
   };
 

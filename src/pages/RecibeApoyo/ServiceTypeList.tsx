@@ -8,14 +8,12 @@ import Loading from '@/components/Loading';
 import { useEffect } from 'react';
 
 const ServiceTypeList = () => {
-  const [{ servicio, allServicios }, { selectServicio, setServicios }] = useRecibeApoyo();
+  const [{ servicio }, { selectServicio, setServicios }] = useRecibeApoyo();
 
   const servicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
   const handleSelectServicio = (servicio: Servicio) => {
     selectServicio(servicio);
   };
-
-  console.log('all servicios from state', allServicios);
 
   useEffect(() => {
     if (servicios.state === 'hasValue') {

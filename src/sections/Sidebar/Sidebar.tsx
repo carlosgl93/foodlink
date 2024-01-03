@@ -13,9 +13,12 @@ import { Theme } from '@mui/material/styles';
 import routes from '@/routes';
 import useSidebar from '@/store/sidebar';
 import { routesToExcludeInHeader } from '../Header/routesToExcludeInHeader';
+import useAuth from '@/store/auth';
 
 function Sidebar() {
   const [isSidebarOpen, sidebarActions] = useSidebar();
+  const [user, { logout }] = useAuth();
+
   const theme = useTheme<Theme>();
 
   return (
@@ -64,29 +67,70 @@ function Sidebar() {
               </div>
             ),
           )}
-        <ListItem sx={{ mx: 'auto' }}>
-          <ListItemButton component={Link} to="/ingresar" onClick={sidebarActions.close}>
-            <Button
-              variant="contained"
-              sx={{
-                backgroundColor: theme.palette.secondary.main,
-                color: theme.palette.primary.main,
-              }}
-            >
-              Ingresar
-            </Button>
-          </ListItemButton>
-        </ListItem>
-        <ListItem sx={{ mx: 'auto' }}>
-          <ListItemButton component={Link} to="/persona-de-apoyo" onClick={sidebarActions.close}>
-            <Button variant="outlined">Conviértete en persona de apoyo</Button>
-          </ListItemButton>
-        </ListItem>
-        <ListItem sx={{ mx: 'auto' }}>
-          <ListItemButton component={Link} to="/comienzo" onClick={sidebarActions.close}>
-            <Button variant="contained">Comenzar</Button>
-          </ListItemButton>
-        </ListItem>
+        {user.isLoggedIn ? (
+          <>
+            <ListItem sx={{ mx: 'auto' }}>
+              <Button
+                component={Link}
+                to="/perfil-usuario"
+                variant="contained"
+                sx={{
+                  backgroundColor: theme.palette.secondary.main,
+                  color: theme.palette.primary.main,
+                  '&:hover': {
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.secondary.main,
+                  },
+                }}
+              >
+                Perfil
+              </Button>
+            </ListItem>
+            <ListItem sx={{ mx: 'auto' }}>
+              <Button
+                onClick={() => logout()}
+                variant="contained"
+                sx={{
+                  '&:hover': {
+                    backgroundColor: theme.palette.primary.dark,
+                  },
+                }}
+              >
+                Salir
+              </Button>
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListItem sx={{ mx: 'auto' }}>
+              <ListItemButton component={Link} to="/ingresar" onClick={sidebarActions.close}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: theme.palette.secondary.main,
+                    color: theme.palette.primary.main,
+                  }}
+                >
+                  Ingresar
+                </Button>
+              </ListItemButton>
+            </ListItem>
+            <ListItem sx={{ mx: 'auto' }}>
+              <ListItemButton
+                component={Link}
+                to="/persona-de-apoyo"
+                onClick={sidebarActions.close}
+              >
+                <Button variant="outlined">Conviértete en persona de apoyo</Button>
+              </ListItemButton>
+            </ListItem>
+            <ListItem sx={{ mx: 'auto' }}>
+              <ListItemButton component={Link} to="/comienzo" onClick={sidebarActions.close}>
+                <Button variant="contained">Comenzar</Button>
+              </ListItemButton>
+            </ListItem>
+          </>
+        )}
       </List>
     </Drawer>
   );

@@ -1,7 +1,6 @@
+import { useState } from 'react';
 import { IconButton, InputAdornment, OutlinedInput, Box } from '@mui/material';
 import { Search } from '@mui/icons-material';
-// import { allComunas } from '@/utils/constants';
-import { useState } from 'react';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { Comuna } from '@/types/Comuna';
 

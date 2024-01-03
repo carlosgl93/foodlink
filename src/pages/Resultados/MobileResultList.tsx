@@ -32,6 +32,8 @@ export const MobileResultList = ({ filteredPrestadores, allServicios }: MobileFi
             average_review,
             total_reviews,
           } = prestador;
+
+          console.log(average_review, total_reviews);
           const thisPrestadorServicio = allServicios?.find((s) => s.service_id === service_id);
 
           const thisPrestadorEspecialidad = thisPrestadorServicio?.especialidades.find(

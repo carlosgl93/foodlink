@@ -11,7 +11,6 @@ export const getPrestadoresByEspecialidad = selectorFamily({
     }) =>
     async () => {
       try {
-        console.log('getting especialidades');
         const response = await api.get(`/prestadores`, {
           params: {
             comuna: filters.comuna || null,
@@ -19,7 +18,6 @@ export const getPrestadoresByEspecialidad = selectorFamily({
             especialidad: filters.especialidad,
           },
         });
-        console.log(response);
         return response.data;
       } catch (error) {
         console.error(error);

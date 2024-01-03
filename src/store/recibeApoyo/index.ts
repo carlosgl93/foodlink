@@ -9,6 +9,7 @@ import { getPrestadoresByComunaAndServicio } from '@/api/prestadores/getPrestado
 import { getPrestadoresByEspecialidad } from '@/api/prestadores/getPrestadoresByEspecialidad';
 import { Prestador } from '@/types/Prestador';
 import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
+import { getAllComunas } from '@/api/comunas/getAllComunas';
 
 type RecibeApoyoState = {
   step: number;
@@ -43,8 +44,9 @@ const recibeApoyoState = atom<RecibeApoyoState>({
 function useRecibeApoyo(): [RecibeApoyoState, Actions] {
   const [apoyo, setApoyo] = useRecoilState(recibeApoyoState);
 
-  const { allServicios } = apoyo;
+  const { allServicios, allComunas } = apoyo;
 
+  const fetchComunas = useRecoilValueLoadable(getAllComunas);
   const fetchServicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
 
   useEffect(() => {
@@ -58,6 +60,17 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
     }
   }, [allServicios, fetchServicios, setApoyo]);
 
+  useEffect(() => {
+    if (allComunas?.length === 0) {
+      if (fetchComunas.state === 'hasValue') {
+        setApoyo((prev) => ({
+          ...prev,
+          allComunas: fetchComunas.contents?.data,
+        }));
+      }
+    }
+  }, [allComunas, fetchComunas, setApoyo]);
+
   const setComunas = useCallback(
     (comunas: Comuna[]) => {
       setApoyo((prev) => ({
@@ -70,7 +83,6 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
 
   const setServicios = useCallback(
     (servicios: Servicio[]) => {
-      console.log(servicios);
       setApoyo((prev) => ({
         ...prev,
         allServicios: Object.values(servicios),

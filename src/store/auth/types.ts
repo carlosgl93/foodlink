@@ -1,7 +1,7 @@
 import { User } from '@/types/User';
 
 type Actions = {
-  login: (user: User) => void;
+  login: (email: string, password: string) => void;
   createUser: (user: User) => void;
   logout: () => void;
   redirectAfterLogin: () => void;

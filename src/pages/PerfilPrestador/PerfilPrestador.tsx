@@ -1,10 +1,9 @@
-import { Box, Typography, useMediaQuery } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 
 import { getPrestadorById } from '@/api/prestadores/getPrestadorById';
 import Meta from '@/components/Meta';
-import { FullSizeCenteredFlexBox } from '@/components/styled';
 import Loading from '@/components/Loading';
 import { tablet } from '@/theme/breakpoints';
 import { MobileProfile } from './MobileProfile';
@@ -41,15 +40,6 @@ function PerfilPrestador() {
     default:
       break;
   }
-
-  return (
-    <>
-      <Meta title="Perfil Prestador" />
-      <FullSizeCenteredFlexBox>
-        <Typography variant="h3">PerfilPrestador</Typography>
-      </FullSizeCenteredFlexBox>
-    </>
-  );
 }
 
 export default PerfilPrestador;

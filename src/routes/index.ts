@@ -34,7 +34,7 @@ const routes: Routes = {
     // icon: AddTaskIcon,
   },
   [Pages.RegistrarUsuario]: {
-    component: asyncComponentLoader(() => import('@/pages/RegistrarPrestador')),
+    component: asyncComponentLoader(() => import('@/pages/RegistrarUsuario')),
     path: '/registrar-usuario',
     title: 'Registrarse',
     // icon: AddTaskIcon,

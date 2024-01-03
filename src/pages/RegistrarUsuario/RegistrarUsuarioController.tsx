@@ -1,14 +1,19 @@
+import useAuth from '@/store/auth';
+import useRecibeApoyo from '@/store/recibeApoyo';
+import { Comuna } from '@/types/Comuna';
 import { ChangeEvent, useReducer } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 type FormState = {
   error: string;
   nombre: string;
-  apellidos: string;
-  telefono: string;
+  apellido: string;
+  paraQuien: string;
+  nombrePaciente: string;
+  rut: string;
+  comuna: Comuna | null;
   correo: string;
   contrasena: string;
   confirmarContrasena: string;
-  comoEnteraste: string;
 };
 
 type FormActions =
@@ -43,19 +48,40 @@ const reducer = (state: FormState, action: FormActions) => {
   }
 };
 
-const RegistrarPrestadorController = () => {
-  const router = useNavigate();
+const RegistrarUsuarioController = () => {
+  const [_, { createUser }] = useAuth();
+
+  console.log(_);
+
+  const [{ forWhom, comuna }] = useRecibeApoyo();
+
   const initialState = {
     error: '',
     nombre: '',
-    apellidos: '',
-    telefono: '',
+    apellido: '',
+    paraQuien: forWhom,
+    nombrePaciente: '',
+    rut: '',
+    comuna: comuna || null,
     correo: '',
     contrasena: '',
     confirmarContrasena: '',
-    comoEnteraste: '',
   };
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const {
+    error,
+    nombre,
+    apellido,
+    paraQuien,
+    nombrePaciente,
+    rut,
+    correo,
+    contrasena,
+    confirmarContrasena,
+  } = state;
+
+  console.log(error);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -67,7 +93,7 @@ const RegistrarPrestadorController = () => {
   const handleSubmit = () => {
     console.log(state);
 
-    if (!emailRegex.test(state.correo)) {
+    if (!emailRegex.test(correo)) {
       dispatch({
         type: 'ERROR',
         payload: {
@@ -75,7 +101,7 @@ const RegistrarPrestadorController = () => {
         },
       });
       setTimeout(() => dispatch({ type: 'ERROR', payload: { error: '' } }), 5000);
-    } else if (state.confirmarContrasena !== state.contrasena) {
+    } else if (confirmarContrasena !== contrasena) {
       dispatch({
         type: 'ERROR',
         payload: {
@@ -84,9 +110,28 @@ const RegistrarPrestadorController = () => {
       });
       setTimeout(() => dispatch({ type: 'ERROR', payload: { error: '' } }), 5000);
     } else {
-      //   TODO: IMPLEMENT CREATE PRESTADOR
+      const newUser = {
+        firstname: nombre,
+        lastname: apellido,
+        forWhom: paraQuien,
+        nombrePaciente: nombrePaciente,
+        rut: rut,
+        comuna_id: comuna!.id,
+        email: correo,
+        password: contrasena,
+      };
 
-      router('/perfil-prestador');
+      try {
+        createUser(newUser);
+      } catch (error) {
+        console.log(error);
+        dispatch({
+          type: 'ERROR',
+          payload: {
+            error: 'Error al crear usuario',
+          },
+        });
+      }
     }
   };
 
@@ -103,4 +148,4 @@ const RegistrarPrestadorController = () => {
   };
 };
 
-export default RegistrarPrestadorController;
+export default RegistrarUsuarioController;
