@@ -81,7 +81,18 @@ const routes: Routes = {
     // title: 'Ingresar',
     // icon: AddTaskIcon,
   },
-
+  [Pages.PerfilUsuario]: {
+    component: asyncComponentLoader(() => import('@/pages/PerfilUsuario')),
+    path: '/perfil-usuario/:id',
+    // title: 'Ingresar',
+    // icon: AddTaskIcon,
+  },
+  [Pages.EmailVerificado]: {
+    component: asyncComponentLoader(() => import('@/pages/EmailVerificado')),
+    path: '/email-verificado',
+    // title: 'Ingresar',
+    // icon: AddTaskIcon,
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('@/pages/NotFound')),
     path: '*',

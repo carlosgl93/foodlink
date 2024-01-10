@@ -14,6 +14,7 @@ import { getPrestadoresByEspecialidad } from '@/api/prestadores/getPrestadoresBy
 function Resultados() {
   const [{ servicio, comuna, especialidad, prestadores }, { setComunas, setPrestadores }] =
     useRecibeApoyo();
+
   const isTablet = useMediaQuery(tablet);
 
   const comunasFetched = useRecoilValueLoadable(getAllComunas);

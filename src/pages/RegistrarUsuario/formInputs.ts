@@ -12,9 +12,9 @@ export const formInputs = [
     type: 'text',
   },
   {
-    inputName: 'paciente',
+    inputName: 'nombrePaciente',
     placeholder: 'Nombre del paciente',
-    label: 'Paciente (*)',
+    label: 'Nombre del paciente (*)',
     type: 'text',
   },
   {

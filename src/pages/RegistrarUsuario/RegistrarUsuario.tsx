@@ -22,6 +22,17 @@ function RegistrarUsuario() {
 
   console.log('user from registrar', user);
 
+  const resetPatientName = () => {
+    // search for the input with name nombrePaciente and reset its value
+    // if (forWhom === '') {
+    // }
+    const input = document.querySelector('input[name="nombrePaciente"]') as HTMLInputElement;
+    console.log(input);
+    if (input) {
+      input.value = '';
+    }
+  };
+
   if (user.loading) return <Loading />;
 
   return (
@@ -91,7 +102,8 @@ function RegistrarUsuario() {
                   variant="outlined"
                   onChange={handleChange}
                   type={input.type}
-                  value={forWhom}
+                  value={forWhom && state.nombrePaciente === '' ? forWhom : state.nombrePaciente}
+                  onClick={() => resetPatientName()}
                 />
               );
             } else {
@@ -99,8 +111,8 @@ function RegistrarUsuario() {
                 <TextField
                   sx={{
                     m: {
-                      xs: 1,
-                      sm: 2,
+                      xs: 3.5,
+                      sm: 5,
                       md: 3,
                     },
                   }}

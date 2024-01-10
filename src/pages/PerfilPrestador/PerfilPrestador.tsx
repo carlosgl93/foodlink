@@ -37,8 +37,6 @@ function PerfilPrestador() {
       return <Loading />;
     case 'hasError':
       return <Box>Hubo un error, por favor intentalo mas tarde.</Box>;
-    default:
-      break;
   }
 }
 

@@ -3,7 +3,7 @@ import { Box, OutlinedInput, styled } from '@mui/material';
 export const StyledComunaSearchBar = styled(OutlinedInput)(() => ({
   backgroundColor: 'white',
   borderRadius: '2rem',
-  mt: '1rem',
+  my: 3,
 }));
 
 export const SearchBarIcon = styled(Box)(({ theme }) => ({

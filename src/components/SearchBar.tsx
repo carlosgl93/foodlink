@@ -1,33 +1,45 @@
 import { IconButton, InputAdornment, List, ListItem, OutlinedInput } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import { Box } from '@mui/system';
-import { allComunas } from '@/utils/constants';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValueLoadable } from 'recoil';
+import { getAllComunas } from '@/api/comunas/getAllComunas';
+import useRecibeApoyo from '@/store/recibeApoyo';
+import { Comuna } from '@/types/Comuna';
 
 function SearchBar() {
+  const [{ allComunas }, { setComunas, addComuna }] = useRecibeApoyo();
   const [comunasState, setComunasState] = useState(allComunas);
+
+  const comunasFetched = useRecoilValueLoadable(getAllComunas);
+
+  useEffect(() => {
+    if (comunasFetched.state === 'hasValue') {
+      setComunas(comunasFetched.contents?.data);
+    }
+  }, [comunasFetched, setComunas]);
+
   const router = useNavigate();
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const match = allComunas.filter((comuna) => {
-      if (comuna.toLowerCase().includes(e.target.value.toLowerCase())) {
+      if (comuna.name.toLowerCase().includes(e.target.value.toLowerCase())) {
         return comuna;
       }
     });
-    setComunasState(match);
+    if (match.length > 0) {
+      addComuna(match[0]);
+      setComunasState(match);
+    }
   };
 
-  const clickComunaHandler = (comuna: string) => {
+  const clickComunaHandler = (comuna: Comuna) => {
     // TODO: IMPLEMENT COMUNA HANDLER
     console.log(comuna);
     console.log('handler comuna');
     setComunasState(allComunas);
-    router('/resultados', {
-      state: {
-        comuna: comuna,
-      },
-    });
+    router(`/resultados`);
   };
 
   return (
@@ -75,7 +87,7 @@ function SearchBar() {
         onChange={onChangeHandler}
       />
 
-      {comunasState.length <= 1 && (
+      {comunasState.length > 0 && comunasState.length <= 5 && (
         <List
           sx={{
             width: {
@@ -90,27 +102,27 @@ function SearchBar() {
             overflow: 'auto',
           }}
         >
-          {comunasState.map((comuna) => (
-            <ListItem
-              value={comuna}
-              defaultValue={comuna}
-              key={comuna}
-              onClick={() => clickComunaHandler(comuna)}
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                margin: '0.5rem',
-                padding: '0.5rem',
-                border: '1px solid #ccc',
-                borderRadius: '0.5rem',
-                cursor: 'pointer',
-                maxWidth: 'fit-content',
-              }}
-            >
-              {comuna}
-            </ListItem>
-          ))}
+          {comunasState.map((comuna) => {
+            const { name, id } = comuna;
+            return (
+              <ListItem
+                value={name}
+                defaultValue={name}
+                key={id}
+                onClick={() => clickComunaHandler(comuna)}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  margin: '0.5rem',
+                  padding: 'auto',
+                  cursor: 'pointer',
+                }}
+              >
+                {name}
+              </ListItem>
+            );
+          })}
         </List>
       )}
     </>

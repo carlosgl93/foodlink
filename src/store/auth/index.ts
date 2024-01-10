@@ -6,6 +6,7 @@ import { User } from '@/types/User';
 import { useEffect } from 'react';
 import api from '@/api/api';
 import { AxiosError } from 'axios';
+import { notificationState } from '../snackbar';
 
 type AuthState = {
   isLoggedIn: boolean;
@@ -30,9 +31,12 @@ const redirectToAfterLoginState = atom<string>({
 });
 
 function useAuth(): [AuthState, Actions] {
+  const [notification, setNotification] = useRecoilState(notificationState);
   const [user, setUser] = useRecoilState(authState);
   const [redirectToAfterLogin, setRedirectToAfterLogin] = useRecoilState(redirectToAfterLoginState);
   const navigate = useNavigate();
+
+  console.log(notification);
 
   async function login(email: string, password: string) {
     try {
@@ -45,6 +49,11 @@ function useAuth(): [AuthState, Actions] {
       localStorage.setItem('user', JSON.stringify(user));
       setUser((prev) => ({ ...prev, loading: false }));
       redirectAfterLogin();
+      setNotification({
+        open: true,
+        message: 'Sesión iniciada con éxito',
+        severity: 'success',
+      });
     } catch (error) {
       console.log(error);
       if (error instanceof Error) {
@@ -128,6 +137,7 @@ function useAuth(): [AuthState, Actions] {
   function logout() {
     setUser((prev) => ({ ...prev, isLoggedIn: false, user: null }));
     localStorage.removeItem('user');
+    // TODO: RESET ALL STATE
     navigate('/');
   }
 

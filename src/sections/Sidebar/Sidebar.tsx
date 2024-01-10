@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import List from '@mui/material/List';
@@ -25,7 +24,7 @@ function Sidebar() {
     <Drawer anchor="left" open={isSidebarOpen} onClose={sidebarActions.close}>
       <List
         sx={{
-          width: 300,
+          width: 250,
           pt: (theme) => `${theme.mixins.toolbar.minHeight}px`,
           display: 'flex',
           flexDirection: 'column',
