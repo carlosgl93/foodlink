@@ -1,20 +1,12 @@
 import { List, ListItemButton, ListItemText, ListItemIcon } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useEntregaApoyo from '@/store/entregaApoyo';
+import { Servicio } from '@/types/Servicio';
 
-type ListProps = {
-  items: {
-    text: string;
-    speciality: {
-      text: string;
-    }[];
-  }[];
-};
+const ServiceTypeList = () => {
+  const [{ selectedServicio, allServicios }, { selectServicio }] = useEntregaApoyo();
 
-const ServiceTypeList = ({ items }: ListProps) => {
-  const [{ servicio }, { selectServicio }] = useEntregaApoyo();
-
-  const handleSelectServicio = (servicio: string) => {
+  const handleSelectServicio = (servicio: Servicio) => {
     console.log(servicio);
     selectServicio(servicio);
   };
@@ -26,11 +18,11 @@ const ServiceTypeList = ({ items }: ListProps) => {
           gap: 1,
         }}
       >
-        {items.map((item) => {
-          const alreadySelected = servicio.includes(item.text);
+        {allServicios?.map((servicio) => {
+          const alreadySelected = selectedServicio === servicio;
           return (
             <ListItemButton
-              onClick={() => handleSelectServicio(item.text)}
+              onClick={() => handleSelectServicio(servicio)}
               sx={{
                 color: alreadySelected ? 'secondary.main' : 'primary.main',
                 display: 'grid',
@@ -47,9 +39,9 @@ const ServiceTypeList = ({ items }: ListProps) => {
                   color: alreadySelected ? 'white' : 'primary.dark',
                 },
               }}
-              key={item.text}
+              key={servicio.service_id}
             >
-              <ListItemText primary={item.text} />
+              <ListItemText primary={servicio.service_name} />
               <ListItemIcon
                 sx={{
                   color: 'primary.main',

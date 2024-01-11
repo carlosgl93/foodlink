@@ -1,17 +1,20 @@
 import { List, ListItemButton, ListItemText, ListItemIcon } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useEntregaApoyo from '@/store/entregaApoyo';
+import { Especialidad } from '@/types/Servicio';
 
 type ListProps = {
-  items: string[];
+  items: Especialidad[] | null;
 };
 
 const SpecialityList = ({ items }: ListProps) => {
   const [{ selectedEspecialidad }, { selectEspecialidad }] = useEntregaApoyo();
 
-  const handleSelectEspecialidad = (especialidad: string) => {
+  const handleSelectEspecialidad = (especialidad: Especialidad) => {
     selectEspecialidad(especialidad);
   };
+
+  if (!items) return <></>;
 
   return (
     <>
@@ -41,9 +44,9 @@ const SpecialityList = ({ items }: ListProps) => {
                   color: alreadySelected ? 'white' : 'primary.dark',
                 },
               }}
-              key={item}
+              key={item.especialidad_id}
             >
-              <ListItemText primary={item} />
+              <ListItemText primary={item.especialidad_name} />
               <ListItemIcon
                 sx={{
                   color: 'primary.main',

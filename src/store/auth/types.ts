@@ -1,3 +1,4 @@
+import { Prestador } from '@/types/Prestador';
 import { User } from '@/types/User';
 
 type Actions = {
@@ -6,6 +7,7 @@ type Actions = {
   logout: () => void;
   redirectAfterLogin: () => void;
   updateRedirectToAfterLogin: (path: string) => void;
+  createPrestador: (prestador: Partial<Prestador>) => void;
 };
 
 export type { Actions };

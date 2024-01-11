@@ -37,7 +37,7 @@ const Step2 = () => {
         <Button variant="contained" onClick={decreaseStep}>
           Atras
         </Button>
-        <Button disabled={servicio.length === 0} variant="contained" onClick={increaseStep}>
+        <Button disabled={servicio === null} variant="contained" onClick={increaseStep}>
           Siguiente
         </Button>
       </Box>

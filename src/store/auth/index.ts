@@ -7,10 +7,13 @@ import { useEffect } from 'react';
 import api from '@/api/api';
 import { AxiosError } from 'axios';
 import { notificationState } from '../snackbar';
+import { Prestador } from '@/types/Prestador';
+import { postPrestador } from '@/api/prestadores/postPrestador';
 
 type AuthState = {
   isLoggedIn: boolean;
-  user: User | null;
+  user: User | null | Partial<Prestador>;
+  role: 'user' | 'prestador' | null;
   loading: boolean;
   error: string | null;
 };
@@ -18,6 +21,7 @@ type AuthState = {
 const authState = atom<AuthState>({
   key: 'authState',
   default: {
+    role: null,
     isLoggedIn: false,
     user: null,
     loading: false,
@@ -31,12 +35,10 @@ const redirectToAfterLoginState = atom<string>({
 });
 
 function useAuth(): [AuthState, Actions] {
-  const [notification, setNotification] = useRecoilState(notificationState);
+  const [, setNotification] = useRecoilState(notificationState);
   const [user, setUser] = useRecoilState(authState);
   const [redirectToAfterLogin, setRedirectToAfterLogin] = useRecoilState(redirectToAfterLoginState);
   const navigate = useNavigate();
-
-  console.log(notification);
 
   async function login(email: string, password: string) {
     try {
@@ -77,12 +79,17 @@ function useAuth(): [AuthState, Actions] {
   }
 
   async function createUser(user: User) {
-    setUser((prev) => ({ ...prev, loading: true }));
+    setUser((prev) => ({ ...prev, loading: true, role: 'user' }));
     try {
       await api.post('/users', user);
       setUser((prev) => ({ ...prev, isLoggedIn: true, user }));
       localStorage.setItem('user', JSON.stringify(user));
       redirectAfterLogin();
+      setNotification({
+        open: true,
+        message: 'Cuenta creada con exito, no olvides confirmar tu email',
+        severity: 'success',
+      });
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log('ERRRORORORROROR', error);
@@ -134,6 +141,40 @@ function useAuth(): [AuthState, Actions] {
     setUser((prev) => ({ ...prev, loading: false }));
   }
 
+  async function createPrestador(prestador: Partial<Prestador>) {
+    console.log('creating prestador with useAuth', prestador);
+    try {
+      const res = await postPrestador(prestador);
+      console.log(res, 'response from postPrestador');
+      if (res.message !== 'Error al crear prestador') {
+        console.log('response after creating prestador', res);
+        setUser((prev) => ({ ...prev, isLoggedIn: true, user: prestador, role: 'prestador' }));
+        localStorage.setItem('user', JSON.stringify(prestador));
+        setNotification({
+          open: true,
+          message: 'Cuenta creada con exito, no olvides confirmar tu email',
+          severity: 'success',
+        });
+        navigate(`/perfil-prestador/${res?.prestador?.id}`);
+      } else {
+        setNotification({
+          open: true,
+          message: 'Ocurrio un error al crear el prestador',
+          severity: 'error',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      if (error instanceof Error) {
+        setNotification({
+          open: true,
+          message: error.message,
+          severity: 'error',
+        });
+      }
+    }
+  }
+
   function logout() {
     setUser((prev) => ({ ...prev, isLoggedIn: false, user: null }));
     localStorage.removeItem('user');
@@ -166,7 +207,10 @@ function useAuth(): [AuthState, Actions] {
     };
   }, [user.error, setUser]);
 
-  return [user, { login, createUser, logout, redirectAfterLogin, updateRedirectToAfterLogin }];
+  return [
+    user,
+    { login, createUser, logout, redirectAfterLogin, updateRedirectToAfterLogin, createPrestador },
+  ];
 }
 
 export default useAuth;

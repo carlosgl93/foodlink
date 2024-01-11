@@ -9,7 +9,7 @@ import RegistrarPrestadorController from './RegistrarPrestadorController';
 import { formInputs } from './formInputs';
 
 function RegistrarPrestador() {
-  const { state, handleChange, handleSubmit, handleSelect } = RegistrarPrestadorController();
+  const { state, handleChange, handleSubmit } = RegistrarPrestadorController();
   const theme = useTheme();
   return (
     <>
@@ -61,52 +61,52 @@ function RegistrarPrestador() {
             </TextContainer>
           )}
           {formInputs.map((input) => {
-            if (input.inputName === 'comoEnteraste') {
-              return (
-                <select
-                  style={{
-                    padding: '10px',
-                    borderRadius: '5px',
-                    border: '1px solid #ccc',
-                    fontSize: '16px',
-                    marginTop: '1vh',
-                  }}
-                  key={input.inputName + input.label}
-                  name={input.inputName}
-                  placeholder={input.placeholder}
-                  onChange={handleSelect}
-                  value={state.comoEnteraste}
-                >
-                  <option value="" disabled>
-                    Como te enteraste de nosotros?
-                  </option>
-                  {input!.options!.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              );
-            } else {
-              return (
-                <TextField
-                  sx={{
-                    m: {
-                      xs: 1,
-                      sm: 2,
-                      md: 3,
-                    },
-                  }}
-                  key={input.inputName}
-                  label={input.label}
-                  name={input.inputName}
-                  variant="outlined"
-                  placeholder={input.placeholder}
-                  onChange={handleChange}
-                  type={input.type}
-                />
-              );
-            }
+            // if (input.inputName === 'comoEnteraste') {
+            //   return (
+            //     <select
+            //       style={{
+            //         padding: '10px',
+            //         borderRadius: '5px',
+            //         border: '1px solid #ccc',
+            //         fontSize: '16px',
+            //         marginTop: '1vh',
+            //       }}
+            //       key={input.inputName + input.label}
+            //       name={input.inputName}
+            //       placeholder={input.placeholder}
+            //       onChange={handleSelect}
+            //       value={state.comoEnteraste}
+            //     >
+            //       <option value="" disabled>
+            //         Como te enteraste de nosotros?
+            //       </option>
+            //       {input!.options!.map((option) => (
+            //         <option key={option} value={option}>
+            //           {option}
+            //         </option>
+            //       ))}
+            //     </select>
+            //   );
+            // } else {
+            return (
+              <TextField
+                sx={{
+                  m: {
+                    xs: 1,
+                    sm: 2,
+                    md: 3,
+                  },
+                }}
+                key={input.inputName}
+                label={input.label}
+                name={input.inputName}
+                variant="outlined"
+                placeholder={input.placeholder}
+                onChange={handleChange}
+                type={input.type}
+              />
+            );
+            // }
           })}
           {/* TODO: ADD CAPTCHA */}
           <Box
@@ -124,7 +124,6 @@ function RegistrarPrestador() {
                 state.correo === '' ||
                 state.contrasena === '' ||
                 state.confirmarContrasena === '' ||
-                state.comoEnteraste === '' ||
                 state.error !== ''
               }
               variant="contained"

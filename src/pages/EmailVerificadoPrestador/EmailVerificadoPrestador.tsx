@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { FullSizeCenteredFlexBox } from '@/components/styled';
-import { verifyUser } from '@/api/verificar-usuario/verificarUsuario';
 import { useRecoilState } from 'recoil';
 import { notificationState } from '@/store/snackbar';
+import { verifyPrestador } from '@/api/prestadores/verificarPrestador';
 
 type Severity = 'success' | 'info' | 'warning' | 'error';
 
-const EmailVerificado = () => {
+const EmailVerificadoPrestador = () => {
   const [notification, setNotification] = useRecoilState(notificationState);
 
   const router = useNavigate();
@@ -18,7 +18,7 @@ const EmailVerificado = () => {
   const token = query.get('token') || '';
 
   useEffect(() => {
-    verifyUser(token)
+    verifyPrestador(token)
       .then((res) => {
         if (res) {
           if (res.status === 'success') {
@@ -29,7 +29,7 @@ const EmailVerificado = () => {
               message: res!.message,
               severity: res!.status as Severity,
             });
-            router(`/perfil-usuario/${res.user.id}`);
+            router(`/perfil-prestador/${res.prestador.id}`);
           } else {
             throw new Error(res.message);
           }
@@ -62,4 +62,4 @@ const EmailVerificado = () => {
   );
 };
 
-export default EmailVerificado;
+export default EmailVerificadoPrestador;

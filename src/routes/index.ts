@@ -93,6 +93,12 @@ const routes: Routes = {
     // title: 'Ingresar',
     // icon: AddTaskIcon,
   },
+  [Pages.EmailVerificadoPrestador]: {
+    component: asyncComponentLoader(() => import('@/pages/EmailVerificadoPrestador')),
+    path: '/email-verificado-prestador',
+    // title: 'Ingresar',
+    // icon: AddTaskIcon,
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('@/pages/NotFound')),
     path: '*',
