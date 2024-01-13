@@ -39,6 +39,8 @@ const MobileResults = ({ filteredPrestadores }: MobileResultsProps) => {
       }}
     >
       <Button variant="outlined" onClick={toggleDrawer}>
+        {/* <Filter9Plus /> */}
+        {/* TODO ADD FUNNEL filters icon */}
         Filtros
       </Button>
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>

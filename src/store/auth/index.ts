@@ -36,19 +36,47 @@ const redirectToAfterLoginState = atom<string>({
 
 function useAuth(): [AuthState, Actions] {
   const [, setNotification] = useRecoilState(notificationState);
-  const [user, setUser] = useRecoilState(authState);
+  const [_user, setUser] = useRecoilState(authState);
   const [redirectToAfterLogin, setRedirectToAfterLogin] = useRecoilState(redirectToAfterLoginState);
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   localStorage.setItem('user', JSON.stringify(_user.user));
+  // }, [_user]);
+
+  console.log(_user);
 
   async function login(email: string, password: string) {
     try {
       setUser((prev) => ({ ...prev, loading: true }));
-      const loginUser = await api.post(`/users/login`, {
+      const loginUserResponse = await api.post(`/users/login`, {
         email,
         password,
       });
-      setUser((prev) => ({ ...prev, isLoggedIn: true, loginUser }));
-      localStorage.setItem('user', JSON.stringify(user));
+
+      console.log({ loginUserResponse });
+
+      const isAlsoPrestador = loginUserResponse.data.prestador;
+      const userData = loginUserResponse.data.user;
+
+      if (isAlsoPrestador) {
+        setUser((prev) => ({
+          ...prev,
+          isLoggedIn: true,
+          user: loginUserResponse.data.prestador,
+          role: 'prestador',
+        }));
+        localStorage.setItem('user', JSON.stringify({ ...isAlsoPrestador, role: 'prestador' }));
+      } else {
+        setUser((prev) => ({
+          ...prev,
+          isLoggedIn: true,
+          user: loginUserResponse.data.user,
+          role: 'user',
+        }));
+        localStorage.setItem('user', JSON.stringify({ ...userData, role: 'user' }));
+      }
+
       setUser((prev) => ({ ...prev, loading: false }));
       redirectAfterLogin();
       setNotification({
@@ -82,8 +110,8 @@ function useAuth(): [AuthState, Actions] {
     setUser((prev) => ({ ...prev, loading: true, role: 'user' }));
     try {
       await api.post('/users', user);
-      setUser((prev) => ({ ...prev, isLoggedIn: true, user }));
-      localStorage.setItem('user', JSON.stringify(user));
+      setUser((prev) => ({ ...prev, isLoggedIn: true, user, role: 'user' }));
+      localStorage.setItem('user', JSON.stringify(_user));
       redirectAfterLogin();
       setNotification({
         open: true,
@@ -142,20 +170,17 @@ function useAuth(): [AuthState, Actions] {
   }
 
   async function createPrestador(prestador: Partial<Prestador>) {
-    console.log('creating prestador with useAuth', prestador);
     try {
       const res = await postPrestador(prestador);
-      console.log(res, 'response from postPrestador');
       if (res.message !== 'Error al crear prestador') {
-        console.log('response after creating prestador', res);
         setUser((prev) => ({ ...prev, isLoggedIn: true, user: prestador, role: 'prestador' }));
-        localStorage.setItem('user', JSON.stringify(prestador));
+        localStorage.setItem('user', JSON.stringify({ ...prestador, role: 'prestador' }));
         setNotification({
           open: true,
           message: 'Cuenta creada con exito, no olvides confirmar tu email',
           severity: 'success',
         });
-        navigate(`/perfil-prestador/${res?.prestador?.id}`);
+        navigate(`/prestador-dashboard/`);
       } else {
         setNotification({
           open: true,
@@ -176,7 +201,7 @@ function useAuth(): [AuthState, Actions] {
   }
 
   function logout() {
-    setUser((prev) => ({ ...prev, isLoggedIn: false, user: null }));
+    setUser((prev) => ({ ...prev, isLoggedIn: false, user: null, role: null }));
     localStorage.removeItem('user');
     // TODO: RESET ALL STATE
     navigate('/');
@@ -191,7 +216,8 @@ function useAuth(): [AuthState, Actions] {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    console.log(storedUser);
+    if (storedUser !== null) {
       const user = JSON.parse(storedUser);
       setUser((prev) => ({ ...prev, isLoggedIn: true, user }));
     }
@@ -205,10 +231,10 @@ function useAuth(): [AuthState, Actions] {
     return () => {
       clearTimeout(cleanErrorMessage);
     };
-  }, [user.error, setUser]);
+  }, [_user.error, setUser]);
 
   return [
-    user,
+    _user,
     { login, createUser, logout, redirectAfterLogin, updateRedirectToAfterLogin, createPrestador },
   ];
 }

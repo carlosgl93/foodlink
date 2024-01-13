@@ -99,6 +99,12 @@ const routes: Routes = {
     // title: 'Ingresar',
     // icon: AddTaskIcon,
   },
+  [Pages.PrestadorDashboard]: {
+    component: asyncComponentLoader(() => import('@/pages/PrestadorDashboard')),
+    path: '/prestador-dashboard',
+    // title: 'Ingresar',
+    // icon: AddTaskIcon,
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('@/pages/NotFound')),
     path: '*',

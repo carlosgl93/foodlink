@@ -21,6 +21,7 @@ enum Pages {
   EmailVerificado,
   PerfilUsuario,
   EmailVerificadoPrestador,
+  PrestadorDashboard,
 }
 
 type PathRouteCustomProps = {

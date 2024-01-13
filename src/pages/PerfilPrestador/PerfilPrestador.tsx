@@ -8,6 +8,8 @@ import Loading from '@/components/Loading';
 import { tablet } from '@/theme/breakpoints';
 import { MobileProfile } from './MobileProfile';
 import { DesktopProfile } from './DesktopProfile';
+import { PerfilGeneralPrestador } from './PerfilGeneralPrestador';
+import { Prestador } from '@/types/Prestador';
 
 function PerfilPrestador() {
   const { id } = useParams();
@@ -15,24 +17,29 @@ function PerfilPrestador() {
 
   const prestadorId = Number(id);
 
-  const prestadorRecoil = useRecoilValueLoadable(getPrestadorById(prestadorId));
+  const prestadorRecoil = useRecoilValueLoadable<Prestador>(getPrestadorById(prestadorId));
 
   const prestadorData = prestadorRecoil.contents;
 
   switch (prestadorRecoil.state) {
     case 'hasValue':
-      return (
-        <>
-          <Meta title="Perfil Prestador" />
-          {/* top div with a back button */}
+      if (id && prestadorData.id === prestadorId) {
+        // return PerfilGeneralPrestador
+        return <PerfilGeneralPrestador prestador={prestadorData} />;
+      } else {
+        return (
+          <>
+            <Meta title="Perfil Prestador" />
 
-          {isTablet ? (
-            <MobileProfile prestador={prestadorData} />
-          ) : (
-            <DesktopProfile prestador={prestadorData} />
-          )}
-        </>
-      );
+            {isTablet ? (
+              <MobileProfile prestador={prestadorData} />
+            ) : (
+              <DesktopProfile prestador={prestadorData} />
+            )}
+          </>
+        );
+      }
+
     case 'loading':
       return <Loading />;
     case 'hasError':

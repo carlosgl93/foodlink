@@ -1,138 +1,43 @@
-import { Link } from 'react-router-dom';
-
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import Drawer from '@mui/material/Drawer';
-import { Button, useTheme } from '@mui/material';
-import { Theme } from '@mui/material/styles';
 
-import routes from '@/routes';
 import useSidebar from '@/store/sidebar';
-import { routesToExcludeInHeader } from '../Header/routesToExcludeInHeader';
 import useAuth from '@/store/auth';
+import { NotLoggedInDrawerList } from './NotLoggedInDrawerList';
+import PrestadorDrawerList from './PrestadorDrawer';
+import { UsuarioDrawerList } from './UsuarioDrawerList';
+import { BrandHomeLinkMobile } from './BrandHomeLinkMobile';
 
 function Sidebar() {
   const [isSidebarOpen, sidebarActions] = useSidebar();
-  const [user, { logout }] = useAuth();
+  const [{ user, isLoggedIn, role }, { logout }] = useAuth();
 
-  const theme = useTheme<Theme>();
+  const closeDrawer = sidebarActions.close;
+  console.log(user);
 
-  return (
-    <Drawer anchor="left" open={isSidebarOpen} onClose={sidebarActions.close}>
-      <List
-        sx={{
-          width: 250,
-          pt: (theme) => `${theme.mixins.toolbar.minHeight}px`,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-        }}
-      >
-        {Object.values(routes)
-          .filter((route) => route.title)
-          .map(({ path, title, icon: Icon }) =>
-            routesToExcludeInHeader.includes(path) ? null : (
-              <div
-                key={path}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <ListItem sx={{ p: 'auto' }}>
-                  <ListItemButton
-                    component={Link}
-                    to={path as string}
-                    onClick={sidebarActions.close}
-                  >
-                    {Icon && (
-                      <ListItemIcon>
-                        <Icon />
-                      </ListItemIcon>
-                    )}
+  if (!isLoggedIn) {
+    return (
+      <Drawer anchor="left" open={isSidebarOpen} onClose={closeDrawer}>
+        <BrandHomeLinkMobile />
+        <NotLoggedInDrawerList closeDrawer={closeDrawer} />
+      </Drawer>
+    );
+  } else if (isLoggedIn && role === 'prestador') {
+    return (
+      <Drawer anchor="left" open={isSidebarOpen} onClose={closeDrawer}>
+        <BrandHomeLinkMobile />
+        <PrestadorDrawerList closeDrawer={closeDrawer} />;
+      </Drawer>
+    );
+  } else {
+    // user logged in as user user.role === 'user'
+    return (
+      <Drawer anchor="left" open={isSidebarOpen} onClose={closeDrawer}>
+        <BrandHomeLinkMobile />
 
-                    <ListItemText
-                      sx={{
-                        ml: '0.5rem',
-                      }}
-                    >
-                      {title}
-                    </ListItemText>
-                  </ListItemButton>
-                </ListItem>
-              </div>
-            ),
-          )}
-        {user.isLoggedIn ? (
-          <>
-            <ListItem sx={{ mx: 'auto' }}>
-              <Button
-                component={Link}
-                to="/perfil-usuario"
-                variant="contained"
-                sx={{
-                  backgroundColor: theme.palette.secondary.main,
-                  color: theme.palette.primary.main,
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.secondary.main,
-                  },
-                }}
-              >
-                Perfil
-              </Button>
-            </ListItem>
-            <ListItem sx={{ mx: 'auto' }}>
-              <Button
-                onClick={() => logout()}
-                variant="contained"
-                sx={{
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.dark,
-                  },
-                }}
-              >
-                Salir
-              </Button>
-            </ListItem>
-          </>
-        ) : (
-          <>
-            <ListItem sx={{ mx: 'auto' }}>
-              <ListItemButton component={Link} to="/ingresar" onClick={sidebarActions.close}>
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: theme.palette.secondary.main,
-                    color: theme.palette.primary.main,
-                  }}
-                >
-                  Ingresar
-                </Button>
-              </ListItemButton>
-            </ListItem>
-            <ListItem sx={{ mx: 'auto' }}>
-              <ListItemButton
-                component={Link}
-                to="/persona-de-apoyo"
-                onClick={sidebarActions.close}
-              >
-                <Button variant="outlined">Conviértete en persona de apoyo</Button>
-              </ListItemButton>
-            </ListItem>
-            <ListItem sx={{ mx: 'auto' }}>
-              <ListItemButton component={Link} to="/comienzo" onClick={sidebarActions.close}>
-                <Button variant="contained">Comenzar</Button>
-              </ListItemButton>
-            </ListItem>
-          </>
-        )}
-      </List>
-    </Drawer>
-  );
+        <UsuarioDrawerList closeDrawer={closeDrawer} logout={logout} />
+      </Drawer>
+    );
+  }
 }
 
 export default Sidebar;
