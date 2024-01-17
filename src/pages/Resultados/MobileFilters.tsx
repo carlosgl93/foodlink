@@ -45,6 +45,7 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
       return;
     }
     const selectedService = servicios.find((s: Servicio) => s.service_name === e.target.value);
+    selectEspecialidad(null);
     selectServicio(selectedService as Servicio);
   };
 
@@ -148,7 +149,9 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
           >
             <option value={''}>Elige una especialidad</option>
 
-            {servicio.especialidades?.map((especialidad) => {
+            {servicio.especialidades?.map((especialidad, i) => {
+              if (especialidad.especialidad_name === servicio.service_name)
+                return <option key={i}>Este servicio no tiene especialidad</option>;
               return (
                 <option key={especialidad.especialidad_id} value={especialidad.especialidad_name}>
                   {especialidad.especialidad_name}

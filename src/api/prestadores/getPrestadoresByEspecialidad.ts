@@ -18,6 +18,7 @@ export const getPrestadoresByEspecialidad = selectorFamily({
             especialidad: filters.especialidad,
           },
         });
+        console.log('response from prestadoresByEspecialidad', response.data);
         return response.data;
       } catch (error) {
         console.error(error);

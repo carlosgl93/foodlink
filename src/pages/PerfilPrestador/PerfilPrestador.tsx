@@ -8,37 +8,41 @@ import Loading from '@/components/Loading';
 import { tablet } from '@/theme/breakpoints';
 import { MobileProfile } from './MobileProfile';
 import { DesktopProfile } from './DesktopProfile';
-import { PerfilGeneralPrestador } from './PerfilGeneralPrestador';
 import { Prestador } from '@/types/Prestador';
+import useAuth from '@/store/auth';
+import { getMessages } from '@/api/chat/getMessages';
 
 function PerfilPrestador() {
   const { id } = useParams();
   const isTablet = useMediaQuery(tablet);
+  const [{ user }] = useAuth();
 
   const prestadorId = Number(id);
 
   const prestadorRecoil = useRecoilValueLoadable<Prestador>(getPrestadorById(prestadorId));
+  const messagesRecoil = useRecoilValueLoadable(
+    getMessages({
+      userId: user?.id,
+      prestadorId: prestadorId,
+    }),
+  );
 
   const prestadorData = prestadorRecoil.contents;
+  const messagesData = messagesRecoil.contents;
 
   switch (prestadorRecoil.state) {
     case 'hasValue':
-      if (id && prestadorData.id === prestadorId) {
-        // return PerfilGeneralPrestador
-        return <PerfilGeneralPrestador prestador={prestadorData} />;
-      } else {
-        return (
-          <>
-            <Meta title="Perfil Prestador" />
+      return (
+        <>
+          <Meta title="Perfil Prestador" />
 
-            {isTablet ? (
-              <MobileProfile prestador={prestadorData} />
-            ) : (
-              <DesktopProfile prestador={prestadorData} />
-            )}
-          </>
-        );
-      }
+          {isTablet ? (
+            <MobileProfile prestador={prestadorData} messages={messagesData} />
+          ) : (
+            <DesktopProfile prestador={prestadorData} messages={messagesData} />
+          )}
+        </>
+      );
 
     case 'loading':
       return <Loading />;

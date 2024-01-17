@@ -12,6 +12,13 @@
     "email": "soporte@blui.com"
   },
   "license": "MIT",
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -19,6 +26,7 @@
     "https-preview": "serve dist",
     "prepare": "husky install",
     "test": "jest",
+    "devTest": "jest --watch --runInBand",
     "cypress:open": "cypress open"
   },
   "dependencies": {
@@ -41,10 +49,11 @@
     "recoil": "^0.7.5"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.23.7",
+    "@babel/preset-env": "^7.23.8",
     "@babel/preset-react": "^7.23.3",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "^14.1.2",
+    "@types/jest": "^29.5.11",
     "@types/node": "^18.7.21",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",

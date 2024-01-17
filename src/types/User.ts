@@ -15,4 +15,6 @@ export type User = {
   country?: string;
   imageUrl?: string;
   created_at?: string;
+  token?: string;
+  role?: string;
 };

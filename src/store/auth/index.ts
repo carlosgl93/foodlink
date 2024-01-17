@@ -40,12 +40,6 @@ function useAuth(): [AuthState, Actions] {
   const [redirectToAfterLogin, setRedirectToAfterLogin] = useRecoilState(redirectToAfterLoginState);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   localStorage.setItem('user', JSON.stringify(_user.user));
-  // }, [_user]);
-
-  console.log(_user);
-
   async function login(email: string, password: string) {
     try {
       setUser((prev) => ({ ...prev, loading: true }));
@@ -53,8 +47,6 @@ function useAuth(): [AuthState, Actions] {
         email,
         password,
       });
-
-      console.log({ loginUserResponse });
 
       const isAlsoPrestador = loginUserResponse.data.prestador;
       const userData = loginUserResponse.data.user;
@@ -66,7 +58,14 @@ function useAuth(): [AuthState, Actions] {
           user: loginUserResponse.data.prestador,
           role: 'prestador',
         }));
-        localStorage.setItem('user', JSON.stringify({ ...isAlsoPrestador, role: 'prestador' }));
+        localStorage.setItem(
+          'user',
+          JSON.stringify({
+            ...isAlsoPrestador,
+            role: 'prestador',
+            token: loginUserResponse.data.token,
+          }),
+        );
       } else {
         setUser((prev) => ({
           ...prev,
@@ -74,7 +73,10 @@ function useAuth(): [AuthState, Actions] {
           user: loginUserResponse.data.user,
           role: 'user',
         }));
-        localStorage.setItem('user', JSON.stringify({ ...userData, role: 'user' }));
+        localStorage.setItem(
+          'user',
+          JSON.stringify({ ...userData, role: 'user', token: loginUserResponse.data.token }),
+        );
       }
 
       setUser((prev) => ({ ...prev, loading: false }));
@@ -120,7 +122,6 @@ function useAuth(): [AuthState, Actions] {
       });
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log('ERRRORORORROROR', error);
         console.log(error.message);
         switch (error?.response?.data.message) {
           case 'Este email ya esta asociado a una cuenta.':
@@ -216,7 +217,6 @@ function useAuth(): [AuthState, Actions] {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-    console.log(storedUser);
     if (storedUser !== null) {
       const user = JSON.parse(storedUser);
       setUser((prev) => ({ ...prev, isLoggedIn: true, user }));

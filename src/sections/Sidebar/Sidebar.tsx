@@ -9,10 +9,9 @@ import { BrandHomeLinkMobile } from './BrandHomeLinkMobile';
 
 function Sidebar() {
   const [isSidebarOpen, sidebarActions] = useSidebar();
-  const [{ user, isLoggedIn, role }, { logout }] = useAuth();
+  const [{ isLoggedIn, role }, { logout }] = useAuth();
 
   const closeDrawer = sidebarActions.close;
-  console.log(user);
 
   if (!isLoggedIn) {
     return (

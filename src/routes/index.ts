@@ -81,6 +81,12 @@ const routes: Routes = {
     // title: 'Ingresar',
     // icon: AddTaskIcon,
   },
+  [Pages.Chat]: {
+    component: asyncComponentLoader(() => import('@/pages/Chat')),
+    path: '/chat/',
+    // title: 'Ingresar',
+    // icon: AddTaskIcon,
+  },
   [Pages.PerfilUsuario]: {
     component: asyncComponentLoader(() => import('@/pages/PerfilUsuario')),
     path: '/perfil-usuario/:id',

@@ -17,4 +17,6 @@ export type Prestador = {
   imageUrl?: string;
   description?: string;
   total_reviews?: number;
+  token?: string;
+  role?: string;
 };

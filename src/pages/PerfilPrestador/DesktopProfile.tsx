@@ -26,6 +26,7 @@ import useAuth from '@/store/auth';
 
 type DesktopProfileProps = {
   prestador: Prestador;
+  messages: string[];
 };
 
 export const DesktopProfile = ({ prestador }: DesktopProfileProps) => {
