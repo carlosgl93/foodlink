@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilValueLoadable } from 'recoil';
 import { getAllComunas } from '@/api/comunas/getAllComunas';
 import useRecibeApoyo from '@/store/recibeApoyo';
-import { Comuna } from '@/types/Comuna';
 
 function SearchBar() {
   const [{ allComunas }, { setComunas, addComuna }] = useRecibeApoyo();
@@ -34,10 +33,7 @@ function SearchBar() {
     }
   };
 
-  const clickComunaHandler = (comuna: Comuna) => {
-    // TODO: IMPLEMENT COMUNA HANDLER
-    console.log(comuna);
-    console.log('handler comuna');
+  const clickComunaHandler = () => {
     setComunasState(allComunas);
     router(`/resultados`);
   };
@@ -109,7 +105,7 @@ function SearchBar() {
                 value={name}
                 defaultValue={name}
                 key={id}
-                onClick={() => clickComunaHandler(comuna)}
+                onClick={clickComunaHandler}
                 sx={{
                   display: 'flex',
                   flexDirection: 'row',

@@ -29,8 +29,6 @@ const MobileResults = ({ filteredPrestadores }: MobileResultsProps) => {
     setDrawerOpen(!drawerOpen);
   };
 
-  console.log(filteredPrestadores);
-
   return (
     <Box
       sx={{

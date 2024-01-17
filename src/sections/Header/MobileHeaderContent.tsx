@@ -1,26 +1,29 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import IconButton from '@mui/material/IconButton';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 import { FlexBox, HeaderIconImage } from '@/components/styled';
 import useSidebar from '@/store/sidebar';
 import useAuth from '@/store/auth';
 import { ChatTitle } from '@/pages/Chat/StyledChatMensajes';
-import { LocationState } from '@/pages/Chat/Chat';
+import { usePrestador } from '@/pages/PerfilPrestador/usePrestador';
+import Loading from '@/components/Loading';
 
 const MobileHeaderContent = () => {
-  const location = useLocation();
   const router = useNavigate();
   const [, sidebarActions] = useSidebar();
   const [{ user }] = useAuth();
+  const location = useLocation();
+  const [params] = useSearchParams();
+  const prestadorId = Number(params.get('prestadorId'));
+  const { prestador, loading, error } = usePrestador({ id: prestadorId });
 
   if (location.pathname === '/chat') {
-    const { prestador } = location.state as LocationState;
     return (
       <FlexBox sx={{ alignItems: 'center', justifyContent: 'center' }}>
         <IconButton
-          onClick={() => router(-1)}
+          onClick={() => router(`/perfil-prestador/${prestadorId}`)}
           size="large"
           edge="start"
           color="primary"
@@ -30,9 +33,12 @@ const MobileHeaderContent = () => {
           <ArrowBackOutlinedIcon />
         </IconButton>
         <ChatTitle>
-          {user!.role === 'prestador'
-            ? `${user!.firstname} ${user!.lastname}`
-            : `${prestador.firstname} ${prestador!.lastname}`}
+          {loading && <Loading />}
+          {error && <p>Hubo un error</p>}
+
+          {user?.role === 'prestador'
+            ? `${user?.firstname} ${user?.lastname}`
+            : `${prestador?.firstname} ${prestador?.lastname}`}
         </ChatTitle>
       </FlexBox>
     );

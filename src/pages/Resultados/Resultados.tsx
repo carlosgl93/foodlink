@@ -33,8 +33,6 @@ function Resultados() {
     }),
   );
 
-  console.log(prestadoresByEspecialidad);
-
   useEffect(() => {
     if (prestadoresByEspecialidad.state === 'hasValue') {
       setPrestadores(prestadoresByEspecialidad.contents);

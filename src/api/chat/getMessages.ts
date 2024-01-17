@@ -4,7 +4,11 @@ import api from '../api';
 export const getMessages = selectorFamily({
   key: 'getMessages',
   get:
-    (filters: { userId: number | null | undefined; prestadorId: number | null | undefined }) =>
+    (filters: {
+      userId: number | null | undefined;
+      prestadorId: number | null | undefined;
+      refreshKey: number;
+    }) =>
     async () => {
       try {
         const response = await api.get(`/chat`, {
@@ -13,7 +17,6 @@ export const getMessages = selectorFamily({
             prestadorId: filters.prestadorId,
           },
         });
-        console.log('response from getMessages', response.data);
         return response.data;
       } catch (error) {
         console.error(error);

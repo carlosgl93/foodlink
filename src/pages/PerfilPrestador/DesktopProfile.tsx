@@ -1,4 +1,3 @@
-import { Prestador } from '@/types/Prestador';
 import { Box } from '@mui/material';
 import { styles } from './styles';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
@@ -24,12 +23,13 @@ import Reviews from '@/components/Reviews';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '@/store/auth';
 
-type DesktopProfileProps = {
-  prestador: Prestador;
-  messages: string[];
-};
+import { usePerfilPrestador } from './usePerfilPrestador';
+import Loading from '@/components/Loading';
 
-export const DesktopProfile = ({ prestador }: DesktopProfileProps) => {
+export const DesktopProfile = () => {
+  const { prestador, loading, error } = usePerfilPrestador();
+  const [{ isLoggedIn, user }, { updateRedirectToAfterLogin }] = useAuth();
+
   const {
     id,
     firstname,
@@ -42,7 +42,6 @@ export const DesktopProfile = ({ prestador }: DesktopProfileProps) => {
     description,
   } = prestador;
   const [{ allServicios }] = useRecibeApoyo();
-  const [{ isLoggedIn, user }, { updateRedirectToAfterLogin }] = useAuth();
   const [prestadorServicio, setPrestadorServicio] = useState({} as Servicio);
   const [prestadorEspecialidad, setPrestadorEspecialidad] = useState({} as Especialidad);
   const navigate = useNavigate();
@@ -74,94 +73,100 @@ export const DesktopProfile = ({ prestador }: DesktopProfileProps) => {
     }
   }, [allServicios, service_id, speciality_id]);
 
-  return (
-    <>
-      <StyledHeroBox>
-        <Box sx={styles.topBar}>
-          <StyledBackButton
-            variant="contained"
-            startIcon={<ArrowBackOutlinedIcon />}
-            onClick={() => {
-              window.history.back();
-            }}
-          >
-            Atras
-          </StyledBackButton>
-        </Box>
-        <StyledHeroContent>
-          <Box>
-            <StyledAvatar alt={`Imagen de perfil de ${firstname}`} src={imageUrl} />
+  if (loading) {
+    return <Loading />;
+  } else if (error) {
+    return <p>Hubo un error</p>;
+  } else {
+    return (
+      <>
+        <StyledHeroBox>
+          <Box sx={styles.topBar}>
+            <StyledBackButton
+              variant="contained"
+              startIcon={<ArrowBackOutlinedIcon />}
+              onClick={() => {
+                window.history.back();
+              }}
+            >
+              Atras
+            </StyledBackButton>
           </Box>
-          <Box>
-            <StyledName>
-              {firstname} {lastname}
-            </StyledName>
-            <Reviews average={average_review || 0} total_reviews={total_reviews || 0} />
+          <StyledHeroContent>
+            <Box>
+              <StyledAvatar alt={`Imagen de perfil de ${firstname}`} src={imageUrl} />
+            </Box>
+            <Box>
+              <StyledName>
+                {firstname} {lastname}
+              </StyledName>
+              <Reviews average={average_review || 0} total_reviews={total_reviews || 0} />
 
-            <StyledServicio>
-              {prestadorServicio?.service_name} / {prestadorEspecialidad?.especialidad_name}
-            </StyledServicio>
-            <StyledCTAs>
-              <StyledContactButton onClick={handleContact}>Contactar</StyledContactButton>
-              <StyledShortListButton startIcon={<BookmarkBorderOutlinedIcon />}>
-                Guardar
-              </StyledShortListButton>
-            </StyledCTAs>
-          </Box>
-        </StyledHeroContent>
-      </StyledHeroBox>
-      <StyledAbout>
-        <Box
-          sx={{
-            px: '10%',
-            alignItems: 'start',
-          }}
-        >
-          <Title
-            align="left"
-            sx={{
-              fontSize: '1.3rem',
-            }}
-          >
-            Acerca de {firstname} {lastname && lastname[0]?.toUpperCase() + '.'}
-          </Title>
-        </Box>
-        <Box>
-          <Text
+              <StyledServicio>
+                {prestadorServicio?.service_name} / {prestadorEspecialidad?.especialidad_name}
+              </StyledServicio>
+              <StyledCTAs>
+                <StyledContactButton onClick={handleContact}>Contactar</StyledContactButton>
+                <StyledShortListButton startIcon={<BookmarkBorderOutlinedIcon />}>
+                  Guardar
+                </StyledShortListButton>
+              </StyledCTAs>
+            </Box>
+          </StyledHeroContent>
+        </StyledHeroBox>
+        <StyledAbout>
+          <Box
             sx={{
               px: '10%',
-              fontSize: '1rem',
               alignItems: 'start',
-              fontWeight: '600',
             }}
           >
-            {description}
-          </Text>
-        </Box>
-      </StyledAbout>
-      <ProfileGrid>
-        {/* top left availability */}
-        {/* Blui Verified */}
-        <Box>Blui Verified</Box>
-        {/* top right services offered */}
-        <Box>Services Offered</Box>
-        {/* left below availability: Indicative rates */}
-        <Box>
-          <Box>Availability</Box>
-          <Box>Indicative rates</Box>
-        </Box>
-        {/* right below services offered: Badges */}
-        <Box>Badges</Box>
-        {/* Inmunizacion */}
-        <Box>
-          <Text>Inmunizacion</Text>
-        </Box>
-        <Box>Experiencia</Box>
-        <Box>Ubicaciones de trabajo</Box>
-        <Box>More Information</Box>
+            <Title
+              align="left"
+              sx={{
+                fontSize: '1.3rem',
+              }}
+            >
+              Acerca de {firstname} {lastname && lastname[0]?.toUpperCase() + '.'}
+            </Title>
+          </Box>
+          <Box>
+            <Text
+              sx={{
+                px: '10%',
+                fontSize: '1rem',
+                alignItems: 'start',
+                fontWeight: '600',
+              }}
+            >
+              {description}
+            </Text>
+          </Box>
+        </StyledAbout>
+        <ProfileGrid>
+          {/* top left availability */}
+          {/* Blui Verified */}
+          <Box>Blui Verified</Box>
+          {/* top right services offered */}
+          <Box>Services Offered</Box>
+          {/* left below availability: Indicative rates */}
+          <Box>
+            <Box>Availability</Box>
+            <Box>Indicative rates</Box>
+          </Box>
+          {/* right below services offered: Badges */}
+          <Box>Badges</Box>
+          {/* Inmunizacion */}
+          <Box>
+            <Text>Inmunizacion</Text>
+          </Box>
+          <Box>Experiencia</Box>
+          <Box>Ubicaciones de trabajo</Box>
+          <Box>More Information</Box>
 
-        <Box>Reviews</Box>
-      </ProfileGrid>
-    </>
-  );
+          <Box>Reviews</Box>
+        </ProfileGrid>
+      </>
+    );
+  }
 };
