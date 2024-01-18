@@ -18,6 +18,7 @@ import { Prestador } from '@/types/Prestador';
 
 import { useChatMessages } from './useChatMessages';
 import useAuth from '@/store/auth';
+import Loading from '@/components/Loading';
 
 export type LocationState = {
   messages: Mensaje[];
@@ -32,8 +33,8 @@ export const Chat = () => {
   const {
     messages,
     message,
-    // loading,
-    // error,
+    loading,
+    error,
     lastMessageRef,
     handleInputChange,
     handleSendMessage,
@@ -45,8 +46,8 @@ export const Chat = () => {
 
   return (
     <ChatContainer>
-      {/* {loading && <Loading />} */}
-      {/* {error && <p>Hubo un error</p>} */}
+      {loading && <Loading />}
+      {error && <p>Hubo un error</p>}
       {messages &&
         messages.map((m: Mensaje, index) => {
           const isLastMessage = index === messages.length - 1;
