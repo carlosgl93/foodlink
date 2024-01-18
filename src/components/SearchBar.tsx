@@ -83,7 +83,7 @@ function SearchBar() {
         onChange={onChangeHandler}
       />
 
-      {comunasState.length > 0 && comunasState.length <= 5 && (
+      {comunasState.length > 0 && comunasState.length <= 1 && (
         <List
           sx={{
             width: {
