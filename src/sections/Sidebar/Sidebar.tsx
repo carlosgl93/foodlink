@@ -9,7 +9,7 @@ import { BrandHomeLinkMobile } from './BrandHomeLinkMobile';
 
 function Sidebar() {
   const [isSidebarOpen, sidebarActions] = useSidebar();
-  const [{ isLoggedIn, role }, { logout }] = useAuth();
+  const [{ isLoggedIn, role }] = useAuth();
 
   const closeDrawer = sidebarActions.close;
 
@@ -32,8 +32,7 @@ function Sidebar() {
     return (
       <Drawer anchor="left" open={isSidebarOpen} onClose={closeDrawer}>
         <BrandHomeLinkMobile />
-
-        <UsuarioDrawerList closeDrawer={closeDrawer} logout={logout} />
+        <UsuarioDrawerList closeDrawer={closeDrawer} />
       </Drawer>
     );
   }

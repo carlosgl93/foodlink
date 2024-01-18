@@ -23,7 +23,6 @@ function PrestadorDrawerList({ closeDrawer }: PrestadorDrawerListProps) {
   const [{ allServicios }] = useEntregaApoyo();
 
   const prestador = auth.user as Prestador;
-
   const { firstname, lastname, service_id } = prestador;
 
   const servicio = allServicios?.find((servicio) => servicio.service_id === service_id);

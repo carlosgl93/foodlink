@@ -1,31 +1,25 @@
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
-import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
-import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-export const prestadorDrawerOptions = [
+export const usuarioDrawerOptions = [
   {
-    title: 'Panel',
-    path: '/dashboard',
-    icon: HomeOutlinedIcon,
+    title: 'Perfil',
+    path: '/perfil-usuario',
+    icon: AccountCircleIcon,
   },
   {
     title: 'Sesiones',
     path: '/sesiones',
     icon: CalendarTodayOutlinedIcon,
   },
+
   {
-    title: 'Trabajos',
-    path: '/trabajos',
-    icon: FormatListBulletedOutlinedIcon,
-  },
-  {
-    title: 'Clientes',
-    path: '/clientes',
+    title: 'Prestadores',
+    path: '/resultados',
     icon: PeopleAltOutlinedIcon,
   },
   {
@@ -37,11 +31,6 @@ export const prestadorDrawerOptions = [
     title: 'Inbox',
     path: '/inbox',
     icon: MailOutlinedIcon,
-  },
-  {
-    title: 'Pagos',
-    path: '/pagos',
-    icon: AttachMoneyOutlinedIcon,
   },
   {
     title: 'Configuración',
