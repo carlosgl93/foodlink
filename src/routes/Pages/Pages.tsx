@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 
@@ -6,6 +6,8 @@ import routes from '..';
 import Footer from '@/components/Footer';
 
 function Pages() {
+  const location = useLocation();
+
   return (
     <Box sx={{ height: 'fit-content', minHeight: '75vh' }}>
       <Routes>
@@ -13,7 +15,7 @@ function Pages() {
           return <Route key={path} path={path} element={<Component />} />;
         })}
       </Routes>
-      <Footer />
+      {location.pathname !== '/chat' && <Footer />}
     </Box>
   );
 }

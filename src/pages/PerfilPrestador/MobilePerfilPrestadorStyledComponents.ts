@@ -21,7 +21,7 @@ export const HeroContainer = styled(Box)(({ theme }) => ({
 export const StyledAvatar = styled(Avatar)(() => ({
   width: '8rem',
   height: '8rem',
-  margin: '5rem auto',
+  margin: '3rem auto',
 }));
 
 export const StyledNameContainer = styled(Box)(() => ({

@@ -1,7 +1,7 @@
 import useAuth from '@/store/auth';
 import { tablet } from '@/theme/breakpoints';
 import { useMediaQuery } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useChatMessages } from '../Chat/useChatMessages';
 import { usePrestador } from './usePrestador';
 import { sendMessage } from '@/api/chat/sendMessage';
@@ -13,10 +13,12 @@ import { useRecoilState } from 'recoil';
 
 export const usePerfilPrestador = () => {
   const { id } = useParams();
+  const location = useLocation();
+  const prestadorFromLocation = location.state?.prestador;
   const isTablet = useMediaQuery(tablet);
   const [{ user, isLoggedIn }, { updateRedirectToAfterLogin }] = useAuth();
 
-  const prestadorId = Number(id);
+  const prestadorId = Number(id) || prestadorFromLocation?.id;
 
   const { messages } = useChatMessages({
     userId: user?.id,

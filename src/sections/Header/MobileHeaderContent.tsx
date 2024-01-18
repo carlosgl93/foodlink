@@ -15,15 +15,24 @@ const MobileHeaderContent = () => {
   const [, sidebarActions] = useSidebar();
   const [{ user }] = useAuth();
   const location = useLocation();
+  const prestadorFromLocation = location.state?.prestador;
   const [params] = useSearchParams();
   const prestadorId = Number(params.get('prestadorId'));
-  const { prestador, loading, error } = usePrestador({ id: prestadorId });
+  const { prestador, loading, error } = usePrestador({
+    id: prestadorFromLocation ? Number(prestadorFromLocation.id) : prestadorId,
+  });
 
   if (location.pathname === '/chat') {
     return (
       <FlexBox sx={{ alignItems: 'center', justifyContent: 'center' }}>
         <IconButton
-          onClick={() => router(`/perfil-prestador/${prestadorId}`)}
+          onClick={() =>
+            router(`/perfil-prestador/${prestadorId}`, {
+              state: {
+                prestador,
+              },
+            })
+          }
           size="large"
           edge="start"
           color="primary"
