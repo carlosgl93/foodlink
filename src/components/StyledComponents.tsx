@@ -140,3 +140,5 @@ export const StyledCheckboxInput = styled('input')(({ theme }) => ({
     backgroundColor: theme.palette.primary.light,
   },
 }));
+
+export const StyledBackButton = styled(Button)(() => ({}));

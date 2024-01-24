@@ -9,7 +9,7 @@ function Pages() {
   const location = useLocation();
 
   return (
-    <Box sx={{ height: 'fit-content', minHeight: '75vh' }}>
+    <Box sx={{ height: 'fit-content', minHeight: '75vh', backgroundColor: '#f7f7f7' }}>
       <Routes>
         {Object.values(routes).map(({ path, component: Component }) => {
           return <Route key={path} path={path} element={<Component />} />;

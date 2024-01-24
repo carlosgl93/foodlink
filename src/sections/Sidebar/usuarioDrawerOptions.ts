@@ -4,8 +4,15 @@ import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
 export const usuarioDrawerOptions = [
+  {
+    title: 'Panel',
+    path: '/usuario-dashboard',
+    icon: HomeOutlinedIcon,
+  },
   {
     title: 'Perfil',
     path: '/perfil-usuario',
@@ -18,8 +25,13 @@ export const usuarioDrawerOptions = [
   },
 
   {
-    title: 'Prestadores',
+    title: 'Buscar prestadores',
     path: '/resultados',
+    icon: SearchOutlinedIcon,
+  },
+  {
+    title: 'Administrar prestadores',
+    path: '/administrar-prestadores',
     icon: PeopleAltOutlinedIcon,
   },
   {

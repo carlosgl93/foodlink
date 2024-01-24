@@ -10,7 +10,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 export const prestadorDrawerOptions = [
   {
     title: 'Panel',
-    path: '/dashboard',
+    path: '/prestador-dashboard',
     icon: HomeOutlinedIcon,
   },
   {

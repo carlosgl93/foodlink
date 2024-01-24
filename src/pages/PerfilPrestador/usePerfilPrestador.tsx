@@ -10,6 +10,10 @@ import { notificationState } from '@/store/snackbar';
 import { Servicio, Especialidad } from '@/types/Servicio';
 import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
+import {
+  DisponibilidadFromFront,
+  getDisponibilidadByPrestadorId,
+} from '@/api/disponibilidad/getDisponibilidadByPrestadorId';
 
 export const usePerfilPrestador = () => {
   const { id } = useParams();
@@ -32,6 +36,7 @@ export const usePerfilPrestador = () => {
   const [prestadorEspecialidad, setPrestadorEspecialidad] = useState({} as Especialidad);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
+  const [disponibilidad, setDisponibilidad] = useState<DisponibilidadFromFront[]>([]);
 
   const { service_id, speciality_id } = prestador;
 
@@ -123,6 +128,12 @@ export const usePerfilPrestador = () => {
     }
   }, [allServicios, service_id, speciality_id]);
 
+  useEffect(() => {
+    getDisponibilidadByPrestadorId(prestadorId).then((res) => {
+      setDisponibilidad(res as DisponibilidadFromFront[]);
+    });
+  }, [prestadorId]);
+
   return {
     prestador,
     loading,
@@ -131,12 +142,13 @@ export const usePerfilPrestador = () => {
     isTablet,
     prestadorServicio,
     prestadorEspecialidad,
+    open,
+    message,
+    disponibilidad,
     handleContact,
     handleOpen,
     handleClose,
     handleSendMessage,
-    open,
-    message,
     setMessage,
   };
 };

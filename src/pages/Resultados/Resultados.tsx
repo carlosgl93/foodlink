@@ -1,6 +1,6 @@
 import Meta from '@/components/Meta';
 import useRecibeApoyo from '@/store/recibeApoyo';
-import { Box, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { tablet } from '../../theme/breakpoints';
 import DesktopResults from './DesktopResults';
 import MobileResults from './MobileResults';
@@ -8,8 +8,8 @@ import { useRecoilValueLoadable } from 'recoil';
 import Loading from '@/components/Loading';
 import { getAllComunas } from '@/api/comunas/getAllComunas';
 import { useEffect } from 'react';
-import { Text } from '@/components/StyledComponents';
 import { getPrestadoresByEspecialidad } from '@/api/prestadores/getPrestadoresByEspecialidad';
+import { ResultadosHeader } from './ResultadosHeader';
 
 function Resultados() {
   const [{ servicio, comuna, especialidad, prestadores }, { setComunas, setPrestadores }] =
@@ -39,33 +39,13 @@ function Resultados() {
     }
   }, [prestadoresByEspecialidad, setPrestadores]);
 
-  const resultsLength = prestadores?.length;
-
   switch (prestadoresByEspecialidad.state) {
     case 'hasValue':
       return (
         <>
           <Meta title="Resultados" />
 
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              my: '2rem',
-              px: '1rem',
-              height: '2.5vh',
-              width: '100%',
-            }}
-          >
-            <Text>
-              {resultsLength > 0
-                ? `${resultsLength} ${
-                    resultsLength === 1 ? 'prestador encontrado' : 'prestadores encontrados'
-                  }`
-                : 'Ningun prestador encontrado para esta combinación de filtros.'}
-            </Text>
-          </Box>
+          <ResultadosHeader />
 
           {isTablet ? (
             <MobileResults filteredPrestadores={prestadores} />

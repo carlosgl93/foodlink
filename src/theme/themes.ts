@@ -63,7 +63,7 @@ const themes: Record<Themes, ThemeOptions> = {
     palette: {
       mode: 'light',
       background: {
-        default: '#fafafa',
+        default: '#f2f2f2',
         paper: '#fff',
         grey: '#f9f7f6',
       },
@@ -75,23 +75,14 @@ const themes: Record<Themes, ThemeOptions> = {
       },
       secondary: {
         main: '#fff7fe',
+        dark: '#414042',
         contrastText: '#f56b0c',
+      },
+      error: {
+        main: '#d72a31',
       },
     },
   }),
-
-  // dark: deepmerge(sharedTheme, {
-  //   palette: {
-  //     mode: 'dark',
-  //     background: {
-  //       default: '#111',
-  //       paper: '#171717',
-  //     },
-  //     primary: {
-  //       main: '#333',
-  //     },
-  //   },
-  // }),
 };
 
 export default themes;

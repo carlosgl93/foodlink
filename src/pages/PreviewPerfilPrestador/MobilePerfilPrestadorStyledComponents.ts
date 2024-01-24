@@ -1,4 +1,4 @@
-import { Text, Title } from '@/components/StyledComponents';
+import { Title } from '@/components/StyledComponents';
 import { Avatar, Box, Typography, styled } from '@mui/material';
 
 export const Wrapper = styled(Box)(({ theme }) => ({
@@ -6,6 +6,7 @@ export const Wrapper = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
+  gap: '1rem',
   width: '100%',
   height: '100%',
   backgroundColor: theme.palette.background.paper,
@@ -65,31 +66,4 @@ export const StyledCTAs = styled(Box)(() => ({
   width: '100%',
   gap: '1rem',
   marginBottom: '2rem',
-}));
-
-export const AboutContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'start',
-  width: '100%',
-  backgroundColor: theme.palette.background.default,
-  padding: '2rem 1rem',
-}));
-
-export const AboutTitle = styled(StyledTitle)(({ theme }) => ({
-  fontSize: '1.5rem',
-  fontWeight: 600,
-  lineHeight: '1.5rem',
-  textAlign: 'start',
-  color: theme.palette.primary.dark,
-}));
-
-export const AboutDescription = styled(Text)(({ theme }) => ({
-  fontSize: '0.95rem',
-  fontWeight: 400,
-  lineHeight: '1.5rem',
-  textAlign: 'start',
-  color: theme.palette.primary.dark,
-  marginTop: '1rem',
 }));

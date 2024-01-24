@@ -1,4 +1,4 @@
-import { ListItem, Avatar, Button, Box, useTheme } from '@mui/material';
+import { ListItem, Avatar, Button, Box, useTheme, List } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Reviews from '@/components/Reviews';
 import { Text, Title } from '@/components/StyledComponents';
@@ -14,7 +14,7 @@ export const MobileResultList = ({ filteredPrestadores, allServicios }: MobileFi
   const theme = useTheme();
 
   return (
-    <Box
+    <List
       component={'ul'}
       sx={{
         m: 0,
@@ -114,6 +114,6 @@ export const MobileResultList = ({ filteredPrestadores, allServicios }: MobileFi
           <Text>Conoces a alguien para esta comuna y servicio? Invitalo a Blui!</Text>
         </Box>
       )}
-    </Box>
+    </List>
   );
 };

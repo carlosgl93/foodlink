@@ -28,7 +28,6 @@ function Sidebar() {
       </Drawer>
     );
   } else {
-    // user logged in as user user.role === 'user'
     return (
       <Drawer anchor="left" open={isSidebarOpen} onClose={closeDrawer}>
         <BrandHomeLinkMobile />

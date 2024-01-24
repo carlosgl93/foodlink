@@ -61,8 +61,13 @@ export const UsuarioDrawerList = ({ closeDrawer }: UsuarioDrawerListProps) => {
 
       <Divider />
       {usuarioDrawerOptions.map(({ path, title, icon: Icon }) => (
-        <ListItem sx={{ p: 'auto' }} key={path}>
-          <ListItemButton component={Link} to={path as string} onClick={closeDrawer}>
+        <ListItem sx={{ p: '0 auto' }} key={path}>
+          <ListItemButton
+            component={Link}
+            to={path as string}
+            onClick={closeDrawer}
+            sx={{ py: '0' }}
+          >
             {Icon && (
               <ListItemIcon>
                 <Icon />
@@ -78,7 +83,7 @@ export const UsuarioDrawerList = ({ closeDrawer }: UsuarioDrawerListProps) => {
         const { title, path } = item;
         return (
           <ListItem key={path}>
-            <ListItemButton component={Link} to={path} onClick={closeDrawer}>
+            <ListItemButton component={Link} to={path} onClick={closeDrawer} sx={{ py: '0' }}>
               <ListItemText
                 sx={{
                   ml: '0.5rem',

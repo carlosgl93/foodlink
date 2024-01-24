@@ -66,6 +66,7 @@ function useAuth(): [AuthState, Actions] {
             token: loginUserResponse.data.token,
           }),
         );
+        navigate('/prestador-dashboard');
       } else {
         setUser((prev) => ({
           ...prev,
@@ -77,10 +78,19 @@ function useAuth(): [AuthState, Actions] {
           'user',
           JSON.stringify({ ...userData, role: 'user', token: loginUserResponse.data.token }),
         );
+        navigate('/usuario-dashboard');
       }
 
       setUser((prev) => ({ ...prev, loading: false }));
-      redirectAfterLogin();
+
+      if (redirectToAfterLogin === '/' && isAlsoPrestador) {
+        navigate('/prestador-dashboard');
+      } else if (redirectToAfterLogin === '/' && userData) {
+        navigate('/usuario-dashboard');
+      } else {
+        redirectAfterLogin();
+      }
+
       setNotification({
         open: true,
         message: 'Sesión iniciada con éxito',
@@ -211,6 +221,7 @@ function useAuth(): [AuthState, Actions] {
   function redirectAfterLogin() {
     navigate(redirectToAfterLogin);
   }
+
   function updateRedirectToAfterLogin(path: string) {
     setRedirectToAfterLogin(path);
   }

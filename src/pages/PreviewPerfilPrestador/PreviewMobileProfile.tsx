@@ -1,7 +1,4 @@
 import {
-  AboutContainer,
-  AboutDescription,
-  AboutTitle,
   HeroContainer,
   ReviewsContainer,
   StyledAvatar,
@@ -13,37 +10,29 @@ import {
 } from './MobilePerfilPrestadorStyledComponents';
 
 import Reviews from '@/components/Reviews';
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import {
-  StyledContactButton,
-  StyledShortListButton,
-} from './DesktopPerfilPrestadorStyledComponents';
-import { ChatModal } from '@/components/ChatModal';
+import { StyledContactButton } from './DesktopPerfilPrestadorStyledComponents';
 
-import { usePerfilPrestador } from './usePerfilPrestador';
+import { usePreviewPerfilPrestador } from './usePreviewPerfilPrestador';
 import Loading from '@/components/Loading';
-import { ListAvailableDays } from './ListAvailableDays';
+import {
+  AboutContainer,
+  AboutDescription,
+  AboutTitle,
+} from '../PerfilPrestador/MobilePerfilPrestadorStyledComponents';
+import { ListAvailableDays } from '../PerfilPrestador/ListAvailableDays';
 
-export const MobileProfile = () => {
+export const PreviewMobileProfile = () => {
   const {
     prestador,
-    messages,
     loading,
     error,
-    handleClose,
-    handleContact,
-    handleSendMessage,
-    open,
-    message,
-    setMessage,
     prestadorServicio,
     prestadorEspecialidad,
+    handleEditPerfil,
     disponibilidad,
-  } = usePerfilPrestador();
+  } = usePreviewPerfilPrestador();
 
   const { firstname, lastname, imageUrl, average_review, total_reviews, description } = prestador;
-
-  console.log('disponibilidad from perfil', disponibilidad);
 
   if (loading) {
     return <Loading />;
@@ -67,20 +56,7 @@ export const MobileProfile = () => {
             {prestadorServicio?.service_name} / {prestadorEspecialidad?.especialidad_name}
           </StyledServicio>
           <StyledCTAs>
-            <StyledContactButton onClick={handleContact}>
-              {messages?.length > 0 ? 'Ver conversación' : 'Contactar'}
-            </StyledContactButton>
-            <ChatModal
-              open={open}
-              handleClose={handleClose}
-              message={message}
-              setMessage={setMessage}
-              handleSendMessage={handleSendMessage}
-              messages={messages}
-            />
-            <StyledShortListButton startIcon={<BookmarkBorderOutlinedIcon />}>
-              Guardar
-            </StyledShortListButton>
+            <StyledContactButton onClick={handleEditPerfil}>Editar perfil</StyledContactButton>
           </StyledCTAs>
         </HeroContainer>
         <AboutContainer>
