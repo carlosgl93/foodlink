@@ -22,8 +22,6 @@ const DesktopFilters = () => {
     { removeComuna, selectServicio, selectEspecialidad, setAvailability },
   ] = useRecibeApoyo();
 
-  console.log('servicio from state', servicio);
-
   const fetchServicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
 
   const serviciosAdEspecialidades = fetchServicios.contents.data;
@@ -71,7 +69,7 @@ const DesktopFilters = () => {
               borderColor: 'primary.dark',
               borderRadius: '0.25rem',
               padding: '0.5rem 1rem',
-              backgroundColor: 'primary.dark',
+              backgroundColor: 'primary.main',
               ':hover': {
                 backgroundColor: 'primary.light',
                 color: 'primary.dark',
@@ -101,6 +99,7 @@ const DesktopFilters = () => {
           value={servicio?.service_name || ''}
           onChange={handleSelectServicio}
         >
+          <option>Selecciona un servicio</option>
           {servicios.map((servicio: Servicio) => {
             return (
               <option key={servicio.service_id} value={servicio.service_name}>

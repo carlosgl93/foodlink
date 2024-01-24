@@ -5,38 +5,23 @@ import { useMediaQuery } from '@mui/material';
 import { tablet } from '../../theme/breakpoints';
 import MobileHeaderContent from './MobileHeaderContent';
 import DesktopHeaderContent from './DesktopHeaderContent';
+import { useLocation } from 'react-router-dom';
 
 function Header() {
   const isTablet = useMediaQuery(tablet);
+  const location = useLocation();
 
-  // function showNotification() {
-  //   notificationsActions.push({
-  //     options: {
-  //       // Show fully customized notification
-  //       // Usually, to show a notification, you'll use something like this:
-  //       // notificationsActions.push({ message: ... })
-  //       // `message` accepts string as well as ReactNode
-  //       // But you also can use:
-  //       // notificationsActions.push({ options: { content: ... } })
-  //       // to show fully customized notification
-  //       content: (
-  //         <Alert severity="info">
-  //           <AlertTitle>Notification demo (random IT jokes :))</AlertTitle>
-  //           {getRandomJoke()}
-  //         </Alert>
-  //       ),
-  //     },
-  //   });
-  // }
-
+  const isChat = isTablet && location.pathname === '/chat';
   return (
     <Box>
       <AppBar
         color="transparent"
         elevation={1}
-        position="static"
         sx={{
           borderBottom: '1px solid #e0e0e0',
+          zIndex: 1000,
+          backgroundColor: 'white',
+          position: isChat ? 'fixed' : 'static',
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>

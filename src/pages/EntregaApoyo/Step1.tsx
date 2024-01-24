@@ -6,7 +6,7 @@ import { entregaApoyoSteps } from './entregaApoyoSteps';
 import useEntregaApoyo from '@/store/entregaApoyo';
 
 const Step1 = () => {
-  const [{ comunas }, { removeComuna, increaseStep }] = useEntregaApoyo();
+  const [{ selectedComunas }, { removeComuna, increaseStep }] = useEntregaApoyo();
 
   return (
     <>
@@ -45,9 +45,9 @@ const Step1 = () => {
               margin: '0 auto',
             }}
           >
-            {comunas.map((comuna) => (
+            {selectedComunas.map((comuna) => (
               <ListItemButton
-                key={comuna}
+                key={comuna.id}
                 onClick={() => removeComuna(comuna)}
                 sx={{
                   display: 'flex',
@@ -61,7 +61,7 @@ const Step1 = () => {
                   maxWidth: 'fit-content',
                 }}
               >
-                {comuna}
+                {comuna.name}
                 <CloseIcon sx={{ marginLeft: '0.5rem' }} />
               </ListItemButton>
             ))}
@@ -74,7 +74,7 @@ const Step1 = () => {
           my: '2.5vh',
         }}
       >
-        <Button disabled={comunas.length === 0} variant="contained" onClick={increaseStep}>
+        <Button disabled={selectedComunas.length === 0} variant="contained" onClick={increaseStep}>
           Siguiente
         </Button>
       </Box>

@@ -1,15 +1,18 @@
-import Typography from '@mui/material/Typography';
-
 import Meta from '@/components/Meta';
-import { FullSizeCenteredFlexBox } from '@/components/styled';
+import { MobileProfile } from './MobileProfile';
+import { DesktopProfile } from './DesktopProfile';
+
+import { useMediaQuery } from '@mui/material';
+import { tablet } from '@/theme/breakpoints';
 
 function PerfilPrestador() {
+  const isTablet = useMediaQuery(tablet);
+
   return (
     <>
       <Meta title="Perfil Prestador" />
-      <FullSizeCenteredFlexBox>
-        <Typography variant="h3">PerfilPrestador</Typography>
-      </FullSizeCenteredFlexBox>
+
+      {isTablet ? <MobileProfile /> : <DesktopProfile />}
     </>
   );
 }

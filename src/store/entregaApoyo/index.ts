@@ -1,41 +1,96 @@
-import { atom, useRecoilState } from 'recoil';
+import { atom, useRecoilState, useRecoilValueLoadable } from 'recoil';
 
 import type { Actions } from './types';
-import { entregaApoyoSteps } from '../../pages/EntregaApoyo/entregaApoyoSteps';
+import { getAllComunas } from '@/api/comunas/getAllComunas';
+import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
+import { useEffect } from 'react';
+import { Especialidad, Servicio } from '@/types/Servicio';
+import { Comuna } from '@/types/Comuna';
 
 type EntregaApoyoState = {
   step: number;
-  comunas: string[];
-  servicio: string;
-  especialidades: string[];
-  selectedEspecialidad: string;
+  selectedComunas: Comuna[];
+  selectedServicio: Servicio | null;
+  especialidadesFromServicio: null | Especialidad[];
+  selectedEspecialidad: Especialidad | null;
+  allServicios: Servicio[] | null;
+  allComunas: Comuna[] | null;
 };
 const entregaApoyoState = atom<EntregaApoyoState>({
   key: 'entregaApoyoState',
   default: {
     step: 0,
-    comunas: [],
-    servicio: '',
-    especialidades: [],
-    selectedEspecialidad: '',
+    selectedComunas: [],
+    selectedServicio: null,
+    especialidadesFromServicio: null,
+    selectedEspecialidad: null,
+    allServicios: null,
+    allComunas: [],
   },
 });
 
 function useEntregaApoyo(): [EntregaApoyoState, Actions] {
   const [apoyo, setApoyo] = useRecoilState(entregaApoyoState);
 
-  const addComuna = (comuna: string) => {
-    if (apoyo.comunas.find((c: string) => c === comuna)) return;
+  const { allServicios, allComunas } = apoyo;
+
+  const fetchComunas = useRecoilValueLoadable(getAllComunas);
+  const fetchServicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
+
+  useEffect(() => {
+    if (!allServicios) {
+      if (fetchServicios.state === 'hasValue') {
+        setApoyo((prev) => ({
+          ...prev,
+          allServicios: Object.values(fetchServicios.contents?.data),
+        }));
+      }
+    }
+  }, [allServicios, fetchServicios, setApoyo]);
+
+  useEffect(() => {
+    if (allComunas?.length === 0) {
+      if (fetchComunas.state === 'hasValue') {
+        setApoyo((prev) => ({
+          ...prev,
+          allComunas: fetchComunas.contents?.data,
+        }));
+      }
+    }
+  }, [allComunas, fetchComunas, setApoyo]);
+
+  // const setComunas = useCallback(
+  //   (comunas: Comuna[]) => {
+  //     setApoyo((prev) => ({
+  //       ...prev,
+  //       allComunas: Object.values(comunas),
+  //     }));
+  //   },
+  //   [setApoyo],
+  // );
+
+  // const setServicios = useCallback(
+  //   (servicios: Servicio[]) => {
+  //     setApoyo((prev) => ({
+  //       ...prev,
+  //       allServicios: Object.values(servicios),
+  //     }));
+  //   },
+  //   [setApoyo],
+  // );
+
+  const addComuna = (comuna: Comuna) => {
+    if (apoyo.selectedComunas.find((c) => c.id === comuna.id)) return;
     setApoyo((prev) => ({
       ...prev,
-      comunas: [...prev.comunas, comuna],
+      selectedComunas: [...prev.selectedComunas, comuna],
     }));
   };
 
-  const removeComuna = (comuna: string) => {
+  const removeComuna = (comuna: Comuna) => {
     setApoyo((prev) => ({
       ...prev,
-      comunas: prev.comunas.filter((c) => c !== comuna),
+      selectedComunas: prev.selectedComunas.filter((c) => c !== comuna),
     }));
   };
 
@@ -53,20 +108,18 @@ function useEntregaApoyo(): [EntregaApoyoState, Actions] {
     }));
   };
 
-  const selectServicio = (servicio: string) => {
+  const selectServicio = (servicio: Servicio) => {
     setApoyo((prev) => ({
       ...prev,
-      servicio,
+      selectedServicio: servicio,
     }));
-    const serviceSpecialities = entregaApoyoSteps[1].options.find(
-      (o) => o.text === servicio,
-    )?.speciality;
+
     setApoyo((prev) => ({
       ...prev,
-      especialidades: serviceSpecialities ? serviceSpecialities.map((s) => s.text) : [],
+      especialidadesFromServicio: servicio.especialidades,
     }));
   };
-  const selectEspecialidad = (especialidad: string) => {
+  const selectEspecialidad = (especialidad: Especialidad) => {
     setApoyo((prev) => ({
       ...prev,
       selectedEspecialidad: especialidad,

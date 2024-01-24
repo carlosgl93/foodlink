@@ -13,8 +13,11 @@ import { Theme } from '@mui/material/styles';
 
 import routes from '@/routes';
 import { routesToExcludeInHeader } from './routesToExcludeInHeader';
+import useAuth from '@/store/auth';
 
 const DesktopHeaderContent = () => {
+  const [user, { logout }] = useAuth();
+
   const theme = useTheme<Theme>();
   return (
     <FlexBox sx={{ alignItems: 'center', width: '100%', justifyContent: 'space-between' }}>
@@ -66,51 +69,89 @@ const DesktopHeaderContent = () => {
               </div>
             ),
           )}
-        <ListItem sx={{ mx: 'auto' }}>
-          <Button
-            component={Link}
-            to="/ingresar"
-            variant="contained"
-            sx={{
-              backgroundColor: theme.palette.secondary.main,
-              color: theme.palette.primary.main,
-              '&:hover': {
-                backgroundColor: theme.palette.primary.main,
-                color: theme.palette.secondary.main,
-              },
-            }}
-          >
-            Ingresar
-          </Button>
-        </ListItem>
-        <ListItem sx={{ mx: 'auto', width: '100%' }}>
-          <Button
-            component={Link}
-            to="/persona-de-apoyo"
-            sx={{
-              whiteSpace: 'nowrap',
-              width: 'auto',
-              textOverflow: 'ellipsis',
-            }}
-            variant="outlined"
-          >
-            Conviértete en persona de apoyo
-          </Button>
-        </ListItem>
-        <ListItem sx={{ mx: 'auto' }}>
-          <Button
-            component={Link}
-            to="/comienzo"
-            variant="contained"
-            sx={{
-              '&:hover': {
-                backgroundColor: theme.palette.primary.dark,
-              },
-            }}
-          >
-            Comenzar
-          </Button>
-        </ListItem>
+
+        {user.isLoggedIn ? (
+          <>
+            <ListItem sx={{ mx: 'auto' }}>
+              <Button
+                component={Link}
+                to="/perfil-usuario"
+                variant="contained"
+                sx={{
+                  backgroundColor: theme.palette.secondary.main,
+                  color: theme.palette.primary.main,
+                  '&:hover': {
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.secondary.main,
+                  },
+                }}
+              >
+                Perfil
+              </Button>
+            </ListItem>
+            <ListItem sx={{ mx: 'auto' }}>
+              <Button
+                onClick={() => logout()}
+                variant="contained"
+                sx={{
+                  '&:hover': {
+                    backgroundColor: theme.palette.primary.dark,
+                  },
+                }}
+              >
+                Salir
+              </Button>
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListItem sx={{ mx: 'auto' }}>
+              <Button
+                component={Link}
+                to="/ingresar"
+                variant="contained"
+                sx={{
+                  backgroundColor: theme.palette.secondary.main,
+                  color: theme.palette.primary.main,
+                  '&:hover': {
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.secondary.main,
+                  },
+                }}
+              >
+                Ingresar
+              </Button>
+            </ListItem>
+            <ListItem sx={{ mx: 'auto', width: '100%' }}>
+              <Button
+                component={Link}
+                to="/persona-de-apoyo"
+                sx={{
+                  whiteSpace: 'nowrap',
+                  width: 'auto',
+                  textOverflow: 'ellipsis',
+                }}
+                variant="outlined"
+              >
+                Conviértete en persona de apoyo
+              </Button>
+            </ListItem>
+            <ListItem sx={{ mx: 'auto' }}>
+              <Button
+                component={Link}
+                to="/comienzo"
+                variant="contained"
+                sx={{
+                  '&:hover': {
+                    backgroundColor: theme.palette.primary.dark,
+                  },
+                }}
+              >
+                Comenzar
+              </Button>
+            </ListItem>
+          </>
+        )}
       </List>
     </FlexBox>
   );

@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Box, Drawer, useTheme, Button, ListItem, Avatar } from '@mui/material';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+import { Box, Drawer, useTheme, Button } from '@mui/material';
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 
-import { Text, Title } from '@/components/StyledComponents';
 import { Prestador } from '@/types/Prestador';
 import { MobileFilters } from './MobileFilters';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
 import { useRecoilValue } from 'recoil';
+import { MobileResultList } from './MobileResultList';
+import { Text } from '@/components/StyledComponents';
 
 type MobileResultsProps = {
   filteredPrestadores: Prestador[];
@@ -31,137 +31,78 @@ const MobileResults = ({ filteredPrestadores }: MobileResultsProps) => {
     setDrawerOpen(!drawerOpen);
   };
 
+  const resultsLength = filteredPrestadores.length;
+
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        backgroundColor: theme.palette.background.paper,
-        m: '5vh 1vw',
-        borderRadius: '0.5rem',
-      }}
-    >
-      <Button variant="outlined" onClick={toggleDrawer}>
-        Filtros
-      </Button>
-      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
-        <MobileFilters closeFilters={toggleDrawer} />
-      </Drawer>
+    <>
       <Box
-        component={'ul'}
         sx={{
-          m: 0,
-          p: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          p: '1rem',
         }}
       >
-        {filteredPrestadores.length > 0 ? (
-          filteredPrestadores.map((prestador) => {
-            const thisPrestadorServicio = allServicios?.find(
-              (s) => s.service_id === prestador.service_id,
-            );
-
-            const thisPrestadorEspecialidad = thisPrestadorServicio?.especialidades.find(
-              (e) => e.especialidad_id === prestador.speciality_id,
-            );
-            return (
-              <ListItem
-                key={prestador.email}
-                sx={{
-                  display: 'grid',
-                  gridTemplateColumns: '30% 70%',
-                  justifyContent: 'space-around',
-                  gap: '1rem',
-                }}
-              >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'start',
-                    alignContent: 'start',
-                    alignItems: 'start',
-                  }}
-                >
-                  <Avatar
-                    sx={{
-                      height: '90px',
-                      width: '90px',
-                    }}
-                  />
-                </Box>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    py: '3vh',
-                  }}
-                >
-                  <Box>
-                    <Title
-                      variant="h6"
-                      sx={{
-                        fontSize: '1.4rem',
-                        color: theme.palette.primary.main,
-                      }}
-                    >
-                      {prestador.firstname} {prestador.lastname}
-                    </Title>
-                    <Box>
-                      {prestador.average_review ? (
-                        <>
-                          {Array.from(Array(prestador.average_review).keys()).map((i) => (
-                            <StarOutlinedIcon key={i} sx={{ color: theme.palette.primary.main }} />
-                          ))}
-                          {Array.from(Array(5 - prestador.average_review).keys()).map((i) => (
-                            <StarBorderOutlinedIcon
-                              key={i}
-                              sx={{ color: theme.palette.primary.main }}
-                            />
-                          ))}
-                        </>
-                      ) : (
-                        <>
-                          {Array.from(Array(5).keys()).map((i) => (
-                            <StarBorderOutlinedIcon
-                              key={i}
-                              sx={{ color: theme.palette.primary.main }}
-                            />
-                          ))}
-                        </>
-                      )}
-                    </Box>
-                  </Box>
-                  <Text>{thisPrestadorServicio?.service_name}</Text>
-
-                  <Text>
-                    {thisPrestadorServicio?.service_name ===
-                    thisPrestadorEspecialidad?.especialidad_name
-                      ? null
-                      : thisPrestadorEspecialidad?.especialidad_name}
-                  </Text>
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      mt: '2vh',
-                    }}
-                  >
-                    Ver perfil
-                  </Button>
-                </Box>
-                {/* <Text>Availability: {prestador.availability.map((a) => a.name).join(', ')}</Text> */}
-              </ListItem>
-            );
-          })
-        ) : (
+        <Button
+          fullWidth
+          variant="outlined"
+          onClick={toggleDrawer}
+          sx={{
+            borderRadius: '0.5rem',
+            p: '0 1rem',
+            borderColor: '#99979c',
+            maxWidth: '95vw',
+          }}
+        >
           <Box
             sx={{
-              px: '2rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%',
+              height: '100%',
+              p: '0.5 1rem',
             }}
           >
-            <Text>Conoces a alguien para esta comuna y servicio? Invitalo a Blui!</Text>
+            <p>Filtros</p>
+            <TuneOutlinedIcon />
           </Box>
-        )}
+        </Button>
       </Box>
-    </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          p: '1rem',
+        }}
+      >
+        <Text>
+          {resultsLength > 0
+            ? `${resultsLength} ${
+                resultsLength === 1 ? 'prestador encontrado' : 'prestadores encontrados'
+              }`
+            : 'Ningun prestador encontrado para esta combinación de filtros.'}
+        </Text>
+      </Box>
+      <Box
+        sx={{
+          minHeight: '100vh',
+          backgroundColor: theme.palette.background.paper,
+          m: '5vh 1vw',
+          borderRadius: '0.5rem',
+        }}
+      >
+        <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer}>
+          <MobileFilters closeFilters={toggleDrawer} />
+        </Drawer>
+
+        <MobileResultList
+          allServicios={allServicios || []}
+          filteredPrestadores={filteredPrestadores}
+        />
+      </Box>
+    </>
   );
 };
 

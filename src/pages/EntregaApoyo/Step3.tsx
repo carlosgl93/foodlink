@@ -6,7 +6,8 @@ import { Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const Step3 = () => {
-  const [{ especialidades }, { decreaseStep }] = useEntregaApoyo();
+  const [{ especialidadesFromServicio, selectedEspecialidad }, { decreaseStep }] =
+    useEntregaApoyo();
   const router = useNavigate();
 
   return (
@@ -26,7 +27,7 @@ const Step3 = () => {
           {entregaApoyoSteps[2].title}
         </Title>
       </TextContainer>
-      <SpecialityList items={especialidades} />
+      <SpecialityList items={especialidadesFromServicio} />
       <Box
         sx={{
           display: 'flex',
@@ -39,7 +40,7 @@ const Step3 = () => {
           Atras
         </Button>
         <Button
-          disabled={especialidades.length === 0}
+          disabled={selectedEspecialidad === null}
           variant="contained"
           onClick={() => router('/registrar-prestador')}
         >

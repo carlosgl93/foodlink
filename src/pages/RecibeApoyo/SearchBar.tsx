@@ -14,8 +14,6 @@ function SearchBar() {
 
   const comunasFetched = useRecoilValueLoadable(getAllComunas);
 
-  console.log(comunasFetched);
-
   useEffect(() => {
     if (comunasFetched.state === 'hasValue') {
       setComunas(comunasFetched.contents?.data);

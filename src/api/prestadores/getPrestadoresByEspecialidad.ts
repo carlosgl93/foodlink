@@ -1,18 +1,16 @@
 import { selectorFamily } from 'recoil';
 import api from '../api';
-import { Especialidad } from '@/types/Servicio';
 
 export const getPrestadoresByEspecialidad = selectorFamily({
   key: 'prestadoresByEspecialidad',
   get:
     (filters: {
-      comuna: number | null;
+      comuna: number | null | undefined;
       servicio: number | null | undefined;
-      especialidad: Especialidad | null;
+      especialidad: number | null | undefined;
     }) =>
     async () => {
       try {
-        console.log('getting especialidades');
         const response = await api.get(`/prestadores`, {
           params: {
             comuna: filters.comuna || null,
@@ -20,7 +18,6 @@ export const getPrestadoresByEspecialidad = selectorFamily({
             especialidad: filters.especialidad,
           },
         });
-        console.log(response);
         return response.data;
       } catch (error) {
         console.error(error);

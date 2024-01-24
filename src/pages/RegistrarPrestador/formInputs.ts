@@ -12,6 +12,12 @@ export const formInputs = [
     type: 'text',
   },
   {
+    inputName: 'rut',
+    placeholder: '18445810-5',
+    label: 'RUT (*)',
+    type: 'text',
+  },
+  {
     inputName: 'telefono',
     placeholder: 'Ingresa tu teléfono móvil',
     label: 'Teléfono móvil (*)',
@@ -35,19 +41,19 @@ export const formInputs = [
     label: 'Confirma tu contraseña (*)',
     type: 'password',
   },
-  {
-    inputName: 'comoEnteraste',
-    placeholder: 'Selecciona cómo te enteraste de Blui',
-    label: 'Cómo te enteraste de Blui (*)',
-    type: 'text',
-    options: [
-      'Google',
-      'Redes sociales',
-      'Radio/TV',
-      'Noticias',
-      'Personal del centro de salud',
-      'Me contó alguien cercano',
-      'Otra',
-    ],
-  },
+  // {
+  //   inputName: 'comoEnteraste',
+  //   placeholder: 'Selecciona cómo te enteraste de Blui',
+  //   label: 'Cómo te enteraste de Blui (*)',
+  //   type: 'text',
+  //   options: [
+  //     'Google',
+  //     'Redes sociales',
+  //     'Radio/TV',
+  //     'Noticias',
+  //     'Personal del centro de salud',
+  //     'Me contó alguien cercano',
+  //     'Otra',
+  //   ],
+  // },
 ];

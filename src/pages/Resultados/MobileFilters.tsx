@@ -26,8 +26,6 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
     { removeComuna, selectServicio, selectEspecialidad, setAvailability },
   ] = useRecibeApoyo();
 
-  console.log('servicio from state', servicio);
-
   const fetchServicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
 
   const serviciosAdEspecialidades = fetchServicios.contents.data;
@@ -41,7 +39,13 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
       ?.especialidades.map((e: Especialidad) => e) || [];
 
   const handleSelectServicio = (e: ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.value === '') {
+      selectServicio(null);
+      selectEspecialidad(null);
+      return;
+    }
     const selectedService = servicios.find((s: Servicio) => s.service_name === e.target.value);
+    selectEspecialidad(null);
     selectServicio(selectedService as Servicio);
   };
 
@@ -111,13 +115,9 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
         Servicio
       </Title>
       {servicios && (
-        <StyledSelect
-          // todo fix bug: if there is no state (servicios === null)
-          // the select should render "Selecciona un servicio"
-          // but it always defaults to the first service.name in the array
-          value={servicio?.service_name || ''}
-          onChange={handleSelectServicio}
-        >
+        <StyledSelect value={servicio?.service_name || ''} onChange={handleSelectServicio}>
+          <option value={''}>Elige un servicio</option>
+
           {servicios.map((servicio: Servicio) => {
             return (
               <option key={servicio.service_id} value={servicio.service_name}>
@@ -147,7 +147,11 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
               selectEspecialidad(selectedEspecialidad as Especialidad);
             }}
           >
-            {servicio.especialidades?.map((especialidad) => {
+            <option value={''}>Elige una especialidad</option>
+
+            {servicio.especialidades?.map((especialidad, i) => {
+              if (especialidad.especialidad_name === servicio.service_name)
+                return <option key={i}>Este servicio no tiene especialidad</option>;
               return (
                 <option key={especialidad.especialidad_id} value={especialidad.especialidad_name}>
                   {especialidad.especialidad_name}

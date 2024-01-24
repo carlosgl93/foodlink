@@ -7,81 +7,98 @@ const routes: Routes = {
     component: asyncComponentLoader(() => import('@/pages/Welcome')),
     path: '/',
     title: 'Inicio',
-    // icon: HomeIcon,
   },
   [Pages.Nosotros]: {
     component: asyncComponentLoader(() => import('@/pages/Nosotros')),
     path: '/nosotros',
     title: 'Nosotros',
-    // icon: GitHubIcon,
   },
   [Pages.Ayuda]: {
     component: asyncComponentLoader(() => import('@/pages/Page2')),
     path: '/ayuda',
     title: 'Ayuda',
-    // icon: AddTaskIcon,
   },
   [Pages.Ingresar]: {
-    component: asyncComponentLoader(() => import('@/pages/Page2')),
+    component: asyncComponentLoader(() => import('@/pages/Ingresar')),
     path: '/ingresar',
     title: 'Ingresar',
-    // icon: AddTaskIcon,
   },
   [Pages.RegistrarPrestador]: {
     component: asyncComponentLoader(() => import('@/pages/RegistrarPrestador')),
     path: '/registrar-prestador',
     title: 'Registrarse',
-    // icon: AddTaskIcon,
   },
   [Pages.RegistrarUsuario]: {
-    component: asyncComponentLoader(() => import('@/pages/RegistrarPrestador')),
+    component: asyncComponentLoader(() => import('@/pages/RegistrarUsuario')),
     path: '/registrar-usuario',
     title: 'Registrarse',
-    // icon: AddTaskIcon,
   },
   [Pages.Prestador]: {
     component: asyncComponentLoader(() => import('@/pages/PersonaApoyo')),
     path: '/persona-de-apoyo',
     title: 'Registrarse',
-    // icon: AddTaskIcon,
   },
   [Pages.Comenzar]: {
     component: asyncComponentLoader(() => import('@/pages/Page2')),
     path: '/comenzar',
     title: 'Comenzar',
-    // icon: AddTaskIcon,
   },
   [Pages.Comienzo]: {
     component: asyncComponentLoader(() => import('@/pages/Comienzo')),
     path: '/comienzo',
-    // title: 'Ingresar',
-    // icon: AddTaskIcon,
   },
   [Pages.EntregaApoyo]: {
     component: asyncComponentLoader(() => import('@/pages/EntregaApoyo')),
     path: '/entrega-apoyo',
-    // title: 'Ingresar',
-    // icon: AddTaskIcon,
   },
   [Pages.RecibeApoyo]: {
     component: asyncComponentLoader(() => import('@/pages/RecibeApoyo')),
     path: '/recibe-apoyo',
-    // title: 'Ingresar',
-    // icon: AddTaskIcon,
   },
   [Pages.Resultados]: {
     component: asyncComponentLoader(() => import('@/pages/Resultados')),
     path: '/resultados',
-    // title: 'Ingresar',
-    // icon: AddTaskIcon,
   },
   [Pages.PerfilPrestador]: {
     component: asyncComponentLoader(() => import('@/pages/PerfilPrestador')),
-    path: '/perfil-prestador',
-    // title: 'Ingresar',
-    // icon: AddTaskIcon,
+    path: '/perfil-prestador/:id',
   },
-
+  [Pages.PreviewPerfilPrestador]: {
+    component: asyncComponentLoader(() => import('@/pages/PreviewPerfilPrestador')),
+    path: '/preview-perfil-prestador/:id',
+  },
+  [Pages.ConstruirPerfil]: {
+    component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil')),
+    path: '/construir-perfil',
+  },
+  [Pages.Disponibilidad]: {
+    component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/Disponibilidad')),
+    path: '/construir-perfil/disponibilidad',
+  },
+  [Pages.Chat]: {
+    component: asyncComponentLoader(() => import('@/pages/Chat')),
+    path: '/chat/',
+  },
+  [Pages.PerfilUsuario]: {
+    component: asyncComponentLoader(() => import('@/pages/PerfilUsuario')),
+    path: '/perfil-usuario/:id',
+  },
+  [Pages.UsuarioDashboard]: {
+    component: asyncComponentLoader(() => import('@/pages/UsuarioDashboard')),
+    path: '/usuario-dashboard',
+  },
+  [Pages.EmailVerificado]: {
+    component: asyncComponentLoader(() => import('@/pages/EmailVerificado')),
+    path: '/email-verificado',
+  },
+  [Pages.EmailVerificadoPrestador]: {
+    component: asyncComponentLoader(() => import('@/pages/EmailVerificadoPrestador')),
+    path: '/email-verificado-prestador',
+  },
+  [Pages.PrestadorDashboard]: {
+    component: asyncComponentLoader(() => import('@/pages/PrestadorDashboard')),
+    path: '/prestador-dashboard',
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('@/pages/NotFound')),
     path: '*',

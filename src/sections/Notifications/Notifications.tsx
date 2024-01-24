@@ -1,15 +1,21 @@
-import { SnackbarProvider } from 'notistack';
+import { useRecoilState } from 'recoil';
+import { Alert, AlertColor, Snackbar } from '@mui/material';
+import { notificationState } from '../../store/snackbar';
 
-import { notifications } from '@/config';
+const Notifier = () => {
+  const [notification, setNotification] = useRecoilState(notificationState);
 
-import Notifier from './Notifier';
+  const handleClose = () => {
+    setNotification({ ...notification, open: false, severity: 'info' });
+  };
 
-function Notifications() {
+  const { open, message, severity } = notification;
+
   return (
-    <SnackbarProvider maxSnack={notifications.maxSnack}>
-      <Notifier />
-    </SnackbarProvider>
+    <Snackbar open={open} autoHideDuration={10000} onClose={handleClose}>
+      <Alert severity={severity as AlertColor}>{message}</Alert>
+    </Snackbar>
   );
-}
+};
 
-export default Notifications;
+export default Notifier;

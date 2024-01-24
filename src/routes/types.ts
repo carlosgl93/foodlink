@@ -18,6 +18,15 @@ enum Pages {
   NotFound,
   PerfilPrestador,
   Resultados,
+  EmailVerificado,
+  PerfilUsuario,
+  EmailVerificadoPrestador,
+  PrestadorDashboard,
+  Chat,
+  UsuarioDashboard,
+  ConstruirPerfil,
+  Disponibilidad,
+  PreviewPerfilPrestador,
 }
 
 type PathRouteCustomProps = {

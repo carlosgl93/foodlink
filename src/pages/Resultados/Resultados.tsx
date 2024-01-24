@@ -1,18 +1,20 @@
 import Meta from '@/components/Meta';
 import useRecibeApoyo from '@/store/recibeApoyo';
-import { Box, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import { tablet } from '../../theme/breakpoints';
 import DesktopResults from './DesktopResults';
 import MobileResults from './MobileResults';
 import { useRecoilValueLoadable } from 'recoil';
-import { getPrestadoresByComunaAndServicio } from '@/api/prestadores/getPrestadoresByComunaAndServicio';
 import Loading from '@/components/Loading';
 import { getAllComunas } from '@/api/comunas/getAllComunas';
 import { useEffect } from 'react';
-import { Text } from '@/components/StyledComponents';
+import { getPrestadoresByEspecialidad } from '@/api/prestadores/getPrestadoresByEspecialidad';
+import { ResultadosHeader } from './ResultadosHeader';
 
 function Resultados() {
-  const [{ servicio, comuna }, { setComunas }] = useRecibeApoyo();
+  const [{ servicio, comuna, especialidad, prestadores }, { setComunas, setPrestadores }] =
+    useRecibeApoyo();
+
   const isTablet = useMediaQuery(tablet);
 
   const comunasFetched = useRecoilValueLoadable(getAllComunas);
@@ -23,48 +25,32 @@ function Resultados() {
     }
   }, [comunasFetched, setComunas]);
 
-  const prestadoresByComunaAndServicio = useRecoilValueLoadable(
-    getPrestadoresByComunaAndServicio({
+  const prestadoresByEspecialidad = useRecoilValueLoadable(
+    getPrestadoresByEspecialidad({
       comuna: comuna?.id || null,
       servicio: servicio?.service_id,
+      especialidad: especialidad?.especialidad_id,
     }),
   );
 
-  console.log('prestadoresByComunaAndServicio state', prestadoresByComunaAndServicio.state);
+  useEffect(() => {
+    if (prestadoresByEspecialidad.state === 'hasValue') {
+      setPrestadores(prestadoresByEspecialidad.contents);
+    }
+  }, [prestadoresByEspecialidad, setPrestadores]);
 
-  const resultsLength = prestadoresByComunaAndServicio.contents?.length;
-  console.log('resultsLength', resultsLength);
-
-  switch (prestadoresByComunaAndServicio.state) {
+  switch (prestadoresByEspecialidad.state) {
     case 'hasValue':
       return (
         <>
           <Meta title="Resultados" />
 
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              my: '2rem',
-              px: '1rem',
-              height: '2.5vh',
-              width: '100%',
-            }}
-          >
-            <Text>
-              {resultsLength > 0
-                ? `${resultsLength} ${
-                    resultsLength === 1 ? 'prestador encontrado' : 'prestadores encontrados'
-                  }`
-                : 'Ningun prestador encontrado para esta combinación de filtros.'}
-            </Text>
-          </Box>
+          <ResultadosHeader />
 
           {isTablet ? (
-            <MobileResults filteredPrestadores={prestadoresByComunaAndServicio.contents} />
+            <MobileResults filteredPrestadores={prestadores} />
           ) : (
-            <DesktopResults filteredPrestadores={prestadoresByComunaAndServicio.contents} />
+            <DesktopResults filteredPrestadores={prestadores} />
           )}
         </>
       );
