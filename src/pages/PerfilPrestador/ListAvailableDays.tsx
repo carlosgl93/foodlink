@@ -1,5 +1,5 @@
 import { SubTitle } from '@/pages/PrestadorDashboard/StyledPrestadorDashboardComponents';
-import { List, ListItem, styled } from '@mui/material';
+import { Box, List, ListItem, styled } from '@mui/material';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import { DisponibilidadFromFront } from '@/api/disponibilidad/getDisponibilidadByPrestadorId';
@@ -56,8 +56,8 @@ export const ListAvailableDays = ({ disponibilidad }: ListAvailableDaysProps) =>
         if (startTime === '00:00' && endTime === '00:00') availableAllDay = true;
 
         return (
-          <>
-            <StyledListItem key={id}>
+          <Box key={id}>
+            <StyledListItem>
               {isAvailable ? <StyledAvailableIcon /> : <StyledUnAvailableIcon />}
               <StyledDayName>{dayName}</StyledDayName>
               {isAvailable && (
@@ -67,7 +67,7 @@ export const ListAvailableDays = ({ disponibilidad }: ListAvailableDaysProps) =>
               )}
             </StyledListItem>
             <CenteredDivider />
-          </>
+          </Box>
         );
       })}
     </StyledList>

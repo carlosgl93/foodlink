@@ -1,7 +1,6 @@
 import { tablet } from '@/theme/breakpoints';
 import { useMediaQuery } from '@mui/material';
-import { useNavigate, useParams } from 'react-router-dom';
-import { usePrestador } from './usePrestador';
+import { useNavigate } from 'react-router-dom';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { Servicio, Especialidad } from '@/types/Servicio';
 import { useState, useEffect } from 'react';
@@ -9,20 +8,21 @@ import {
   DisponibilidadFromFront,
   getDisponibilidadByPrestadorId,
 } from '@/api/disponibilidad/getDisponibilidadByPrestadorId';
+import useAuth from '@/store/auth';
+import { Prestador } from '@/types';
 
 export const usePreviewPerfilPrestador = () => {
-  const { id } = useParams();
   const isTablet = useMediaQuery(tablet);
+  const [{ user }] = useAuth();
 
-  const prestadorId = Number(id);
+  const prestadorId = user?.id ?? 0;
 
-  const { prestador, loading, error } = usePrestador({ id: prestadorId });
   const [{ allServicios }] = useRecibeApoyo();
   const [prestadorServicio, setPrestadorServicio] = useState({} as Servicio);
   const [prestadorEspecialidad, setPrestadorEspecialidad] = useState({} as Especialidad);
   const [disponibilidad, setDisponibilidad] = useState<DisponibilidadFromFront[]>([]);
 
-  const { service_id, speciality_id } = prestador;
+  const { service_id, speciality_id } = user as Prestador;
 
   const router = useNavigate();
 
@@ -52,9 +52,7 @@ export const usePreviewPerfilPrestador = () => {
   }, [prestadorId]);
 
   return {
-    prestador,
-    loading,
-    error,
+    prestador: user,
     isTablet,
     prestadorServicio,
     prestadorEspecialidad,

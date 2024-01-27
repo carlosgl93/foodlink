@@ -1,38 +1,31 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import IconButton from '@mui/material/IconButton';
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { FlexBox, HeaderIconImage } from '@/components/styled';
 import useSidebar from '@/store/sidebar';
 import useAuth from '@/store/auth';
 import { ChatTitle } from '@/pages/Chat/StyledChatMensajes';
-import { usePrestador } from '@/pages/PerfilPrestador/usePrestador';
-import Loading from '@/components/Loading';
+import { useCustomer } from '@/hooks/useCustomer';
 
 const MobileHeaderContent = () => {
   const router = useNavigate();
   const [, sidebarActions] = useSidebar();
   const [{ user }] = useAuth();
   const location = useLocation();
-  const prestadorFromLocation = location.state?.prestador;
-  const [params] = useSearchParams();
-  const prestadorId = Number(params.get('prestadorId'));
-  const { prestador, loading, error } = usePrestador({
-    id: prestadorFromLocation ? Number(prestadorFromLocation.id) : prestadorId,
-  });
 
-  if (location.pathname === '/chat') {
+  const prestador = location.state?.prestador;
+
+  const userId = location.state?.userId || user?.id;
+
+  const { customer } = useCustomer(userId);
+
+  if (location.pathname === '/chat' || location.pathname === '/prestador-chat') {
     return (
       <FlexBox sx={{ alignItems: 'center', justifyContent: 'center' }}>
         <IconButton
-          onClick={() =>
-            router(`/perfil-prestador/${prestadorId}`, {
-              state: {
-                prestador,
-              },
-            })
-          }
+          onClick={() => router(-1)}
           size="large"
           edge="start"
           color="primary"
@@ -42,12 +35,11 @@ const MobileHeaderContent = () => {
           <ArrowBackOutlinedIcon />
         </IconButton>
         <ChatTitle>
-          {loading && <Loading />}
-          {error && <p>Hubo un error</p>}
-
           {user?.role === 'prestador'
-            ? `${user?.firstname} ${user?.lastname}`
-            : `${prestador?.firstname} ${prestador?.lastname}`}
+            ? `${customer?.firstname} ${customer?.lastname}`
+            : `${prestador?.firstname || location.state.prestadorName} ${
+                prestador?.lastname || location.state.prestadorLastname
+              }`}
         </ChatTitle>
       </FlexBox>
     );

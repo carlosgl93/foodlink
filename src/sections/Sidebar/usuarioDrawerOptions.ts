@@ -41,7 +41,7 @@ export const usuarioDrawerOptions = [
   },
   {
     title: 'Inbox',
-    path: '/inbox',
+    path: '/usuario-inbox',
     icon: MailOutlinedIcon,
   },
   {

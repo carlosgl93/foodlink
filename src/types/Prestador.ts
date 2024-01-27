@@ -1,5 +1,7 @@
+import { Comuna } from './Comuna';
+
 export type Prestador = {
-  id: number;
+  id?: number;
   rut?: string;
   firstname: string;
   lastname: string;
@@ -9,8 +11,8 @@ export type Prestador = {
   city?: string;
   region?: string;
   country?: string;
-  comuna_id: number | null;
-  service_id: number;
+  comuna_id?: number | null;
+  service_id?: number;
   speciality_id?: number;
   availability?: string[];
   average_review?: number;
@@ -19,4 +21,5 @@ export type Prestador = {
   total_reviews?: number;
   token?: string;
   role?: string;
+  comunas: string[] | Comuna[];
 };

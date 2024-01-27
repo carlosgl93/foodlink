@@ -4,13 +4,13 @@ import {
 } from '@/api/disponibilidad/getDisponibilidadByPrestadorId';
 import { useEffect, useState } from 'react';
 import useAuth from '@/store/auth';
-import { usePrestador } from '../PerfilPrestador/usePrestador';
 import { useNavigate } from 'react-router-dom';
+import { Comuna } from '@/types/Comuna';
 
 type Perfil = {
   prestadorId: number;
   disponibilidad: DisponibilidadFromFront[] | undefined | null;
-  comunas: string[];
+  comunas: string[] | 0 | Comuna[] | string;
   // tarifas: any[];
   // experiencia: any[];
   // detallesAdicionales: any[];
@@ -26,23 +26,33 @@ type Perfil = {
   // interesesHobbies: any[];
   // sobreMi: any[];
   // misPreferencias: any[];
-  [key: string]: string | number | DisponibilidadFromFront[] | undefined | null | string[];
+  [key: string]:
+    | string
+    | number
+    | DisponibilidadFromFront[]
+    | undefined
+    | null
+    | string[]
+    | Comuna[];
 };
 
 export const useConstruirPerfil = () => {
   const [disponibilidad, setDisponibilidad] = useState<DisponibilidadFromFront[]>([]);
   const [{ user }] = useAuth();
   const router = useNavigate();
-
-  const { prestador } = usePrestador({ id: user?.id });
-  const { id, comunas } = prestador;
+  // const [prestador, setPrestador] = useState<Prestador>();
 
   const handleGetDisponibilidad = async (id: number) => {
     const disponibilidad = await getDisponibilidadByPrestadorId(id);
     return disponibilidad;
   };
 
-  const handleVerPerfil = () => router(`/preview-perfil-prestador/${id}`);
+  // const handleGetPrestador = async (id: number) => {
+  //   const prestador = await getPrestadorById(id);
+  //   return prestador;
+  // };
+
+  const handleVerPerfil = () => router(`/preview-perfil-prestador/${user?.id}`);
 
   useEffect(() => {
     const loadDisponibilidad = async () => {
@@ -53,10 +63,16 @@ export const useConstruirPerfil = () => {
     loadDisponibilidad();
   }, []);
 
+  // useEffect(() => {
+  //   handleGetPrestador(user?.id ?? 0).then((res) => {
+  //     setPrestador(res);
+  //   });
+  // }, []);
+
   const perfil: Perfil = {
-    prestadorId: id,
+    prestadorId: user?.id || 0,
     disponibilidad: disponibilidad,
-    comunas,
+    comunas: user?.comunas ?? 0,
     // tarifas,
     // experiencia,
     // detallesAdicionales,

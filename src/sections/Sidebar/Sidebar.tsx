@@ -6,10 +6,13 @@ import { NotLoggedInDrawerList } from './NotLoggedInDrawerList';
 import PrestadorDrawerList from './PrestadorDrawer';
 import { UsuarioDrawerList } from './UsuarioDrawerList';
 import { BrandHomeLinkMobile } from './BrandHomeLinkMobile';
+import { User } from '@/types/User';
 
 function Sidebar() {
   const [isSidebarOpen, sidebarActions] = useSidebar();
-  const [{ isLoggedIn, role }] = useAuth();
+  const [{ user, isLoggedIn }] = useAuth();
+
+  const role = user ? (user as User).role : undefined;
 
   const closeDrawer = sidebarActions.close;
 

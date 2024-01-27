@@ -1,9 +1,8 @@
 import useAuth from '@/store/auth';
 import { tablet } from '@/theme/breakpoints';
 import { useMediaQuery } from '@mui/material';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useChatMessages } from '../Chat/useChatMessages';
-import { usePrestador } from './usePrestador';
 import { sendMessage } from '@/api/chat/sendMessage';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { notificationState } from '@/store/snackbar';
@@ -14,22 +13,18 @@ import {
   DisponibilidadFromFront,
   getDisponibilidadByPrestadorId,
 } from '@/api/disponibilidad/getDisponibilidadByPrestadorId';
+import { Prestador } from '@/types';
 
-export const usePerfilPrestador = () => {
+export const usePerfilPrestador = (prestador: Prestador) => {
   const { id } = useParams();
-  const location = useLocation();
-  const prestadorFromLocation = location.state?.prestador;
   const isTablet = useMediaQuery(tablet);
   const [{ user, isLoggedIn }, { updateRedirectToAfterLogin }] = useAuth();
 
-  const prestadorId = Number(id) || prestadorFromLocation?.id;
-
   const { messages } = useChatMessages({
     userId: user?.id,
-    prestadorId: prestadorId,
+    prestadorId: prestador.id,
   });
 
-  const { prestador, loading, error } = usePrestador({ id: prestadorId });
   const [{ allServicios }] = useRecibeApoyo();
   const [notification, setNotification] = useRecoilState(notificationState);
   const [prestadorServicio, setPrestadorServicio] = useState({} as Servicio);
@@ -70,7 +65,7 @@ export const usePerfilPrestador = () => {
   const handleSendMessage = async () => {
     const res = await sendMessage({
       message,
-      prestadorId: prestadorId,
+      prestadorId: prestador.id as number,
       userId: user!.id as number,
       token: user!.token as string,
       sentBy: user?.role || 'user',
@@ -129,15 +124,14 @@ export const usePerfilPrestador = () => {
   }, [allServicios, service_id, speciality_id]);
 
   useEffect(() => {
-    getDisponibilidadByPrestadorId(prestadorId).then((res) => {
+    getDisponibilidadByPrestadorId(prestador.id as number).then((res) => {
       setDisponibilidad(res as DisponibilidadFromFront[]);
     });
-  }, [prestadorId]);
+  }, []);
 
   return {
     prestador,
-    loading,
-    error,
+
     messages,
     isTablet,
     prestadorServicio,

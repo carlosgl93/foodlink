@@ -35,7 +35,7 @@ export const prestadorDrawerOptions = [
   },
   {
     title: 'Inbox',
-    path: '/inbox',
+    path: '/prestador-inbox',
     icon: MailOutlinedIcon,
   },
   {

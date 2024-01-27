@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import { sendMessage } from '@/api/chat/sendMessage';
 import useAuth from '@/store/auth';
-import api from '@/api/api';
+import { getMessages } from '@/api/chat/getMessages';
 
 type useChatMessagesProps = {
-  userId?: number;
-  prestadorId?: number;
+  userId: number;
+  prestadorId: number;
 };
 
-export const useChatMessages = ({ userId, prestadorId }: useChatMessagesProps) => {
+export const usePrestadorChatMessages = ({ userId, prestadorId }: useChatMessagesProps) => {
   const lastMessageRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -17,44 +16,32 @@ export const useChatMessages = ({ userId, prestadorId }: useChatMessagesProps) =
   const [messages, setMessages] = useState([]);
   const [{ user }] = useAuth();
 
-  const [params] = useSearchParams();
-
-  const prestadorIdFromSearchParams = parseInt(params.get('prestadorId') as string);
-  const userIdFromSearchParams = parseInt(params.get('userId') as string);
-
   useEffect(() => {
-    const fetchMessages = async () => {
-      setLoading(true);
-      try {
-        const res = await api.get('/chat', {
-          params: {
-            prestadorId: prestadorId ? prestadorId : prestadorIdFromSearchParams,
-            userId: userId ? userId : userIdFromSearchParams,
-            token: user?.token || '',
-          },
-        });
-        setMessages(res.data);
+    setLoading(true);
+    getMessages(userId, prestadorId, user?.token as string)
+      .then((res) => {
+        setMessages(res);
         setLoading(false);
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        }
-      }
-    };
-    fetchMessages();
+      })
+      .catch((err) => {
+        setError(err);
+        setLoading(false);
+      });
   }, []);
 
   const handleSendMessage = async () => {
+    setLoading(true);
     try {
       const messageResponse = await sendMessage({
         message,
-        prestadorId: prestadorId ? prestadorId : prestadorIdFromSearchParams,
-        userId: userId ? userId : userIdFromSearchParams,
-        sentBy: user?.role || 'user',
+        prestadorId,
+        userId,
+        sentBy: 'prestador',
         token: user?.token || '',
       });
       setMessages(() => messageResponse.messages);
       setMessage('');
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }

@@ -164,23 +164,13 @@ function useAuth(): [AuthState, Actions] {
               error,
               message: 'El campo contraseña es requerido',
             };
-          // default:
-          //   setUser((prev) => ({
-          //     ...prev,
-          //     loading: false,
-          //     error: 'Ocurrio un error al crear el usuario',
-          //   }));
-          //   return {
-          //     error,
-          //     message: 'Ocurrio un error al crear el usuario',
-          //   };
         }
       }
     }
     setUser((prev) => ({ ...prev, loading: false }));
   }
 
-  async function createPrestador(prestador: Partial<Prestador>) {
+  async function createPrestador(prestador: Prestador) {
     try {
       const res = await postPrestador(prestador);
       if (res.message !== 'Error al crear prestador') {
