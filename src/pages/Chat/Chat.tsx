@@ -19,6 +19,7 @@ import { Prestador } from '@/types/Prestador';
 import { useChatMessages } from './useChatMessages';
 import useAuth from '@/store/auth';
 import Loading from '@/components/Loading';
+import { formatDate } from '@/utils/formatDate';
 
 export type LocationState = {
   messages: Mensaje[];
@@ -29,6 +30,8 @@ export type LocationState = {
 export const Chat = () => {
   const location = useLocation();
   const [{ user }] = useAuth();
+
+  const prestador = location.state?.prestador;
 
   const {
     messages,
@@ -41,7 +44,7 @@ export const Chat = () => {
     sendWithEnter,
   } = useChatMessages({
     userId: user?.id,
-    prestadorId: location.state?.prestador?.id,
+    prestadorId: prestador?.id || location.state?.prestadorId,
   });
 
   return (
@@ -59,9 +62,7 @@ export const Chat = () => {
               >
                 <StyledPrestadorMensajeText>{m.message}</StyledPrestadorMensajeText>
                 <StyledTimestampContainer>
-                  <StyledMensajeTimestamp>
-                    {new Date(m.created_at).getHours() + ':' + new Date(m.created_at).getMinutes()}
-                  </StyledMensajeTimestamp>
+                  <StyledMensajeTimestamp>{formatDate(m.created_at)}</StyledMensajeTimestamp>
                 </StyledTimestampContainer>
               </StyledPrestadorMensajeContainer>
             );
@@ -70,9 +71,7 @@ export const Chat = () => {
               <StyledUsuarioMensajeContainer key={m.id} ref={isLastMessage ? lastMessageRef : null}>
                 <StyledUsuarioMensajeText>{m.message}</StyledUsuarioMensajeText>
                 <StyledTimestampContainer>
-                  <StyledMensajeTimestamp>
-                    {new Date(m.created_at).getHours() + ':' + new Date(m.created_at).getMinutes()}
-                  </StyledMensajeTimestamp>
+                  <StyledMensajeTimestamp>{formatDate(m.created_at)}</StyledMensajeTimestamp>
                 </StyledTimestampContainer>
               </StyledUsuarioMensajeContainer>
             );

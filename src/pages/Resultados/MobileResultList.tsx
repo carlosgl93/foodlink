@@ -39,7 +39,14 @@ export const MobileResultList = ({ filteredPrestadores, allServicios }: MobileFi
             (e) => e.especialidad_id === speciality_id,
           );
           return (
-            <Link key={id} to={`/perfil-prestador/${id}`} style={{ textDecoration: 'none' }}>
+            <Link
+              key={id}
+              to={`/perfil-prestador/${id}`}
+              style={{ textDecoration: 'none' }}
+              state={{
+                prestador,
+              }}
+            >
               <ListItem
                 sx={{
                   display: 'grid',

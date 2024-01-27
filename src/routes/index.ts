@@ -75,9 +75,25 @@ const routes: Routes = {
     component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/Disponibilidad')),
     path: '/construir-perfil/disponibilidad',
   },
+  [Pages.EditarComunasPrestador]: {
+    component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/Comunas')),
+    path: '/construir-perfil/comunas',
+  },
   [Pages.Chat]: {
     component: asyncComponentLoader(() => import('@/pages/Chat')),
     path: '/chat/',
+  },
+  [Pages.PrestadorChat]: {
+    component: asyncComponentLoader(() => import('@/pages/PrestadorChat')),
+    path: '/prestador-chat',
+  },
+  [Pages.PrestadorInbox]: {
+    component: asyncComponentLoader(() => import('@/pages/PrestadorInbox')),
+    path: '/prestador-inbox',
+  },
+  [Pages.UsuarioInbox]: {
+    component: asyncComponentLoader(() => import('@/pages/UsuarioInbox')),
+    path: '/usuario-inbox',
   },
   [Pages.PerfilUsuario]: {
     component: asyncComponentLoader(() => import('@/pages/PerfilUsuario')),

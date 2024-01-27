@@ -59,26 +59,6 @@ function useEntregaApoyo(): [EntregaApoyoState, Actions] {
     }
   }, [allComunas, fetchComunas, setApoyo]);
 
-  // const setComunas = useCallback(
-  //   (comunas: Comuna[]) => {
-  //     setApoyo((prev) => ({
-  //       ...prev,
-  //       allComunas: Object.values(comunas),
-  //     }));
-  //   },
-  //   [setApoyo],
-  // );
-
-  // const setServicios = useCallback(
-  //   (servicios: Servicio[]) => {
-  //     setApoyo((prev) => ({
-  //       ...prev,
-  //       allServicios: Object.values(servicios),
-  //     }));
-  //   },
-  //   [setApoyo],
-  // );
-
   const addComuna = (comuna: Comuna) => {
     if (apoyo.selectedComunas.find((c) => c.id === comuna.id)) return;
     setApoyo((prev) => ({
@@ -128,7 +108,14 @@ function useEntregaApoyo(): [EntregaApoyoState, Actions] {
 
   return [
     apoyo,
-    { addComuna, removeComuna, increaseStep, selectServicio, selectEspecialidad, decreaseStep },
+    {
+      addComuna,
+      removeComuna,
+      increaseStep,
+      selectServicio,
+      selectEspecialidad,
+      decreaseStep,
+    },
   ];
 }
 

@@ -27,6 +27,10 @@ enum Pages {
   ConstruirPerfil,
   Disponibilidad,
   PreviewPerfilPrestador,
+  EditarComunasPrestador,
+  PrestadorInbox,
+  UsuarioInbox,
+  PrestadorChat,
 }
 
 type PathRouteCustomProps = {

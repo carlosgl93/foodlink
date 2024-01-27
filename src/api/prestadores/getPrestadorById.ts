@@ -1,15 +1,12 @@
-import { selectorFamily } from 'recoil';
+import { Prestador } from '@/types';
 import api from '../api';
 
-export const getPrestadorById = selectorFamily({
-  key: 'getPrestadorById',
-  get: (id: number) => async () => {
-    const response = await api.get(`/prestadores/${id}`, {
-      params: {
-        id,
-      },
-    });
+export const getPrestadorById = async (id: number): Promise<Prestador> => {
+  const response = await api.get(`/prestadores/${id}`, {
+    params: {
+      id,
+    },
+  });
 
-    return response.data;
-  },
-});
+  return response.data;
+};

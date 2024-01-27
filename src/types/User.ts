@@ -17,4 +17,5 @@ export type User = {
   created_at?: string;
   token?: string;
   role?: string;
+  comunas?: string;
 };

@@ -1,6 +1,7 @@
 import { getPrestadorById } from '@/api/prestadores/getPrestadorById';
+import { Prestador } from '@/types';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useRecoilValueLoadable } from 'recoil';
 
 type usePrestadorProps = {
   id?: number;
@@ -8,13 +9,37 @@ type usePrestadorProps = {
 
 export const usePrestador = ({ id }: usePrestadorProps) => {
   const [params] = useSearchParams();
+  const [prestadorState, setPrestadorState] = useState<{
+    prestador: Prestador | null;
+    loading: boolean;
+    error: boolean;
+  }>({
+    prestador: null,
+    loading: false,
+    error: false,
+  });
 
   const prestadorId = id ? id : params.get('prestadorId');
 
-  const prestadorRecoil = useRecoilValueLoadable(getPrestadorById(prestadorId as number));
-  const prestador = prestadorRecoil.state === 'hasValue' && prestadorRecoil.contents;
-  const loading = prestadorRecoil.state === 'loading';
-  const error = prestadorRecoil.state === 'hasError';
+  useEffect(() => {
+    console.log('prestadorId', prestadorId);
+    console.log('useefect');
 
-  return { prestador, loading, error };
+    if (prestadorId) {
+      setPrestadorState((prevState) => ({ ...prevState, loading: true }));
+      getPrestadorById(prestadorId as number)
+        .then((res) => {
+          setPrestadorState((prevState) => ({ ...prevState, prestador: res }));
+        })
+        .catch((err) => {
+          console.log(err);
+          setPrestadorState((prevState) => ({ ...prevState, error: true }));
+        })
+        .finally(() => {
+          setPrestadorState((prevState) => ({ ...prevState, loading: false }));
+        });
+    }
+  }, []);
+
+  return prestadorState;
 };

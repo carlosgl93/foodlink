@@ -11,7 +11,8 @@ function Header() {
   const isTablet = useMediaQuery(tablet);
   const location = useLocation();
 
-  const isChat = isTablet && location.pathname === '/chat';
+  const isChat =
+    isTablet && (location.pathname === '/chat' || location.pathname === '/prestador-chat');
   return (
     <Box>
       <AppBar
