@@ -8,12 +8,12 @@ import BackButton from '@/components/BackButton';
 import { StyledText } from '../StyledConstruirPerfilComponents';
 import { Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import { useDisponibilidad } from './useDisponibilidad';
 import { ListAvailableDays } from './ListAvailableDays';
 import { EditAvailableDays } from './EditAvailableDays';
+import useConstruirPerfil from '@/store/construirPerfil';
 
 export const Disponibilidad = () => {
-  const { editDisponibilidad, handleEditDisponibilidad } = useDisponibilidad();
+  const [{ editDisponibilidad }, { handleEditDisponibilidad }] = useConstruirPerfil();
 
   return (
     <Wrapper>

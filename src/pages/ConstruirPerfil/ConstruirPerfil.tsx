@@ -5,7 +5,7 @@ import {
   SubTitle,
   Wrapper,
 } from '../PrestadorDashboard/StyledPrestadorDashboardComponents';
-import { useConstruirPerfil } from './useConstruirPerfil';
+// import { useConstruirPerfil } from './useConstruirPerfil';
 import { construirPerfilOpciones } from './construirPerfilOpciones';
 import {
   StyledCheckedIcon,
@@ -16,9 +16,11 @@ import {
   StyledUncheckedIcon,
 } from './StyledConstruirPerfilComponents';
 import BackButton from '@/components/BackButton';
+import useConstruirPerfil from '@/store/construirPerfil';
+import { emptyTarifaFront } from './Tarifas/emptyTarifa';
 
 export const ConstruirPerfil = () => {
-  const { perfil, handleVerPerfil } = useConstruirPerfil();
+  const [construirPerfil, { handleVerPerfil }] = useConstruirPerfil();
 
   return (
     <Wrapper>
@@ -43,12 +45,18 @@ export const ConstruirPerfil = () => {
         </StyledText>
         <List>
           {construirPerfilOpciones.map((opcion) => {
-            const key = opcion.key;
+            const { key, value } = opcion;
             return (
               <StyledLink key={opcion.key} to={`/construir-perfil/${opcion.key}`}>
                 <StyledListItem>
-                  {key && perfil[key] ? <StyledCheckedIcon /> : <StyledUncheckedIcon />}
-                  <StyledOption>{opcion.value}</StyledOption>
+                  {key &&
+                  (construirPerfil[key] as [])?.length > 0 &&
+                  construirPerfil.tarifas !== emptyTarifaFront ? (
+                    <StyledCheckedIcon />
+                  ) : (
+                    <StyledUncheckedIcon />
+                  )}
+                  <StyledOption>{value}</StyledOption>
                 </StyledListItem>
               </StyledLink>
             );

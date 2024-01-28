@@ -79,6 +79,10 @@ const routes: Routes = {
     component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/Comunas')),
     path: '/construir-perfil/comunas',
   },
+  [Pages.Tarifas]: {
+    component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/Tarifas')),
+    path: '/construir-perfil/tarifas',
+  },
   [Pages.Chat]: {
     component: asyncComponentLoader(() => import('@/pages/Chat')),
     path: '/chat/',

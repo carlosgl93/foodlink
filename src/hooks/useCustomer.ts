@@ -6,6 +6,7 @@ export const useCustomer = (customerId: number) => {
   const [customer, setCustomer] = useState<User | null>(null);
 
   useEffect(() => {
+    if (!customerId) return;
     getCustomer(customerId)
       .then((res) => {
         setCustomer(res);
