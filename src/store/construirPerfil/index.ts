@@ -95,15 +95,11 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
       const disponibilidad = disponibilidadResponse;
       setConstruirPerfil((prev) => ({ ...prev, disponibilidad, loading: false }));
     } catch (error) {
-      if (error instanceof Error) {
-        setConstruirPerfil((prev) => ({ ...prev, loading: false, error: error.message }));
-      } else {
-        setConstruirPerfil((prev) => ({
-          ...prev,
-          loading: false,
-          error: 'Hubo un error obteniendo la disponibilidad.',
-        }));
-      }
+      setConstruirPerfil((prev) => ({
+        ...prev,
+        loading: false,
+        error: 'Hubo un error obteniendo la disponibilidad.',
+      }));
     }
   }
 
@@ -113,15 +109,11 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
       const comunas = await getPrestadorComunas(id);
       setConstruirPerfil((prev) => ({ ...prev, comunas, loading: false }));
     } catch (error) {
-      if (error instanceof Error) {
-        setConstruirPerfil((prev) => ({ ...prev, loading: false, error: error.message }));
-      } else {
-        setConstruirPerfil((prev) => ({
-          ...prev,
-          loading: false,
-          error: 'Hubo un error obteniendo las comunas.',
-        }));
-      }
+      setConstruirPerfil((prev) => ({
+        ...prev,
+        loading: false,
+        error: 'Hubo un error obteniendo las comunas.',
+      }));
     }
   }
 
@@ -132,15 +124,11 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
       const tarifas = tarifasResponse;
       setConstruirPerfil((prev) => ({ ...prev, tarifas, loading: false }));
     } catch (error) {
-      if (error instanceof Error) {
-        setConstruirPerfil((prev) => ({ ...prev, loading: false, error: error.message }));
-      } else {
-        setConstruirPerfil((prev) => ({
-          ...prev,
-          loading: false,
-          error: 'Hubo un error obteniendo las tarifas.',
-        }));
-      }
+      setConstruirPerfil((prev) => ({
+        ...prev,
+        loading: false,
+        error: 'Hubo un error obteniendo las tarifas.',
+      }));
     }
   }
 
