@@ -1,9 +1,8 @@
-import useConstruirPerfil from '@/store/construirPerfil';
 import { Wrapper } from './MobilePerfilPrestadorStyledComponents';
 import { Box, styled } from '@mui/material';
 import { Title } from '@/components/StyledComponents';
 import { formatCLP } from '@/utils/formatCLP';
-import useAuth from '@/store/auth';
+import { TarifaFront } from '@/types';
 
 const StyledSubtitle = styled(Title)(({ theme }) => ({
   color: theme.palette.secondary.dark,
@@ -37,30 +36,12 @@ const SmallText = styled(Title)(({ theme }) => ({
   fontSize: '1rem',
 }));
 
-const StyledGreyText = styled(SmallText)(({ theme }) => ({
-  color: theme.palette.secondary.dark,
-  fontSize: '0.85rem',
-}));
+type TarifasProps = {
+  tarifas: TarifaFront[];
+  freeMeetGreet: boolean;
+};
 
-const StyledGreyTextContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  justifyContent: 'start',
-  width: '100%',
-  backgroundColor: theme.palette.background.default,
-  padding: '1rem',
-  borderRadius: '1rem',
-}));
-
-export const Tarifas = () => {
-  const [{ tarifas }] = useConstruirPerfil();
-  const [{ user }] = useAuth();
-
-  const freeMeetGreet = user?.offers_free_meet_greet;
-  const fee = import.meta.env.VITE_TRANSACTION_FEE_PERCENTAGE;
-  const feePercentage = Number(fee) / 100;
-
+export const Tarifas = ({ tarifas, freeMeetGreet }: TarifasProps) => {
   return (
     <Wrapper>
       <Grid>
@@ -68,24 +49,17 @@ export const Tarifas = () => {
           <StyledSubtitle>Juntarse y conocerse</StyledSubtitle>
           <StyledTarifa>{freeMeetGreet ? 'Gratis' : 'Conversable'}</StyledTarifa>
         </StyledTarifaContainer>
-        {tarifas.map((tarifa) => {
+        {tarifas?.map((tarifa) => {
           const { id, dayName, price } = tarifa;
           return (
             <StyledTarifaContainer key={id}>
               <StyledSubtitle>{dayName}</StyledSubtitle>
-              <StyledTarifa>
-                {formatCLP(Number(price) + Number(price) * feePercentage)} p/hr
-              </StyledTarifa>
-              <StyledGreyText>
-                Basado en una tarifa indicada de {formatCLP(Number(price))}
-              </StyledGreyText>
+              <StyledTarifa>{formatCLP(Number(price))}</StyledTarifa>
             </StyledTarifaContainer>
           );
         })}
       </Grid>
-      <StyledGreyTextContainer>
-        <SmallText>El costo total del apoyo es {fee}% mas alto que lo acordado.</SmallText>
-      </StyledGreyTextContainer>
+      <SmallText>Todas las tarifas son por hora.</SmallText>
     </Wrapper>
   );
 };

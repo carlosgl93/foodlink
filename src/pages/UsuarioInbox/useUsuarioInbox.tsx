@@ -21,12 +21,13 @@ export const useUsuarioInbox = () => {
   const router = useNavigate();
 
   const handleClickChat = (prestadorId: number, userId: number) => {
+    const prestador = usuarioInbox?.find((chat) => chat.prestadorId === prestadorId);
     router('/chat', {
       state: {
         prestadorId,
         userId,
-        prestadorName: usuarioInbox?.find((chat) => chat.prestadorId === prestadorId)?.firstname,
-        prestadorLastname: usuarioInbox?.find((chat) => chat.prestadorId === prestadorId)?.lastname,
+        prestadorName: prestador?.firstname,
+        prestadorLastname: prestador?.lastname,
       },
     });
   };

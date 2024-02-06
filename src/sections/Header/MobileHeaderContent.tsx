@@ -16,8 +16,7 @@ const MobileHeaderContent = () => {
   const location = useLocation();
 
   const prestador = location.state?.prestador;
-
-  const userId = location.state?.userId || user?.id;
+  const userId = location.state?.userId;
 
   const { customer } = useCustomer(userId);
 
@@ -36,9 +35,11 @@ const MobileHeaderContent = () => {
         </IconButton>
         <ChatTitle>
           {user?.role === 'prestador'
-            ? `${customer?.firstname} ${customer?.lastname}`
-            : `${prestador?.firstname || location.state.prestadorName} ${
-                prestador?.lastname || location.state.prestadorLastname
+            ? `${customer?.firstname && customer?.firstname} ${
+                customer?.lastname && customer?.lastname
+              }`
+            : `${prestador?.firstname || location.state?.prestadorName} ${
+                prestador?.lastname || location.state?.prestadorLastname
               }`}
         </ChatTitle>
       </FlexBox>

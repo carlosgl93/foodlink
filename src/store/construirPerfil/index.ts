@@ -16,6 +16,7 @@ import api from '@/api/api';
 import useRecibeApoyo from '../recibeApoyo';
 import { useNavigate } from 'react-router-dom';
 import { postTarifas } from '@/api/tarifas';
+import { postFreeMeetGreet } from '@/api/tarifas/postFreeMeetGreet';
 
 type ConstruirPerfilState = {
   prestador: Prestador;
@@ -50,6 +51,7 @@ const construirPerfilState = atom<ConstruirPerfilState>({
       description: '',
       imageUrl: '',
       comunas: [],
+      offers_free_meet_greet: false,
     },
     loading: false,
     error: null,
@@ -76,15 +78,11 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
       const prestador = prestadorResponse;
       setConstruirPerfil((prev) => ({ ...prev, prestador, loading: false }));
     } catch (error) {
-      if (error instanceof Error) {
-        setConstruirPerfil((prev) => ({ ...prev, loading: false, error: error.message }));
-      } else {
-        setConstruirPerfil((prev) => ({
-          ...prev,
-          loading: false,
-          error: 'Hubo un error obteniendo el prestador.',
-        }));
-      }
+      setConstruirPerfil((prev) => ({
+        ...prev,
+        loading: false,
+        error: 'Hubo un error obteniendo el prestador.',
+      }));
     }
   }
 
@@ -305,16 +303,33 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
     }));
   };
 
+  const handleChangeFreeMeetGreet = () => {
+    setConstruirPerfil((prev) => ({
+      ...prev,
+      prestador: {
+        ...prev.prestador,
+        offers_free_meet_greet: !prev.prestador.offers_free_meet_greet,
+      },
+    }));
+  };
+
   const handleSaveTarifas = async () => {
     setConstruirPerfil((prev) => ({ ...prev, loading: true }));
     try {
       await postTarifas(user?.id as number, construirPerfil.tarifas);
+      await postFreeMeetGreet(
+        user?.id as number,
+        construirPerfil.prestador.offers_free_meet_greet as boolean,
+      );
       setNotification({
         message: 'Tarifas guardadas exitosamente',
         severity: 'success',
         open: true,
       });
-      setConstruirPerfil((prev) => ({ ...prev, loading: false }));
+      setConstruirPerfil((prev) => ({
+        ...prev,
+        loading: false,
+      }));
     } catch (error) {
       console.log({ error });
       setNotification({
@@ -351,6 +366,7 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
       handleEditDisponibilidad,
       handleToggleDisponibilidadDay,
       handleTimeChange,
+      handleChangeFreeMeetGreet,
       handleSaveDisponibilidad,
       handleSelectComuna,
       handleRemoveComuna,

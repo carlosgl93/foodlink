@@ -1,9 +1,11 @@
+import { Text } from '@/components/StyledComponents';
 import { Box, IconButton, TextField, Typography, styled } from '@mui/material';
 
 export const ChatContainer = styled(Box)(() => ({
   minHeight: '72.5vh',
   paddingTop: '3.75rem',
   paddingBottom: '3.75rem',
+  marginBottom: '3.75rem',
   msOverflowStyle: 'none',
   scrollbarWidth: 'none',
   '&::-webkit-scrollbar': {
@@ -21,9 +23,9 @@ export const ChatTitle = styled(Typography)(({ theme }) => ({
 
 export const StyledPrestadorMensajeContainer = styled(Box)(() => ({
   display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
+  flexDirection: 'column',
+  alignItems: 'start',
+  justifyContent: 'center',
   gap: '1rem',
   marginBottom: '0.5rem',
   maxWidth: '80vw',
@@ -32,6 +34,12 @@ export const StyledPrestadorMensajeContainer = styled(Box)(() => ({
   boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)',
   backgroundColor: 'white',
   width: 'fit-content',
+}));
+
+export const StyledPrestadorName = styled(Text)(({ theme }) => ({
+  fontSize: '1rem',
+  fontWeight: 'bold',
+  color: theme.palette.primary.main,
 }));
 
 export const StyledPrestadorMensajeText = styled(Typography)(({ theme }) => ({

@@ -18,4 +18,5 @@ export type User = {
   token?: string;
   role?: string;
   comunas?: string;
+  offers_free_meet_greet?: boolean;
 };

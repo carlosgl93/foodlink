@@ -83,7 +83,7 @@ function SearchBar() {
         onChange={onChangeHandler}
       />
 
-      {comunasState.length > 0 && comunasState.length <= 1 && (
+      {comunasState?.length > 0 && comunasState?.length <= 1 && (
         <List
           sx={{
             width: {
@@ -98,7 +98,7 @@ function SearchBar() {
             overflow: 'auto',
           }}
         >
-          {comunasState.map((comuna) => {
+          {comunasState?.map((comuna) => {
             const { name, id } = comuna;
             return (
               <ListItem

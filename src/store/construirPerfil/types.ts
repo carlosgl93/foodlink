@@ -11,6 +11,7 @@ type Actions = {
     e: React.ChangeEvent<HTMLSelectElement>,
     startOrEnd: 'startTime' | 'endTime',
   ) => void;
+  handleChangeFreeMeetGreet: () => void;
   handleSaveDisponibilidad: () => Promise<void>;
   handleSelectComuna: (comuna: Comuna) => void;
   handleRemoveComuna: (comuna: Comuna) => void;

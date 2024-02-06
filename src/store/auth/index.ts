@@ -55,7 +55,7 @@ function useAuth(): [AuthState, Actions] {
         setUser((prev) => ({
           ...prev,
           isLoggedIn: true,
-          user: loginUserResponse.data.prestador,
+          user: isAlsoPrestador,
           role: 'prestador',
         }));
         localStorage.setItem(

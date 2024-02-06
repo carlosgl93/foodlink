@@ -24,10 +24,27 @@ import { usePerfilPrestador } from './usePerfilPrestador';
 import { ListAvailableDays } from './ListAvailableDays';
 import PerfilBackButton from './PerfilBackButton';
 import { Prestador } from '@/types';
+import { Box, styled } from '@mui/material';
+import { Tarifas } from './Tarifas';
 
 type MobileProfileProps = {
   prestador: Prestador;
 };
+
+const SectionContainer = styled(Box)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  justifyContent: 'start',
+  width: '100%',
+  padding: '0 1rem',
+}));
+
+const SectionTitle = styled(StyledTitle)(({ theme }) => ({
+  marginTop: '2rem',
+  color: theme.palette.secondary.dark,
+  fontSize: '1.5rem',
+}));
 
 export const MobileProfile = ({ prestador }: MobileProfileProps) => {
   const {
@@ -41,6 +58,8 @@ export const MobileProfile = ({ prestador }: MobileProfileProps) => {
     prestadorServicio,
     prestadorEspecialidad,
     disponibilidad,
+    tarifas,
+    freeMeetGreet,
   } = usePerfilPrestador(prestador);
 
   const { firstname, lastname, imageUrl, average_review, total_reviews, description } = prestador;
@@ -84,7 +103,14 @@ export const MobileProfile = ({ prestador }: MobileProfileProps) => {
         <AboutTitle>Sobre {firstname}</AboutTitle>
         <AboutDescription>{description}</AboutDescription>
       </AboutContainer>
+      <SectionContainer>
+        <SectionTitle>Disponibilidad</SectionTitle>
+      </SectionContainer>
       <ListAvailableDays disponibilidad={disponibilidad} />
+      <SectionContainer>
+        <SectionTitle>Tarifas</SectionTitle>
+        <Tarifas tarifas={tarifas} freeMeetGreet={freeMeetGreet as boolean} />
+      </SectionContainer>
     </Wrapper>
   );
 };

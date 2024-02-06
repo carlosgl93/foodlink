@@ -9,6 +9,7 @@ import {
   StyledMensajeTimestamp,
   StyledPrestadorMensajeContainer,
   StyledPrestadorMensajeText,
+  StyledPrestadorName,
   StyledTimestampContainer,
   StyledUsuarioMensajeContainer,
   StyledUsuarioMensajeText,
@@ -20,6 +21,7 @@ import { useChatMessages } from './useChatMessages';
 import useAuth from '@/store/auth';
 import Loading from '@/components/Loading';
 import { formatDate } from '@/utils/formatDate';
+import { Box } from '@mui/material';
 
 export type LocationState = {
   messages: Mensaje[];
@@ -32,6 +34,7 @@ export const Chat = () => {
   const [{ user }] = useAuth();
 
   const prestador = location.state?.prestador;
+  const prestadorName = location.state?.prestadorName;
 
   const {
     messages,
@@ -60,10 +63,23 @@ export const Chat = () => {
                 key={m.id}
                 ref={isLastMessage ? lastMessageRef : null}
               >
-                <StyledPrestadorMensajeText>{m.message}</StyledPrestadorMensajeText>
-                <StyledTimestampContainer>
-                  <StyledMensajeTimestamp>{formatDate(m.created_at)}</StyledMensajeTimestamp>
-                </StyledTimestampContainer>
+                <StyledPrestadorName>
+                  {prestadorName ? prestadorName : prestador?.firstname}:
+                </StyledPrestadorName>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: '100%',
+                  }}
+                >
+                  <StyledPrestadorMensajeText>{m.message}</StyledPrestadorMensajeText>
+                  <StyledTimestampContainer>
+                    <StyledMensajeTimestamp>{formatDate(m.created_at)}</StyledMensajeTimestamp>
+                  </StyledTimestampContainer>
+                </Box>
               </StyledPrestadorMensajeContainer>
             );
           } else {

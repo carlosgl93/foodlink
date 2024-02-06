@@ -7,7 +7,7 @@ export const getCustomer = async (id: number) => {
         id,
       },
     });
-    return res.data.data[0];
+    return res.data.data;
   } catch (error) {
     if (error instanceof Error) {
       console.log(error.message);

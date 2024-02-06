@@ -12,8 +12,10 @@ import { TarifaFront } from '@/types';
 import useConstruirPerfil from '@/store/construirPerfil';
 
 export const Tarifas = () => {
-  // const { tarifas } = useConstruirPerfil();
-  const [{ tarifas }, { handleSaveTarifas, handleChangeTarifa }] = useConstruirPerfil();
+  const [
+    { tarifas, prestador },
+    { handleSaveTarifas, handleChangeTarifa, handleChangeFreeMeetGreet },
+  ] = useConstruirPerfil();
 
   return (
     <Wrapper>
@@ -49,6 +51,24 @@ export const Tarifas = () => {
               <TarifaDiaria tarifa={tarifa} handleChangeTarifa={handleChangeTarifa} />
             </div>
           ))}
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'start',
+              alignItems: 'center',
+              marginTop: '1rem',
+            }}
+          >
+            <input
+              type="checkbox"
+              name="meetAndGreet"
+              checked={prestador?.offers_free_meet_greet}
+              onChange={handleChangeFreeMeetGreet}
+            />
+            <label htmlFor="meetAndGreet">Ofrezco conocernos gratuitamente.</label>
+          </Box>
         </Box>
         <Button
           variant="contained"
