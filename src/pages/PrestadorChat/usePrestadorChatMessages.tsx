@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { sendMessage } from '@/api/chat/sendMessage';
 import useAuth from '@/store/auth';
 import { getMessages } from '@/api/chat/getMessages';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 type useChatMessagesProps = {
   userId: number;
@@ -10,41 +11,47 @@ type useChatMessagesProps = {
 
 export const usePrestadorChatMessages = ({ userId, prestadorId }: useChatMessagesProps) => {
   const lastMessageRef = useRef<HTMLDivElement>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
   const [{ user }] = useAuth();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    setLoading(true);
-    getMessages(userId, prestadorId, user?.token as string)
-      .then((res) => {
-        setMessages(res);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        setLoading(false);
-      });
-  }, []);
+  const sentBy = location.pathname.includes('prestador-chat') ? 'prestador' : 'user';
+
+  const {
+    data: messages,
+    isError,
+    isLoading,
+    error,
+  } = useQuery(
+    ['messages', userId, prestadorId],
+    () => getMessages(userId, prestadorId, user?.token as string),
+    {
+      enabled: !!userId && !!prestadorId,
+    },
+  );
+
+  const mutation = useMutation(sendMessage, {
+    onSuccess: () => {
+      // On success, invalidate and refetch the messages query
+      queryClient.invalidateQueries(['messages', userId, prestadorId]);
+    },
+  });
 
   const handleSendMessage = async () => {
-    setLoading(true);
-    try {
-      const messageResponse = await sendMessage({
+    mutation.mutate(
+      {
         message,
         prestadorId,
         userId,
-        sentBy: 'prestador',
-        token: user?.token || '',
-      });
-      setMessages(() => messageResponse.messages);
-      setMessage('');
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+        sentBy,
+        token: user?.token as string,
+      },
+      {
+        onSuccess: () => {
+          setMessage('');
+        },
+      },
+    );
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -71,12 +78,16 @@ export const usePrestadorChatMessages = ({ userId, prestadorId }: useChatMessage
 
   return {
     messages,
-    loading,
-    error,
     message,
-    lastMessageRef,
-    handleInputChange,
+    isError,
+    isLoading,
+    error,
     handleSendMessage,
+    handleInputChange,
+    isSending: mutation.isLoading,
+    sendError: mutation.error,
+    lastMessageRef,
     sendWithEnter,
+    sentBy,
   };
 };

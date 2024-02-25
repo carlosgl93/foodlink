@@ -1,22 +1,20 @@
 import { getCustomer } from '@/api/users/getCustomer';
-import { User } from '@/types';
-import { useState, useEffect } from 'react';
+import { useQuery } from 'react-query';
 
 export const useCustomer = (customerId: number) => {
-  const [customer, setCustomer] = useState<User | null>(null);
-
-  useEffect(() => {
-    if (!customerId) return;
-    getCustomer(customerId)
-      .then((res) => {
-        setCustomer(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [customerId]);
+  const {
+    data: customer,
+    isError,
+    isLoading,
+    error,
+  } = useQuery(['customer', customerId], () => getCustomer(customerId), {
+    enabled: !!customerId,
+  });
 
   return {
     customer,
+    isError,
+    isLoading,
+    error,
   };
 };

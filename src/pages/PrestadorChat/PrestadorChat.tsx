@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router-dom';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { Mensaje } from '@/types/Mensaje';
 import {
@@ -20,8 +19,8 @@ import { Prestador } from '@/types/Prestador';
 import { usePrestadorChatMessages } from './usePrestadorChatMessages';
 import Loading from '@/components/Loading';
 import { formatDate } from '@/utils/formatDate';
-import { useCustomer } from '@/hooks/useCustomer';
 import { Box } from '@mui/material';
+import { useRetrieveCustomerAndPrestador } from '@/hooks/useRetrieveCustomerAndPrestador';
 
 export type LocationState = {
   messages: Mensaje[];
@@ -30,31 +29,24 @@ export type LocationState = {
 };
 
 export const PrestadorChat = () => {
-  const location = useLocation();
-  const { prestadorId, userId } = location.state;
-  const { customer } = useCustomer(userId);
+  const { customer, prestador, isLoading, error } = useRetrieveCustomerAndPrestador();
 
-  const {
-    messages,
-    message,
-    loading,
-    error,
-    lastMessageRef,
-    handleInputChange,
-    handleSendMessage,
-    sendWithEnter,
-  } = usePrestadorChatMessages({
-    userId,
-    prestadorId,
-  });
+  const customerId = customer?.id;
+  const prestadorId = prestador?.id as number;
+
+  const { messages, message, lastMessageRef, handleInputChange, handleSendMessage, sendWithEnter } =
+    usePrestadorChatMessages({
+      userId: customerId,
+      prestadorId,
+    });
 
   return (
     <ChatContainer>
-      {loading && <Loading />}
+      {isLoading && <Loading />}
       {error && <p>Hubo un error</p>}
       {messages &&
-        messages.map((m: Mensaje, index) => {
-          const isLastMessage = index === messages.length - 1;
+        messages.map((m: Mensaje, index: number) => {
+          const isLastMessage = index === messages?.length - 1;
           if (m.sent_by === 'prestador') {
             return (
               <Box key={m.id}>

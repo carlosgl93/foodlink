@@ -222,6 +222,14 @@ function useAuth(): [AuthState, Actions] {
       const user = JSON.parse(storedUser);
       setUser((prev) => ({ ...prev, isLoggedIn: true, user }));
     }
+    if (
+      storedUser === null &&
+      (location.pathname.includes('prestador-chat') || location.pathname.includes('chat'))
+    ) {
+      updateRedirectToAfterLogin(location.pathname);
+      console.log(redirectToAfterLogin);
+      navigate('/ingresar');
+    }
   }, [setUser]);
 
   useEffect(() => {
