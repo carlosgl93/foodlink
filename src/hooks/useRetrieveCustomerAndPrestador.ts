@@ -3,9 +3,6 @@ import { useCustomer, useCustomerAndPrestadorFromParams, usePrestador } from './
 export const useRetrieveCustomerAndPrestador = () => {
   const { customerId, prestadorId } = useCustomerAndPrestadorFromParams();
 
-  console.log('customerId', customerId);
-  console.log('prestadorId', prestadorId);
-
   const {
     customer,
     isLoading: isLoadingCustomer,
