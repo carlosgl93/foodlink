@@ -17,6 +17,8 @@ import useRecibeApoyo from '../recibeApoyo';
 import { useNavigate } from 'react-router-dom';
 import { postTarifas } from '@/api/tarifas';
 import { postFreeMeetGreet } from '@/api/tarifas/postFreeMeetGreet';
+import { ExperienceState } from './experiencia';
+import { usePrestadorExperience } from '@/hooks/usePrestadorExperience';
 
 type ConstruirPerfilState = {
   prestador: Prestador;
@@ -28,6 +30,7 @@ type ConstruirPerfilState = {
   searchedComuna: string;
   searchedComunasState: Comuna[];
   editDisponibilidad: boolean;
+  experiencia: ExperienceState;
   [key: string]:
     | DisponibilidadFromFront[]
     | Prestador
@@ -35,7 +38,8 @@ type ConstruirPerfilState = {
     | string
     | Comuna[]
     | TarifaFront[]
-    | null;
+    | null
+    | ExperienceState;
 };
 
 const construirPerfilState = atom<ConstruirPerfilState>({
@@ -61,15 +65,23 @@ const construirPerfilState = atom<ConstruirPerfilState>({
     searchedComuna: '',
     searchedComunasState: [],
     editDisponibilidad: false,
+    experiencia: [],
   },
 });
 
 const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
   const [construirPerfil, setConstruirPerfil] = useRecoilState(construirPerfilState);
+
   const [{ allComunas }] = useRecibeApoyo();
   const [{ user }] = useAuth();
   const [, setNotification] = useRecoilState(notificationState);
   const router = useNavigate();
+
+  usePrestadorExperience(user?.id as number, (data: ExperienceState) =>
+    setConstruirPerfil((prev) => {
+      return { ...prev, experiencia: data };
+    }),
+  );
 
   async function getPrestador(id: number) {
     try {
@@ -354,7 +366,7 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
           searchedComunasState: allComunas || [],
         }));
     }
-  }, []);
+  }, [setConstruirPerfil, user, allComunas]);
 
   return [
     construirPerfil,
