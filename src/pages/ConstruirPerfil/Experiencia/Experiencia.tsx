@@ -29,6 +29,7 @@ export const Experiencia = () => {
     isLoading,
     experienceOptions,
     aggregatedExperience,
+    loadingPrestadorExp,
     selectPreviousExperience,
     detectPreviousExperience,
     selectExperienceType,
@@ -40,7 +41,7 @@ export const Experiencia = () => {
     handleSaveExperience,
   } = useExperiencia();
 
-  if (isLoading || !experienceOptions || saveExpLoading) return <Loading />;
+  if (isLoading || !experienceOptions || saveExpLoading || loadingPrestadorExp) return <Loading />;
 
   return (
     <Wrapper>
@@ -69,6 +70,7 @@ export const Experiencia = () => {
             ))}
           </Grid>
         </StyledExperienceTypeContainer>
+
         <form onSubmit={(e) => handleSaveExperience(e)}>
           <Text>Detalla tu experiencia en cada una de las areas seleccionadas.</Text>
           {experienceOptions.map(

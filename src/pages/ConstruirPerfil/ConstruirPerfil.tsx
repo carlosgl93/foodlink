@@ -17,6 +17,7 @@ import {
 import BackButton from '@/components/BackButton';
 import useConstruirPerfil from '@/store/construirPerfil';
 import { emptyTarifaFront } from './Tarifas/emptyTarifa';
+import Loading from '@/components/Loading';
 
 export const ConstruirPerfil = () => {
   const [construirPerfil, { handleVerPerfil }] = useConstruirPerfil();
@@ -37,30 +38,36 @@ export const ConstruirPerfil = () => {
         </Button>
       </Box>
       <Container>
-        <SubTitle>Pasos a completar</SubTitle>
-        <StyledText>
-          No todos son necesarios, pero aumentan las probabilidades de que los clientes te
-          contacten.
-        </StyledText>
-        <List>
-          {construirPerfilOpciones.map((opcion) => {
-            const { key, value } = opcion;
-            return (
-              <StyledLink key={opcion.key} to={`/construir-perfil/${opcion.key}`}>
-                <StyledListItem>
-                  {key &&
-                  (construirPerfil[key] as [])?.length > 0 &&
-                  construirPerfil.tarifas !== emptyTarifaFront ? (
-                    <StyledCheckedIcon />
-                  ) : (
-                    <StyledUncheckedIcon />
-                  )}
-                  <StyledOption>{value}</StyledOption>
-                </StyledListItem>
-              </StyledLink>
-            );
-          })}
-        </List>
+        {construirPerfil.loading ? (
+          <Loading />
+        ) : (
+          <>
+            <SubTitle>Pasos a completar</SubTitle>
+            <StyledText>
+              No todos son necesarios, pero aumentan las probabilidades de que los clientes te
+              contacten.
+            </StyledText>
+            <List>
+              {construirPerfilOpciones.map((opcion) => {
+                const { key, value } = opcion;
+                return (
+                  <StyledLink key={opcion.key} to={`/construir-perfil/${opcion.key}`}>
+                    <StyledListItem>
+                      {key &&
+                      (construirPerfil[key] as [])?.length > 0 &&
+                      construirPerfil.tarifas !== emptyTarifaFront ? (
+                        <StyledCheckedIcon />
+                      ) : (
+                        <StyledUncheckedIcon />
+                      )}
+                      <StyledOption>{value}</StyledOption>
+                    </StyledListItem>
+                  </StyledLink>
+                );
+              })}
+            </List>
+          </>
+        )}
       </Container>
     </Wrapper>
   );

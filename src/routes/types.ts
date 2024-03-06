@@ -33,6 +33,7 @@ enum Pages {
   PrestadorChat,
   Tarifas,
   Experiencia,
+  CuentaBancaria,
 }
 
 type PathRouteCustomProps = {

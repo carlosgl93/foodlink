@@ -87,6 +87,10 @@ const routes: Routes = {
     component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/Experiencia')),
     path: '/construir-perfil/experiencia',
   },
+  [Pages.CuentaBancaria]: {
+    component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/CuentaBancaria')),
+    path: '/construir-perfil/cuentaBancaria',
+  },
   [Pages.Chat]: {
     component: asyncComponentLoader(() => import('@/pages/Chat')),
     path: '/chat/',

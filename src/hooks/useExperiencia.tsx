@@ -9,7 +9,7 @@ import {
 } from '@/store/construirPerfil/experiencia';
 import { notificationState } from '@/store/snackbar';
 import { AxiosError } from 'axios';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
 import useAuth from '@/store/auth';
 import { usePrestadorExperience } from './usePrestadorExperience';
@@ -18,6 +18,8 @@ export const useExperiencia = () => {
   const [notification, setNotification] = useRecoilState(notificationState);
   const [aggregatedExperience, setAggregatedExperience] = useRecoilState(aggregatedExperienceState);
   const [experienceOptions, setExperienceOptions] = useRecoilState(allExperiencesState);
+
+  const queryClient = useQueryClient();
 
   const [{ user }] = useAuth();
 
@@ -35,8 +37,9 @@ export const useExperiencia = () => {
     },
   });
 
-  usePrestadorExperience(user?.id as number, (data: ExperienceState) =>
-    setAggregatedExperience(data),
+  const { isLoading: loadingPrestadorExp } = usePrestadorExperience(
+    user?.id as number,
+    (data: ExperienceState) => setAggregatedExperience(data),
   );
 
   const {
@@ -53,6 +56,7 @@ export const useExperiencia = () => {
         severity: 'success',
       });
       // invalidate prestador Experiences
+      queryClient.invalidateQueries('prestadorExperience');
     },
     onError: (error: AxiosError) => {
       // Handle error
@@ -185,6 +189,7 @@ export const useExperiencia = () => {
     error,
     experienceOptions,
     aggregatedExperience,
+    loadingPrestadorExp,
     selectPreviousExperience,
     detectPreviousExperience,
     selectExperienceType,

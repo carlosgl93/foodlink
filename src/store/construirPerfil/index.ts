@@ -19,6 +19,7 @@ import { postTarifas } from '@/api/tarifas';
 import { postFreeMeetGreet } from '@/api/tarifas/postFreeMeetGreet';
 import { ExperienceState } from './experiencia';
 import { usePrestadorExperience } from '@/hooks/usePrestadorExperience';
+import { CuentaBancaria } from '@/types/CuentaBancaria';
 
 type ConstruirPerfilState = {
   prestador: Prestador;
@@ -31,6 +32,7 @@ type ConstruirPerfilState = {
   searchedComunasState: Comuna[];
   editDisponibilidad: boolean;
   experiencia: ExperienceState;
+  cuentaBancaria: CuentaBancaria;
   [key: string]:
     | DisponibilidadFromFront[]
     | Prestador
@@ -39,7 +41,8 @@ type ConstruirPerfilState = {
     | Comuna[]
     | TarifaFront[]
     | null
-    | ExperienceState;
+    | ExperienceState
+    | CuentaBancaria;
 };
 
 const construirPerfilState = atom<ConstruirPerfilState>({
@@ -66,6 +69,17 @@ const construirPerfilState = atom<ConstruirPerfilState>({
     searchedComunasState: [],
     editDisponibilidad: false,
     experiencia: [],
+    cuentaBancaria: {
+      id: 0,
+      banco: '',
+      tipoCuenta: '',
+      numeroCuenta: '',
+      titular: '',
+      rut: '',
+      prestadorId: 0,
+      createdAt: '',
+      updatedAt: '',
+    },
   },
 });
 
@@ -354,6 +368,7 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
   };
 
   useEffect(() => {
+    setConstruirPerfil((prev) => ({ ...prev, loading: true }));
     if (user) {
       //   setConstruirPerfil((prev) => ({ ...prev, prestador: user as Prestador }));
       !construirPerfil.prestador && getPrestador(user.id as number);
@@ -366,6 +381,7 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
           searchedComunasState: allComunas || [],
         }));
     }
+    setConstruirPerfil((prev) => ({ ...prev, loading: false }));
   }, [setConstruirPerfil, user, allComunas]);
 
   return [

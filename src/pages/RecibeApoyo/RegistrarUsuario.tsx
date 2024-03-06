@@ -73,7 +73,6 @@ function RegistrarPrestador() {
                   }}
                   key={input.inputName + input.label}
                   name={input.inputName}
-                  placeholder={input.placeholder}
                   onChange={handleSelect}
                   value={state.comoEnteraste}
                 >
