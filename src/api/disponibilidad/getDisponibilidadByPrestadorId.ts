@@ -36,24 +36,20 @@ const disponibilidadFromBackToFront = (
 
 export const getDisponibilidadByPrestadorId = async (
   prestadorId: number,
-): Promise<DisponibilidadFromFront[] | undefined> => {
-  try {
-    const response = await api.get(`/disponibilidad/${prestadorId}`, { params: { prestadorId } });
-    if (response.data.length === 0) {
-      const data = days.map((day, i) => ({
-        id: i,
-        prestadorId: prestadorId,
-        dayName: day.dayName,
-        startTime: '00:00',
-        endTime: '00:00',
-        isAvailable: false,
-      }));
+): Promise<DisponibilidadFromFront[]> => {
+  const response = await api.get(`/disponibilidad/${prestadorId}`, { params: { prestadorId } });
+  if (response.data.length === 0) {
+    const data = days.map((day, i) => ({
+      id: i,
+      prestadorId: prestadorId,
+      dayName: day.dayName,
+      startTime: '00:00',
+      endTime: '00:00',
+      isAvailable: false,
+    }));
 
-      return data;
-    } else {
-      return disponibilidadFromBackToFront(response.data);
-    }
-  } catch (error) {
-    console.error(error);
+    return data as DisponibilidadFromFront[];
+  } else {
+    return disponibilidadFromBackToFront(response.data);
   }
 };

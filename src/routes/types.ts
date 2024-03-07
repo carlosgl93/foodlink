@@ -31,6 +31,9 @@ enum Pages {
   PrestadorInbox,
   UsuarioInbox,
   PrestadorChat,
+  Tarifas,
+  Experiencia,
+  CuentaBancaria,
 }
 
 type PathRouteCustomProps = {

@@ -55,7 +55,7 @@ function useAuth(): [AuthState, Actions] {
         setUser((prev) => ({
           ...prev,
           isLoggedIn: true,
-          user: loginUserResponse.data.prestador,
+          user: isAlsoPrestador,
           role: 'prestador',
         }));
         localStorage.setItem(
@@ -221,6 +221,14 @@ function useAuth(): [AuthState, Actions] {
     if (storedUser !== null) {
       const user = JSON.parse(storedUser);
       setUser((prev) => ({ ...prev, isLoggedIn: true, user }));
+    }
+    if (
+      storedUser === null &&
+      (location.pathname.includes('prestador-chat') || location.pathname.includes('chat'))
+    ) {
+      updateRedirectToAfterLogin(location.pathname);
+      console.log(redirectToAfterLogin);
+      navigate('/ingresar');
     }
   }, [setUser]);
 

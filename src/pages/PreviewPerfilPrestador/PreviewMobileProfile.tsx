@@ -20,6 +20,23 @@ import {
 } from '../PerfilPrestador/MobilePerfilPrestadorStyledComponents';
 import { ListAvailableDays } from '../PerfilPrestador/ListAvailableDays';
 import { Prestador } from '@/types';
+import { Tarifas } from './Tarifas';
+import { Box, styled } from '@mui/material';
+import PerfilBackButton from './PerfilBackButton';
+
+const SectionContainer = styled(Box)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  justifyContent: 'start',
+  width: '100%',
+  padding: '0 1rem',
+}));
+
+const SectionTitle = styled(StyledTitle)(({ theme }) => ({
+  color: theme.palette.secondary.dark,
+  fontSize: '1.5rem',
+}));
 
 export const PreviewMobileProfile = () => {
   const { prestador, prestadorServicio, prestadorEspecialidad, handleEditPerfil, disponibilidad } =
@@ -31,6 +48,7 @@ export const PreviewMobileProfile = () => {
   return (
     <Wrapper>
       <HeroContainer>
+        <PerfilBackButton />
         <StyledAvatar alt={`Imagen de perfil de ${firstname}`} src={imageUrl} />
         <StyledNameContainer>
           <StyledTitle>
@@ -52,7 +70,15 @@ export const PreviewMobileProfile = () => {
         <AboutTitle>Sobre {firstname}</AboutTitle>
         <AboutDescription>{description}</AboutDescription>
       </AboutContainer>
+
+      <SectionContainer>
+        <SectionTitle>Disponibilidad</SectionTitle>
+      </SectionContainer>
       <ListAvailableDays disponibilidad={disponibilidad} />
+      <SectionContainer>
+        <SectionTitle>Tarifas</SectionTitle>
+        <Tarifas />
+      </SectionContainer>
     </Wrapper>
   );
 };

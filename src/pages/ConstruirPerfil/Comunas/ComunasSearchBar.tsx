@@ -1,12 +1,17 @@
 import { IconButton, InputAdornment, OutlinedInput } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import { Box } from '@mui/system';
-import { useEditarComunas } from './useEditarComunas';
 import Loading from '@/components/Loading';
+import useConstruirPerfil from '@/store/construirPerfil';
+import useRecibeApoyo from '@/store/recibeApoyo';
 
 export function ComunasSearchBar() {
-  const { allComunas, handleSelectComuna, searchedComuna, comunasState, onChangeHandler } =
-    useEditarComunas();
+  const [{ allComunas }] = useRecibeApoyo();
+
+  const [
+    { searchedComuna, searchedComunasState },
+    { handleSelectComuna, handleSearchComunaOnChange },
+  ] = useConstruirPerfil();
 
   if (allComunas && allComunas.length) {
     return (
@@ -52,7 +57,7 @@ export function ComunasSearchBar() {
             borderRadius: '2rem',
             mt: '1rem',
           }}
-          onChange={onChangeHandler}
+          onChange={handleSearchComunaOnChange}
         />
         <Box
           sx={{
@@ -68,8 +73,8 @@ export function ComunasSearchBar() {
             overflow: 'auto',
           }}
         >
-          {comunasState?.length <= 5 &&
-            comunasState?.map((comuna) => (
+          {searchedComunasState?.length <= 5 &&
+            searchedComunasState?.map((comuna) => (
               <Box
                 key={comuna.id}
                 sx={{

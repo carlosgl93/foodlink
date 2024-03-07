@@ -2,14 +2,18 @@ import { Button } from '@mui/material';
 import ArrowBackIosNewOutlinedIcon from '@mui/icons-material/ArrowBackIosNewOutlined';
 import { useNavigate } from 'react-router-dom';
 
-const BackButton = () => {
+type BackButtonProps = {
+  to?: string;
+};
+
+const BackButton = ({ to }: BackButtonProps) => {
   const router = useNavigate();
 
   return (
     <Button
       variant="outlined"
       startIcon={<ArrowBackIosNewOutlinedIcon />}
-      onClick={() => router(-1)}
+      onClick={() => (to ? router(to) : router(-1))}
       sx={{
         mb: '1rem',
       }}

@@ -43,18 +43,16 @@ export const StyledUsuarioMensajeText = styled(Typography)(({ theme }) => ({
 export const StyledPrestadorMensajeContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
+  width: '60vw',
+  position: 'relative',
+  left: '38vw',
   alignItems: 'center',
-  justifyContent: 'flex-end',
   gap: '1rem',
-  marginBottom: '0.5rem',
-  marginLeft: '30vw',
-  padding: '1rem',
-  marginRight: '0.5rem',
-  borderRadius: '1rem',
+  margin: '0.25rem 1vw',
+  padding: '0.5rem',
+  borderRadius: '0.5rem',
   boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)',
   backgroundColor: theme.palette.primary.main,
-  minWidth: '50vw',
-  maxWidth: '80vw',
 }));
 
 export const StyledPrestadorMensajeText = styled(Typography)(({ theme }) => ({

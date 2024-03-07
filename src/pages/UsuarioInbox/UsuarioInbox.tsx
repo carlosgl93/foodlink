@@ -3,7 +3,6 @@ import { useUsuarioInbox } from './useUsuarioInbox';
 import { Text } from '@/components/StyledComponents';
 import { StyledAvatar } from '../PerfilPrestador/MobilePerfilPrestadorStyledComponents';
 import { StyledTitle, Wrapper } from '../PrestadorDashboard/StyledPrestadorDashboardComponents';
-import BackButton from '@/components/BackButton';
 import { formatDate } from '@/utils/formatDate';
 import Loading from '@/components/Loading';
 
@@ -46,7 +45,6 @@ export const UsuarioInbox = () => {
 
   return (
     <Wrapper>
-      <BackButton />
       <TitleContainer>
         <StyledTitle>Inbox</StyledTitle>
       </TitleContainer>

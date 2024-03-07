@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { sendMessage } from '@/api/chat/sendMessage';
 import useAuth from '@/store/auth';
 import api from '@/api/api';
@@ -16,7 +16,7 @@ export const useChatMessages = ({ userId, prestadorId }: useChatMessagesProps) =
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [{ user }] = useAuth();
-
+  const router = useNavigate();
   const [params] = useSearchParams();
 
   const prestadorIdFromSearchParams = parseInt(params.get('prestadorId') as string);
@@ -56,7 +56,15 @@ export const useChatMessages = ({ userId, prestadorId }: useChatMessagesProps) =
       setMessages(() => messageResponse.messages);
       setMessage('');
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error) {
+        console.log(error);
+        switch (error?.message) {
+          case 'Missing JWT Token.':
+            setError('Missing JWT Token.');
+            router('/login');
+            break;
+        }
+      }
     }
   };
 

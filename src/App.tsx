@@ -9,37 +9,40 @@ import AppErrorBoundaryFallback from '@/error-handling/fallbacks/App';
 import Pages from '@/routes/Pages';
 import Header from '@/sections/Header';
 import HotKeys from '@/sections/HotKeys';
-import Notifications from '@/sections/Notifications';
 import SW from '@/sections/SW';
 import Sidebar from '@/sections/Sidebar';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <Fragment>
-      <CssBaseline />
-      <Notifications />
-      <HotKeys />
-      <SW />
-      <BrowserRouter>
-        <Header />
-        <Sidebar />
-        <Suspense
-          fallback={
-            <CircularProgress
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                minHeight: '75vh',
-              }}
-            />
-          }
-        >
-          <Pages />
-        </Suspense>
-      </BrowserRouter>
-    </Fragment>
+    <QueryClientProvider client={queryClient}>
+      <Fragment>
+        <CssBaseline />
+        <HotKeys />
+        <SW />
+        <BrowserRouter>
+          <Header />
+          <Sidebar />
+          <Suspense
+            fallback={
+              <CircularProgress
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  minHeight: '75vh',
+                }}
+              />
+            }
+          >
+            <Pages />
+          </Suspense>
+        </BrowserRouter>
+      </Fragment>
+    </QueryClientProvider>
   );
 }
 

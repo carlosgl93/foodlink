@@ -29,7 +29,7 @@ export const StyledTitle = styled(Title)(({ theme }) => ({
 }));
 
 export const SubTitle = styled(Title)(() => ({
-  fontSize: '1.375rem',
+  fontSize: '1.175rem',
   fontWeight: 'bold',
   marginBottom: '1rem',
   color: '#414042',

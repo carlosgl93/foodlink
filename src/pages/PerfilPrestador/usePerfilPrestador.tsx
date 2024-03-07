@@ -13,7 +13,8 @@ import {
   DisponibilidadFromFront,
   getDisponibilidadByPrestadorId,
 } from '@/api/disponibilidad/getDisponibilidadByPrestadorId';
-import { Prestador } from '@/types';
+import { Prestador, TarifaFront } from '@/types';
+import { getPrestadorTarifas } from '@/api/tarifas';
 
 export const usePerfilPrestador = (prestador: Prestador) => {
   const { id } = useParams();
@@ -32,8 +33,9 @@ export const usePerfilPrestador = (prestador: Prestador) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [disponibilidad, setDisponibilidad] = useState<DisponibilidadFromFront[]>([]);
+  const [tarifas, setTarifas] = useState<TarifaFront[]>([]);
 
-  const { service_id, speciality_id } = prestador;
+  const { service_id, speciality_id, offers_free_meet_greet } = prestador;
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -129,9 +131,14 @@ export const usePerfilPrestador = (prestador: Prestador) => {
     });
   }, []);
 
+  useEffect(() => {
+    getPrestadorTarifas(prestador.id as number).then((res) => {
+      setTarifas(res as TarifaFront[]);
+    });
+  }, []);
+
   return {
     prestador,
-
     messages,
     isTablet,
     prestadorServicio,
@@ -139,6 +146,8 @@ export const usePerfilPrestador = (prestador: Prestador) => {
     open,
     message,
     disponibilidad,
+    tarifas,
+    freeMeetGreet: offers_free_meet_greet,
     handleContact,
     handleOpen,
     handleClose,

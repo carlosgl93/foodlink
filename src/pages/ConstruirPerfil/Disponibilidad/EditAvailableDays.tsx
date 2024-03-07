@@ -1,9 +1,8 @@
 import { Box, Button, Switch, styled } from '@mui/material';
 
-import { DisponibilidadFromFront } from '@/api/disponibilidad/getDisponibilidadByPrestadorId';
-import { useEditAvailableDays } from './useEditAvailableDays';
 import { StyledDayName } from './ListAvailableDays';
 import { CenteredDivider } from '@/components/StyledDivider';
+import useConstruirPerfil from '@/store/construirPerfil';
 
 const Container = styled(Box)(() => ({
   display: 'flex',
@@ -54,22 +53,28 @@ const StyledTimeTitle = styled(StyledDayName)(() => ({
   marginLeft: '0',
 }));
 
+const times = Array.from({ length: 24 }, (_, hour) => [
+  `${hour.toString().padStart(2, '0')}:00`,
+  `${hour.toString().padStart(2, '0')}:30`,
+]).flat();
+
 export const EditAvailableDays = () => {
-  const { disponibilidad, handleToggleDay, handleSave, handleTimeChange, times, error } =
-    useEditAvailableDays();
+  const [
+    { disponibilidad },
+    { handleToggleDisponibilidadDay, handleTimeChange, handleSaveDisponibilidad },
+  ] = useConstruirPerfil();
 
   return (
     <Container>
-      <CenteredDivider />
       {disponibilidad &&
         disponibilidad?.map((day) => {
           const { dayName, id, isAvailable } = day;
           return (
-            <>
+            <div key={id}>
               <CenteredDivider />
               <StyledEditableDay key={id}>
                 <StyledToggleContainer>
-                  <Switch checked={isAvailable} onClick={() => handleToggleDay(dayName)} />
+                  <Switch checked={isAvailable} onClick={() => handleToggleDisponibilidadDay(id)} />
                   <StyledDayName>{dayName}</StyledDayName>
                 </StyledToggleContainer>
                 {isAvailable && (
@@ -108,7 +113,7 @@ export const EditAvailableDays = () => {
                   </StyledTimePickerContainer>
                 )}
               </StyledEditableDay>
-            </>
+            </div>
           );
         })}
 
@@ -121,8 +126,7 @@ export const EditAvailableDays = () => {
         sx={{
           my: '1rem',
         }}
-        onClick={() => handleSave(disponibilidad as DisponibilidadFromFront[])}
-        disabled={error !== ''}
+        onClick={() => handleSaveDisponibilidad()}
       >
         Guardar
       </Button>

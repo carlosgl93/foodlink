@@ -3,8 +3,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { TextContainer, Title } from '@/components/StyledComponents';
 import { Wrapper } from '@/pages/PrestadorDashboard/StyledPrestadorDashboardComponents';
 import BackButton from '@/components/BackButton';
-import { useEditarComunas } from './useEditarComunas';
 import { ComunasSearchBar } from './ComunasSearchBar';
+import useConstruirPerfil from '@/store/construirPerfil';
 
 const StyledTextContainer = styled(TextContainer)(() => ({
   textAlign: 'center',
@@ -52,8 +52,7 @@ const ContentContainer = styled(Box)(() => ({
 }));
 
 export const EditarComunas = () => {
-  const { prestadorComunas, handleUpdatePrestadorComunas, handleRemoveComuna } = useEditarComunas();
-
+  const [{ comunas }, { handleUpdatePrestadorComunas, handleRemoveComuna }] = useConstruirPerfil();
   return (
     <Wrapper>
       <BackButton />
@@ -62,7 +61,7 @@ export const EditarComunas = () => {
         <Box>
           <StyledSubtitle>Comunas seleccionadas:</StyledSubtitle>
           <StyledList>
-            {prestadorComunas?.map((comuna) => (
+            {comunas?.map((comuna) => (
               <StyledListItemButton key={comuna.id} onClick={() => handleRemoveComuna(comuna)}>
                 {comuna.name}
                 <CloseIcon sx={{ marginLeft: '0.5rem' }} />

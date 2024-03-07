@@ -2,7 +2,7 @@ import { SubTitle } from '@/pages/PrestadorDashboard/StyledPrestadorDashboardCom
 import { List, ListItem, styled } from '@mui/material';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import { useConstruirPerfil } from '../useConstruirPerfil';
+import useConstruirPerfil from '@/store/construirPerfil';
 
 const StyledListItem = styled(ListItem)(() => ({
   display: 'flex',
@@ -18,7 +18,7 @@ export const StyledDayName = styled(SubTitle)(() => ({
 }));
 
 export const ListAvailableDays = () => {
-  const { disponibilidad } = useConstruirPerfil();
+  const [{ disponibilidad }] = useConstruirPerfil();
   return (
     <List>
       {disponibilidad.map((day) => {

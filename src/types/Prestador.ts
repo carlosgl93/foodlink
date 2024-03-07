@@ -22,4 +22,5 @@ export type Prestador = {
   token?: string;
   role?: string;
   comunas: string[] | Comuna[];
+  offers_free_meet_greet?: boolean;
 };
