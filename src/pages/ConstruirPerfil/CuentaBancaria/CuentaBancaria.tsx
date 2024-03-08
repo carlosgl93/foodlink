@@ -12,6 +12,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { SaveButton } from '@/components/SaveButton';
 import { useCuentaBancaria } from '@/hooks/useCuentaBancaria';
 import Loading from '@/components/Loading';
+import { bancos, tiposDeCuenta } from './consts';
 
 export type CuentaBancariaInputs = {
   banco: string;
@@ -20,27 +21,6 @@ export type CuentaBancariaInputs = {
   titular: string;
   rut: string;
 };
-
-const bancos = [
-  'Banco Santander',
-  'Banco de Chile',
-  'Banco Estado',
-  'Banco BCI',
-  'Banco Falabella',
-  'Banco Ripley',
-  'Banco Itau',
-  'Banco Security',
-  'Banco Consorcio',
-  'Banco Internacional',
-  'Banco Corpbanca',
-  'Banco Scotiabank',
-  'Banco Paris',
-  'Banco HSBC',
-  'Banco CrediChile',
-  'Banco BBVA',
-  'Banco BICE',
-  'Banco Penta',
-];
 
 export const CuentaBancaria = () => {
   const {
@@ -52,11 +32,6 @@ export const CuentaBancaria = () => {
 
   const isLoading = postCuentaPrestadorLoading || getCuentaPrestadorLoading;
 
-  console.log(
-    'TODO: make default values the repsonse from prestadorCuentaBancaria',
-    prestadorCuentaBancaria,
-  );
-
   const {
     register,
     handleSubmit,
@@ -64,12 +39,7 @@ export const CuentaBancaria = () => {
     control,
   } = useForm<CuentaBancariaInputs>({
     defaultValues: {
-      // TODO: Remove this default values after finished testing
-      titular: 'Carlos',
-      banco: 'Banco Santander',
-      tipoCuenta: 'Corriente',
-      numeroCuenta: '123512351235',
-      rut: '18445810-1',
+      ...prestadorCuentaBancaria,
     },
   });
 
@@ -100,8 +70,10 @@ export const CuentaBancaria = () => {
             <SmallerTitle>Agrega tus datos bancarios</SmallerTitle>
             <StyledForm onSubmit={handleSubmit(onSubmit)}>
               <StyledTextField
+                defaultValue={prestadorCuentaBancaria?.titular}
                 label="Nombre del titular"
-                {...(register('titular'), { required: true })}
+                {...(register('titular'),
+                { required: true, message: 'Debes indicar el nombre del titular' })}
               />
               <StyledTextField
                 label="RUT"
@@ -123,25 +95,40 @@ export const CuentaBancaria = () => {
                   validate: (value) => bancos.includes(value) || 'Banco no válido',
                 }}
                 render={({ field }) => (
-                  <StyledSelect {...field} name="banco">
-                    <StyledOption value="">Seleccione un banco</StyledOption>
-                    {bancos.map((banco) => (
-                      <StyledOption key={banco} value={banco}>
-                        {banco}
-                      </StyledOption>
-                    ))}
-                  </StyledSelect>
+                  <>
+                    <StyledLabel htmlFor="banco">Banco</StyledLabel>
+                    <StyledSelect {...field} name="banco">
+                      <StyledOption value="">Seleccione un banco</StyledOption>
+                      {bancos.map((banco) => (
+                        <StyledOption key={banco} value={banco}>
+                          {banco}
+                        </StyledOption>
+                      ))}
+                    </StyledSelect>
+                  </>
                 )}
               />
-              <StyledTextField
-                label="Tipo de cuenta"
-                {...register('tipoCuenta', {
-                  required: 'Debes indicar el tipo de cuenta.',
-                  pattern: {
-                    value: /^(Corriente|Vista|Ahorro|RUT|Wise)$/i,
-                    message: 'Tipos de cuenta aceptados: Corriente, Vista, RUT, Ahorro, Wise',
-                  },
-                })}
+              <Controller
+                name="tipoCuenta"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: true,
+                  validate: (value) => tiposDeCuenta.includes(value) || 'Tipo de cuenta invalida',
+                }}
+                render={({ field }) => (
+                  <>
+                    <StyledLabel htmlFor="tipoCuenta">Tipo de cuenta</StyledLabel>
+                    <StyledSelect {...field} name="tipoCuenta">
+                      <StyledOption value="">Seleccione un tipo de cuenta</StyledOption>
+                      {tiposDeCuenta.map((cuenta) => (
+                        <StyledOption key={cuenta} value={cuenta}>
+                          {cuenta}
+                        </StyledOption>
+                      ))}
+                    </StyledSelect>
+                  </>
+                )}
               />
               <StyledTextField
                 label="Número de cuenta"
@@ -215,4 +202,8 @@ const StyledSelect = styled('select')(() => ({
 
 const StyledOption = styled('option')(() => ({
   padding: '10px 5px',
+}));
+
+const StyledLabel = styled('label')(() => ({
+  fontSize: '1rem',
 }));

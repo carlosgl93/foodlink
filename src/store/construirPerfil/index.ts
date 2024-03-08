@@ -20,6 +20,7 @@ import { postFreeMeetGreet } from '@/api/tarifas/postFreeMeetGreet';
 import { ExperienceState } from './experiencia';
 import { usePrestadorExperience } from '@/hooks/usePrestadorExperience';
 import { CuentaBancaria } from '@/types/CuentaBancaria';
+import { useCuentaBancaria } from '@/hooks/useCuentaBancaria';
 
 type ConstruirPerfilState = {
   prestador: Prestador;
@@ -32,7 +33,7 @@ type ConstruirPerfilState = {
   searchedComunasState: Comuna[];
   editDisponibilidad: boolean;
   experiencia: ExperienceState;
-  cuentaBancaria: CuentaBancaria;
+  cuentaBancaria: CuentaBancaria | null;
   [key: string]:
     | DisponibilidadFromFront[]
     | Prestador
@@ -69,17 +70,7 @@ const construirPerfilState = atom<ConstruirPerfilState>({
     searchedComunasState: [],
     editDisponibilidad: false,
     experiencia: [],
-    cuentaBancaria: {
-      id: 0,
-      banco: '',
-      tipoCuenta: '',
-      numeroCuenta: '',
-      titular: '',
-      rut: '',
-      prestadorId: 0,
-      createdAt: '',
-      updatedAt: '',
-    },
+    cuentaBancaria: null,
   },
 });
 
@@ -89,6 +80,7 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
   const [{ allComunas }] = useRecibeApoyo();
   const [{ user }] = useAuth();
   const [, setNotification] = useRecoilState(notificationState);
+  const { prestadorCuentaBancaria } = useCuentaBancaria();
   const router = useNavigate();
 
   usePrestadorExperience(user?.id as number, (data: ExperienceState) =>
@@ -380,6 +372,8 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
           ...prev,
           searchedComunasState: allComunas || [],
         }));
+      !construirPerfil.cuentaBancaria &&
+        setConstruirPerfil((prev) => ({ ...prev, cuentaBancaria: prestadorCuentaBancaria }));
     }
     setConstruirPerfil((prev) => ({ ...prev, loading: false }));
   }, [setConstruirPerfil, user, allComunas]);

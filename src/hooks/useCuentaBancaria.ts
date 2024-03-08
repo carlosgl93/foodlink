@@ -27,6 +27,9 @@ export const useCuentaBancaria = () => {
         severity: 'error',
       });
     },
+    // onSuccess: (data) => {
+    //   setCuentaBancaria(data);
+    // },
   });
 
   const {
@@ -72,6 +75,7 @@ export const useCuentaBancaria = () => {
   }, [user]);
 
   return {
+    // cuentaBancaria,
     prestadorCuentaBancaria,
     getCuentaPrestadorLoading,
     getCuentaPrestadorError,
