@@ -3,8 +3,10 @@ import { postCuentaPrestador } from '@/api/cuentaBancaria/postCuentaPrestador';
 import { CuentaBancariaInputs } from '@/pages/ConstruirPerfil/CuentaBancaria/CuentaBancaria';
 import useAuth from '@/store/auth';
 import { notificationState } from '@/store/snackbar';
+import { CuentaBancaria } from '@/types/CuentaBancaria';
+import { AxiosError } from 'axios';
 import { useEffect } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
@@ -13,24 +15,26 @@ export const useCuentaBancaria = () => {
   const [{ user }] = useAuth();
 
   const router = useNavigate();
+  const client = useQueryClient();
 
   const {
     data: prestadorCuentaBancaria,
     isLoading: getCuentaPrestadorLoading,
     error: getCuentaPrestadorError,
-  } = useQuery('prestadorCuentaBancaria', () => getCuentaPrestador(user?.id as number), {
-    onError: (error: { message: string }) => {
-      setNotification({
-        ...notification,
-        open: true,
-        message: `Hubo un error obteniendo tu cuenta: ${error.message}`,
-        severity: 'error',
-      });
+  } = useQuery<CuentaBancaria, AxiosError>(
+    'prestadorCuentaBancaria',
+    () => getCuentaPrestador(user?.id as number),
+    {
+      onError: (error: AxiosError) => {
+        setNotification({
+          ...notification,
+          open: true,
+          message: `Hubo un error obteniendo tu cuenta: ${error.message}`,
+          severity: 'error',
+        });
+      },
     },
-    // onSuccess: (data) => {
-    //   setCuentaBancaria(data);
-    // },
-  });
+  );
 
   const {
     mutate,
@@ -50,6 +54,7 @@ export const useCuentaBancaria = () => {
     },
     {
       onSuccess: () => {
+        client.invalidateQueries('prestadorCuentaBancaria');
         setNotification({
           ...notification,
           open: true,

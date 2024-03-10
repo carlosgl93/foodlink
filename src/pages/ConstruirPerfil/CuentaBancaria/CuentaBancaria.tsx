@@ -70,10 +70,15 @@ export const CuentaBancaria = () => {
             <SmallerTitle>Agrega tus datos bancarios</SmallerTitle>
             <StyledForm onSubmit={handleSubmit(onSubmit)}>
               <StyledTextField
-                defaultValue={prestadorCuentaBancaria?.titular}
+                // defaultValue={prestadorCuentaBancaria?.titular}
                 label="Nombre del titular"
-                {...(register('titular'),
-                { required: true, message: 'Debes indicar el nombre del titular' })}
+                {...register('titular', {
+                  required: 'Debes indicar el nombre del titular.',
+                  pattern: {
+                    value: /^[a-zA-Z\s]+$/,
+                    message: 'Nombre invalido: Solo se aceptan letras',
+                  },
+                })}
               />
               <StyledTextField
                 label="RUT"

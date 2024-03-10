@@ -33,7 +33,7 @@ type ConstruirPerfilState = {
   searchedComunasState: Comuna[];
   editDisponibilidad: boolean;
   experiencia: ExperienceState;
-  cuentaBancaria: CuentaBancaria | null;
+  cuentaBancaria: CuentaBancaria | undefined;
   [key: string]:
     | DisponibilidadFromFront[]
     | Prestador
@@ -42,6 +42,7 @@ type ConstruirPerfilState = {
     | Comuna[]
     | TarifaFront[]
     | null
+    | undefined
     | ExperienceState
     | CuentaBancaria;
 };
@@ -70,7 +71,7 @@ const construirPerfilState = atom<ConstruirPerfilState>({
     searchedComunasState: [],
     editDisponibilidad: false,
     experiencia: [],
-    cuentaBancaria: null,
+    cuentaBancaria: undefined,
   },
 });
 

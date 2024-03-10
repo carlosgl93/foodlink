@@ -31,7 +31,11 @@ export const ConstruirPerfil = () => {
         return true;
       }
 
-      if (key === 'cuentaBancaria' && construirPerfil[key] !== null) {
+      if (
+        key === 'cuentaBancaria' &&
+        construirPerfil[key] !== null &&
+        construirPerfil[key] !== undefined
+      ) {
         return true;
       }
 
