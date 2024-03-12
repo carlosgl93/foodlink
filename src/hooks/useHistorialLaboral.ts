@@ -2,6 +2,7 @@ import { deleteHistorialEntry } from '@/api/historialLaboral/deleteHistorialEntr
 import { getHistorialLaboral } from '@/api/historialLaboral/getHistorialLaboral';
 import { postHistorialLaboral } from '@/api/historialLaboral/postHistorialLaboral';
 import useAuth from '@/store/auth';
+import { construirPerfilState } from '@/store/construirPerfil';
 import { notificationState } from '@/store/snackbar';
 import { AxiosError } from 'axios';
 import { useEffect } from 'react';
@@ -20,6 +21,8 @@ export type HistorialLaboralEntry = {
 
 export const useHistorialLaboral = () => {
   const [notification, setNotification] = useRecoilState(notificationState);
+  const [, setConstruirPerfil] = useRecoilState(construirPerfilState);
+
   const [{ user }] = useAuth();
 
   const router = useNavigate();
@@ -39,6 +42,14 @@ export const useHistorialLaboral = () => {
           open: true,
           message: `Hubo un error obteniendo tu historial: ${error.message}`,
           severity: 'error',
+        });
+      },
+      onSuccess: (data) => {
+        setConstruirPerfil((prev) => {
+          return {
+            ...prev,
+            historialLaboral: data,
+          };
         });
       },
     },
@@ -105,6 +116,14 @@ export const useHistorialLaboral = () => {
     {
       onSuccess: () => {
         client.invalidateQueries('prestadorCuentaBancaria');
+        if (prestadorHistorialLaboral?.length === 0) {
+          setConstruirPerfil((prev) => {
+            return {
+              ...prev,
+              historialLaboral: [],
+            };
+          });
+        }
         setNotification({
           ...notification,
           open: true,

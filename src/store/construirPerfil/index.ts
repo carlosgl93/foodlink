@@ -21,6 +21,7 @@ import { ExperienceState } from './experiencia';
 import { usePrestadorExperience } from '@/hooks/usePrestadorExperience';
 import { CuentaBancaria } from '@/types/CuentaBancaria';
 import { useCuentaBancaria } from '@/hooks/useCuentaBancaria';
+import { HistorialLaboralEntry, useHistorialLaboral } from '@/hooks/useHistorialLaboral';
 
 type ConstruirPerfilState = {
   prestador: Prestador;
@@ -34,6 +35,7 @@ type ConstruirPerfilState = {
   editDisponibilidad: boolean;
   experiencia: ExperienceState;
   cuentaBancaria: CuentaBancaria | undefined;
+  historialLaboral: HistorialLaboralEntry[];
   [key: string]:
     | DisponibilidadFromFront[]
     | Prestador
@@ -44,10 +46,11 @@ type ConstruirPerfilState = {
     | null
     | undefined
     | ExperienceState
-    | CuentaBancaria;
+    | CuentaBancaria
+    | HistorialLaboralEntry[];
 };
 
-const construirPerfilState = atom<ConstruirPerfilState>({
+export const construirPerfilState = atom<ConstruirPerfilState>({
   key: 'construirPerfilState',
   default: {
     prestador: {
@@ -72,6 +75,7 @@ const construirPerfilState = atom<ConstruirPerfilState>({
     editDisponibilidad: false,
     experiencia: [],
     cuentaBancaria: undefined,
+    historialLaboral: [],
   },
 });
 
@@ -82,6 +86,7 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
   const [{ user }] = useAuth();
   const [, setNotification] = useRecoilState(notificationState);
   const { prestadorCuentaBancaria } = useCuentaBancaria();
+  const { prestadorHistorialLaboral } = useHistorialLaboral();
   const router = useNavigate();
 
   usePrestadorExperience(user?.id as number, (data: ExperienceState) =>
@@ -375,6 +380,12 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
         }));
       !construirPerfil.cuentaBancaria &&
         setConstruirPerfil((prev) => ({ ...prev, cuentaBancaria: prestadorCuentaBancaria }));
+
+      !construirPerfil.historialLaboral?.length &&
+        setConstruirPerfil((prev) => ({
+          ...prev,
+          historialLaboral: prestadorHistorialLaboral as HistorialLaboralEntry[],
+        }));
     }
     setConstruirPerfil((prev) => ({ ...prev, loading: false }));
   }, [setConstruirPerfil, user, allComunas]);

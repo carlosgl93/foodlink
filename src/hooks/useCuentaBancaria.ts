@@ -2,6 +2,7 @@ import { getCuentaPrestador } from '@/api/cuentaBancaria/getCuentaPrestador';
 import { postCuentaPrestador } from '@/api/cuentaBancaria/postCuentaPrestador';
 import { CuentaBancariaInputs } from '@/pages/ConstruirPerfil/CuentaBancaria/CuentaBancaria';
 import useAuth from '@/store/auth';
+import { construirPerfilState } from '@/store/construirPerfil';
 import { notificationState } from '@/store/snackbar';
 import { CuentaBancaria } from '@/types/CuentaBancaria';
 import { AxiosError } from 'axios';
@@ -12,6 +13,8 @@ import { useRecoilState } from 'recoil';
 
 export const useCuentaBancaria = () => {
   const [notification, setNotification] = useRecoilState(notificationState);
+  const [, setConstruirPerfil] = useRecoilState(construirPerfilState);
+
   const [{ user }] = useAuth();
 
   const router = useNavigate();
@@ -31,6 +34,14 @@ export const useCuentaBancaria = () => {
           open: true,
           message: `Hubo un error obteniendo tu cuenta: ${error.message}`,
           severity: 'error',
+        });
+      },
+      onSuccess: (data) => {
+        setConstruirPerfil((prev) => {
+          return {
+            ...prev,
+            cuentaBancaria: data,
+          };
         });
       },
     },
