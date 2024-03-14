@@ -35,6 +35,7 @@ enum Pages {
   Experiencia,
   CuentaBancaria,
   HistorialLaboral,
+  EducacionFormacion,
 }
 
 type PathRouteCustomProps = {

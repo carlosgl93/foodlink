@@ -39,6 +39,14 @@ export const ConstruirPerfil = () => {
         return true;
       }
 
+      if (
+        key === 'educacionFormacion' &&
+        construirPerfil[key] !== null &&
+        construirPerfil[key] !== undefined
+      ) {
+        return true;
+      }
+
       return false;
     },
     [construirPerfil],

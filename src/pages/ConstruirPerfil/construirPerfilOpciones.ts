@@ -5,7 +5,6 @@ export const construirPerfilOpciones = [
   { key: 'experiencia', value: 'Experiencia' },
   { key: 'cuentaBancaria', value: 'Cuenta bancaria' },
   { key: 'historialLaboral', value: 'Historial laboral' },
-  { key: 'detallesAdicionales', value: 'Detalles adicionales' },
   { key: 'educacionFormacion', value: 'Educación y formación' },
   { key: 'registroSuperIntendenciaSalud', value: 'Registro super intendencia de salud' },
   { key: 'insignias', value: 'Insignias' },

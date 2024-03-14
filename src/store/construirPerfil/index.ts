@@ -20,8 +20,8 @@ import { postFreeMeetGreet } from '@/api/tarifas/postFreeMeetGreet';
 import { ExperienceState } from './experiencia';
 import { usePrestadorExperience } from '@/hooks/usePrestadorExperience';
 import { CuentaBancaria } from '@/types/CuentaBancaria';
-import { useCuentaBancaria } from '@/hooks/useCuentaBancaria';
-import { HistorialLaboralEntry, useHistorialLaboral } from '@/hooks/useHistorialLaboral';
+import { HistorialLaboralEntry } from '@/hooks/useHistorialLaboral';
+import { EducacionInputs } from '@/pages/ConstruirPerfil/EducacionFormacion/EducacionFormacion';
 
 type ConstruirPerfilState = {
   prestador: Prestador;
@@ -36,6 +36,7 @@ type ConstruirPerfilState = {
   experiencia: ExperienceState;
   cuentaBancaria: CuentaBancaria | undefined;
   historialLaboral: HistorialLaboralEntry[];
+  educacionFormacion: EducacionInputs[];
   [key: string]:
     | DisponibilidadFromFront[]
     | Prestador
@@ -47,7 +48,8 @@ type ConstruirPerfilState = {
     | undefined
     | ExperienceState
     | CuentaBancaria
-    | HistorialLaboralEntry[];
+    | HistorialLaboralEntry[]
+    | EducacionInputs[];
 };
 
 export const construirPerfilState = atom<ConstruirPerfilState>({
@@ -76,6 +78,7 @@ export const construirPerfilState = atom<ConstruirPerfilState>({
     experiencia: [],
     cuentaBancaria: undefined,
     historialLaboral: [],
+    educacionFormacion: [],
   },
 });
 
@@ -85,8 +88,6 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
   const [{ allComunas }] = useRecibeApoyo();
   const [{ user }] = useAuth();
   const [, setNotification] = useRecoilState(notificationState);
-  const { prestadorCuentaBancaria } = useCuentaBancaria();
-  const { prestadorHistorialLaboral } = useHistorialLaboral();
   const router = useNavigate();
 
   usePrestadorExperience(user?.id as number, (data: ExperienceState) =>
@@ -368,7 +369,6 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
   useEffect(() => {
     setConstruirPerfil((prev) => ({ ...prev, loading: true }));
     if (user) {
-      //   setConstruirPerfil((prev) => ({ ...prev, prestador: user as Prestador }));
       !construirPerfil.prestador && getPrestador(user.id as number);
       !construirPerfil.disponibilidad?.length && getDisponibilidad(user.id as number);
       !construirPerfil.comunas?.length && getComunas(user.id as number);
@@ -377,14 +377,6 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
         setConstruirPerfil((prev) => ({
           ...prev,
           searchedComunasState: allComunas || [],
-        }));
-      !construirPerfil.cuentaBancaria &&
-        setConstruirPerfil((prev) => ({ ...prev, cuentaBancaria: prestadorCuentaBancaria }));
-
-      !construirPerfil.historialLaboral?.length &&
-        setConstruirPerfil((prev) => ({
-          ...prev,
-          historialLaboral: prestadorHistorialLaboral as HistorialLaboralEntry[],
         }));
     }
     setConstruirPerfil((prev) => ({ ...prev, loading: false }));

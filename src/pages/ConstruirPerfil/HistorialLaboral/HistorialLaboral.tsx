@@ -171,7 +171,7 @@ export const HistorialLaboral = () => {
                       type="button"
                       onClick={() => append({ empresa: '', inicio: '', final: '', titulo: '' })}
                     >
-                      Add More
+                      Agregar
                     </Button>
                     <Button
                       startIcon={<DeleteOutlineOutlinedIcon />}
@@ -185,7 +185,7 @@ export const HistorialLaboral = () => {
                         }
                       }}
                     >
-                      Remove
+                      Eliminar
                     </Button>
                   </Box>
                 </div>
@@ -286,7 +286,7 @@ export const HistorialLaboral = () => {
   );
 };
 
-const StyledErrorMessage = styled(Text)(({ theme }) => ({
+export const StyledErrorMessage = styled(Text)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.secondary.contrastText,
 }));

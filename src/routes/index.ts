@@ -95,6 +95,10 @@ const routes: Routes = {
     component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/HistorialLaboral')),
     path: '/construir-perfil/historialLaboral',
   },
+  [Pages.EducacionFormacion]: {
+    component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/EducacionFormacion')),
+    path: '/construir-perfil/educacionFormacion',
+  },
   [Pages.Chat]: {
     component: asyncComponentLoader(() => import('@/pages/Chat')),
     path: '/chat/',
