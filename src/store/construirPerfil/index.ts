@@ -343,7 +343,8 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
     }));
   };
 
-  const handleSaveTarifas = async () => {
+  const handleSaveTarifas = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setConstruirPerfil((prev) => ({ ...prev, loading: true }));
     try {
       await postTarifas(user?.id as number, construirPerfil.tarifas);
@@ -370,8 +371,6 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
       setConstruirPerfil((prev) => ({ ...prev, loading: false }));
     }
   };
-
-  console.log(construirPerfil);
 
   useEffect(() => {
     setConstruirPerfil((prev) => ({ ...prev, loading: true }));
@@ -401,7 +400,8 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
           educacionFormacion: educacionData as EducacionInputs[],
         }));
 
-      educacionData;
+      construirPerfil.prestador.offers_free_meet_greet === undefined &&
+        setConstruirPerfil((prev) => ({ ...prev, prestador: user as Prestador }));
     }
     setConstruirPerfil((prev) => ({ ...prev, loading: false }));
   }, [setConstruirPerfil, user, allComunas]);

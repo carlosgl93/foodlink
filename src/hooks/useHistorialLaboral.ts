@@ -17,6 +17,7 @@ export type HistorialLaboralEntry = {
   inicio: string;
   final: string;
   titulo: string;
+  todavia: boolean;
 };
 
 export const useHistorialLaboral = () => {
@@ -33,7 +34,7 @@ export const useHistorialLaboral = () => {
     isLoading: getPrestadorHistorialLaboralLoading,
     error: getPrestadorHistorialLaboralError,
   } = useQuery<HistorialLaboralEntry[], AxiosError>(
-    'prestadorHistorialLaboral',
+    ['prestadorHistorialLaboral', user?.id],
     () => getHistorialLaboral(user?.id as number),
     {
       onError: (error: AxiosError) => {

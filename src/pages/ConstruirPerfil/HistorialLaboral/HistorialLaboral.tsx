@@ -1,4 +1,4 @@
-import { TextField, Button, Box, styled } from '@mui/material';
+import { TextField, Button, Box, styled, FormControlLabel, Checkbox } from '@mui/material';
 import { useFieldArray, useForm } from 'react-hook-form';
 import {
   Container,
@@ -46,10 +46,9 @@ export const HistorialLaboral = () => {
   };
 
   const watchFields = watch('historialLaboral');
-  const isAnyFieldEmpty = watchFields?.some(
-    (field: HistorialLaboralEntry) =>
-      !field.empresa || !field.inicio || !field.final || !field.titulo,
-  );
+  const isAnyFieldEmpty = watchFields?.some((field: HistorialLaboralEntry) => {
+    !field.empresa || !field.inicio || !field.titulo || (field.todavia === false && !field.final);
+  });
 
   const currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
@@ -60,8 +59,8 @@ export const HistorialLaboral = () => {
         prestadorHistorialLaboral?.map((item) => ({
           ...item,
           dbId: item.id,
-          inicio: item.inicio.split('T')[0],
-          final: item.final.split('T')[0],
+          inicio: item.inicio?.split('T')[0],
+          final: item.final?.split('T')[0],
         })) as HistorialLaboralEntry[],
       );
     }
@@ -84,7 +83,6 @@ export const HistorialLaboral = () => {
           {prestadorHistorialLaboral?.length ? (
             fields?.map((field, index) => {
               const inicioDate = watch(`historialLaboral.${index}.inicio`);
-
               return (
                 <div key={field.id}>
                   <TextField
@@ -123,20 +121,32 @@ export const HistorialLaboral = () => {
                         {errors.historialLaboral[index]?.inicio?.message}
                       </StyledErrorMessage>
                     )}
-
-                  <TextField
-                    {...register(`historialLaboral.${index}.final`, {
-                      validate: (value) =>
-                        new Date(value) >= new Date(inicioDate) ||
-                        'La fecha final no puede ser más reciente que la fecha de inicio',
-                      required: 'Final es requerido',
-                    })}
-                    label="Final"
-                    type="date"
-                    fullWidth
-                    margin="normal"
-                    InputLabelProps={{ shrink: true }}
-                  />
+                  {watch().historialLaboral[index].final ? null : (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={watch().historialLaboral[index].todavia}
+                          {...register(`historialLaboral.${index}.todavia`)}
+                        />
+                      }
+                      label="Todavía trabajo aquí"
+                    />
+                  )}
+                  {watch().historialLaboral[index].todavia ? null : (
+                    <TextField
+                      {...register(`historialLaboral.${index}.final`, {
+                        validate: (value) =>
+                          new Date(value) >= new Date(inicioDate) ||
+                          'La fecha final no puede ser más reciente que la fecha de inicio',
+                        required: 'Final es requerido',
+                      })}
+                      label="Final"
+                      type="date"
+                      fullWidth
+                      margin="normal"
+                      InputLabelProps={{ shrink: true }}
+                    />
+                  )}
                   {errors.historialLaboral &&
                     errors.historialLaboral[index] &&
                     errors.historialLaboral[index]?.final && (
@@ -169,7 +179,9 @@ export const HistorialLaboral = () => {
                     <Button
                       startIcon={<AddCircleOutlineOutlinedIcon />}
                       type="button"
-                      onClick={() => append({ empresa: '', inicio: '', final: '', titulo: '' })}
+                      onClick={() =>
+                        append({ empresa: '', inicio: '', final: '', titulo: '', todavia: false })
+                      }
                     >
                       Agregar
                     </Button>
@@ -181,7 +193,13 @@ export const HistorialLaboral = () => {
                         remove(index);
                         deleteHistorialEntryMutation(field.dbId as number);
                         if (fields.length === 1) {
-                          append({ empresa: '', inicio: '', final: '', titulo: '' });
+                          append({
+                            empresa: '',
+                            inicio: '',
+                            final: '',
+                            titulo: '',
+                            todavia: false,
+                          });
                         }
                       }}
                     >
@@ -266,7 +284,9 @@ export const HistorialLaboral = () => {
               <Button
                 startIcon={<AddCircleOutlineOutlinedIcon />}
                 type="button"
-                onClick={() => append({ empresa: '', inicio: '', final: '', titulo: '' })}
+                onClick={() =>
+                  append({ empresa: '', inicio: '', final: '', titulo: '', todavia: false })
+                }
               >
                 Add More
               </Button>

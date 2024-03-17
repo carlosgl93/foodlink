@@ -3,7 +3,6 @@ import { Wrapper } from './MobilePerfilPrestadorStyledComponents';
 import { Box, styled } from '@mui/material';
 import { Title } from '@/components/StyledComponents';
 import { formatCLP } from '@/utils/formatCLP';
-import useAuth from '@/store/auth';
 
 const StyledSubtitle = styled(Title)(({ theme }) => ({
   color: theme.palette.secondary.dark,
@@ -54,10 +53,9 @@ const StyledGreyTextContainer = styled(Box)(({ theme }) => ({
 }));
 
 export const Tarifas = () => {
-  const [{ tarifas }] = useConstruirPerfil();
-  const [{ user }] = useAuth();
+  const [{ tarifas, prestador }] = useConstruirPerfil();
 
-  const freeMeetGreet = user?.offers_free_meet_greet;
+  const freeMeetGreet = prestador?.offers_free_meet_greet;
   const fee = import.meta.env.VITE_TRANSACTION_FEE_PERCENTAGE;
   const feePercentage = Number(fee) / 100;
 
@@ -65,8 +63,8 @@ export const Tarifas = () => {
     <Wrapper>
       <Grid>
         <StyledTarifaContainer>
-          <StyledSubtitle>Juntarse y conocerse</StyledSubtitle>
-          <StyledTarifa>{freeMeetGreet ? 'Gratis' : 'Conversable'}</StyledTarifa>
+          <StyledSubtitle>Juntarse y conocerse gratis</StyledSubtitle>
+          <StyledTarifa>{freeMeetGreet ? 'Gratis' : 'No'}</StyledTarifa>
         </StyledTarifaContainer>
         {tarifas.map((tarifa) => {
           const { id, dayName, price } = tarifa;

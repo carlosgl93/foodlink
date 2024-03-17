@@ -24,7 +24,7 @@ type Actions = {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     tarifa: TarifaFront,
   ) => void;
-  handleSaveTarifas: () => Promise<void>;
+  handleSaveTarifas: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
 };
 
 export type { Actions };
