@@ -5,5 +5,6 @@ export const getCuentaPrestador = async (prestadorId: number) => {
     params: { prestadorId },
   });
 
+  if (readCuentaPrestador.data === '') return undefined;
   return readCuentaPrestador.data;
 };

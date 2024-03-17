@@ -6,10 +6,11 @@ import {
   Wrapper,
 } from '@/pages/PrestadorDashboard/StyledPrestadorDashboardComponents';
 import { StyledText } from '../StyledConstruirPerfilComponents';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import { TarifaDiaria } from './TarifaDiaria';
 import { TarifaFront } from '@/types';
 import useConstruirPerfil from '@/store/construirPerfil';
+import { SaveButton } from '@/components/SaveButton';
 
 export const Tarifas = () => {
   const [
@@ -46,40 +47,33 @@ export const Tarifas = () => {
           >
             Usa solo números, sin puntos ni comas.
           </StyledText>
-          {tarifas.map((tarifa: TarifaFront) => (
-            <div key={tarifa.id}>
-              <TarifaDiaria tarifa={tarifa} handleChangeTarifa={handleChangeTarifa} />
-            </div>
-          ))}
+          <form onSubmit={handleSaveTarifas}>
+            {tarifas.map((tarifa: TarifaFront) => (
+              <div key={tarifa.id}>
+                <TarifaDiaria tarifa={tarifa} handleChangeTarifa={handleChangeTarifa} />
+              </div>
+            ))}
 
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'start',
-              alignItems: 'center',
-              marginTop: '1rem',
-            }}
-          >
-            <input
-              type="checkbox"
-              name="meetAndGreet"
-              checked={prestador?.offers_free_meet_greet}
-              onChange={handleChangeFreeMeetGreet}
-            />
-            <label htmlFor="meetAndGreet">Ofrezco conocernos gratuitamente.</label>
-          </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'start',
+                alignItems: 'center',
+                marginTop: '1rem',
+              }}
+            >
+              <input
+                type="checkbox"
+                name="meetAndGreet"
+                checked={prestador?.offers_free_meet_greet}
+                onChange={handleChangeFreeMeetGreet}
+              />
+              <label htmlFor="meetAndGreet">Ofrezco conocernos gratuitamente.</label>
+            </Box>
+            <SaveButton />
+          </form>
         </Box>
-        <Button
-          variant="contained"
-          fullWidth
-          sx={{
-            marginTop: '2rem',
-          }}
-          onClick={handleSaveTarifas}
-        >
-          Guardar
-        </Button>
       </Container>
     </Wrapper>
   );

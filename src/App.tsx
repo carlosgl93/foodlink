@@ -12,8 +12,16 @@ import HotKeys from '@/sections/HotKeys';
 import SW from '@/sections/SW';
 import Sidebar from '@/sections/Sidebar';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { NotificationSnackbar } from './components/Snackbar';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    },
+  },
+});
 
 function App() {
   return (
@@ -40,6 +48,7 @@ function App() {
           >
             <Pages />
           </Suspense>
+          <NotificationSnackbar />
         </BrowserRouter>
       </Fragment>
     </QueryClientProvider>

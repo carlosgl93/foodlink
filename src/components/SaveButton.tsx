@@ -1,6 +1,10 @@
 import { Button } from '@mui/material';
 
-export const SaveButton = () => {
+type SaveButtonProps = {
+  disabled?: boolean;
+};
+
+export const SaveButton = ({ disabled }: SaveButtonProps) => {
   return (
     <Button
       variant="contained"
@@ -9,6 +13,7 @@ export const SaveButton = () => {
         marginTop: '2rem',
       }}
       type="submit"
+      disabled={disabled}
     >
       Guardar
     </Button>

@@ -20,6 +20,10 @@ import { postFreeMeetGreet } from '@/api/tarifas/postFreeMeetGreet';
 import { ExperienceState } from './experiencia';
 import { usePrestadorExperience } from '@/hooks/usePrestadorExperience';
 import { CuentaBancaria } from '@/types/CuentaBancaria';
+import { useCuentaBancaria } from '@/hooks/useCuentaBancaria';
+import { HistorialLaboralEntry, useHistorialLaboral } from '@/hooks/useHistorialLaboral';
+import { EducacionInputs } from '@/pages/ConstruirPerfil/EducacionFormacion/EducacionFormacion';
+import { useEducation } from '@/hooks/useEducation';
 
 type ConstruirPerfilState = {
   prestador: Prestador;
@@ -32,7 +36,9 @@ type ConstruirPerfilState = {
   searchedComunasState: Comuna[];
   editDisponibilidad: boolean;
   experiencia: ExperienceState;
-  cuentaBancaria: CuentaBancaria;
+  cuentaBancaria: CuentaBancaria | undefined;
+  historialLaboral: HistorialLaboralEntry[];
+  educacionFormacion: EducacionInputs[];
   [key: string]:
     | DisponibilidadFromFront[]
     | Prestador
@@ -41,11 +47,14 @@ type ConstruirPerfilState = {
     | Comuna[]
     | TarifaFront[]
     | null
+    | undefined
     | ExperienceState
-    | CuentaBancaria;
+    | CuentaBancaria
+    | HistorialLaboralEntry[]
+    | EducacionInputs[];
 };
 
-const construirPerfilState = atom<ConstruirPerfilState>({
+export const construirPerfilState = atom<ConstruirPerfilState>({
   key: 'construirPerfilState',
   default: {
     prestador: {
@@ -69,17 +78,9 @@ const construirPerfilState = atom<ConstruirPerfilState>({
     searchedComunasState: [],
     editDisponibilidad: false,
     experiencia: [],
-    cuentaBancaria: {
-      id: 0,
-      banco: '',
-      tipoCuenta: '',
-      numeroCuenta: '',
-      titular: '',
-      rut: '',
-      prestadorId: 0,
-      createdAt: '',
-      updatedAt: '',
-    },
+    cuentaBancaria: undefined,
+    historialLaboral: [],
+    educacionFormacion: [],
   },
 });
 
@@ -89,6 +90,9 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
   const [{ allComunas }] = useRecibeApoyo();
   const [{ user }] = useAuth();
   const [, setNotification] = useRecoilState(notificationState);
+  const { prestadorCuentaBancaria } = useCuentaBancaria();
+  const { prestadorHistorialLaboral } = useHistorialLaboral();
+  const { educacionData } = useEducation();
   const router = useNavigate();
 
   usePrestadorExperience(user?.id as number, (data: ExperienceState) =>
@@ -339,7 +343,8 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
     }));
   };
 
-  const handleSaveTarifas = async () => {
+  const handleSaveTarifas = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setConstruirPerfil((prev) => ({ ...prev, loading: true }));
     try {
       await postTarifas(user?.id as number, construirPerfil.tarifas);
@@ -380,6 +385,23 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
           ...prev,
           searchedComunasState: allComunas || [],
         }));
+      !construirPerfil.cuentaBancaria &&
+        setConstruirPerfil((prev) => ({ ...prev, cuentaBancaria: prestadorCuentaBancaria }));
+
+      !construirPerfil.historialLaboral?.length &&
+        setConstruirPerfil((prev) => ({
+          ...prev,
+          historialLaboral: prestadorHistorialLaboral as HistorialLaboralEntry[],
+        }));
+
+      !construirPerfil.educacionFormacion?.length &&
+        setConstruirPerfil((prev) => ({
+          ...prev,
+          educacionFormacion: educacionData as EducacionInputs[],
+        }));
+
+      construirPerfil.prestador.offers_free_meet_greet === undefined &&
+        setConstruirPerfil((prev) => ({ ...prev, prestador: user as Prestador }));
     }
     setConstruirPerfil((prev) => ({ ...prev, loading: false }));
   }, [setConstruirPerfil, user, allComunas]);
