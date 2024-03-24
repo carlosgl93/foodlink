@@ -73,9 +73,10 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
 
   const setComunas = useCallback(
     (comunas: Comuna[]) => {
+      if (comunas.length === 0) return;
       setApoyo((prev) => ({
         ...prev,
-        allComunas: Object.values(comunas),
+        allComunas: Object?.values(comunas),
       }));
     },
     [setApoyo],
@@ -85,7 +86,7 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
     (servicios: Servicio[]) => {
       setApoyo((prev) => ({
         ...prev,
-        allServicios: Object.values(servicios),
+        allServicios: Object?.values(servicios),
       }));
     },
     [setApoyo],

@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import { EncuentraApoyo } from './EncuentraApoyo';
+import { ActualizarPerfil } from './ActualizarPerfil';
 
 export const UsuarioDashboard = () => {
   return (
@@ -8,6 +9,7 @@ export const UsuarioDashboard = () => {
         p: '1rem',
       }}
     >
+      <ActualizarPerfil />
       <EncuentraApoyo />
     </Box>
   );
