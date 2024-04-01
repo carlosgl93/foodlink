@@ -1,7 +1,6 @@
 import { ChangeEvent } from 'react';
 import { List, ListItemButton, ListItemText, Box, Button } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useRecoilValueLoadable } from 'recoil';
 
 import {
   StyledSelect,
@@ -13,8 +12,8 @@ import {
 import FiltersSearchBar from './FiltersSearchBar';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { availability } from '@/utils/constants';
-import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
-import { Especialidad, Servicio } from '@/types/Servicio';
+import { Servicio } from '@/types/Servicio';
+import { useServicios } from '@/hooks/useServicios';
 
 type MobileFiltersProps = {
   closeFilters: () => void;
@@ -26,26 +25,20 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
     { removeComuna, selectServicio, selectEspecialidad, setAvailability },
   ] = useRecibeApoyo();
 
-  const fetchServicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
+  const { allServicios } = useServicios();
 
-  const serviciosAdEspecialidades = fetchServicios.contents.data;
-
-  const servicios: Servicio[] =
-    serviciosAdEspecialidades !== undefined ? Object?.values(serviciosAdEspecialidades) : [];
-
-  const especialidades =
-    servicios
-      ?.find((s: Servicio) => s.service_id === servicio?.service_id)
-      ?.especialidades.map((e: Especialidad) => e) || [];
+  const especialidades = allServicios
+    .map((s) => s.especialidades)
+    .map((e) => e.map((esp) => esp.especialidadName));
 
   const handleSelectServicio = (e: ChangeEvent<HTMLSelectElement>) => {
     if (e.target.value === '') {
       selectServicio(null);
-      selectEspecialidad(null);
+      selectEspecialidad(undefined);
       return;
     }
-    const selectedService = servicios.find((s: Servicio) => s.service_name === e.target.value);
-    selectEspecialidad(null);
+    const selectedService = allServicios.find((s: Servicio) => s.serviceName === e.target.value);
+    selectEspecialidad(undefined);
     selectServicio(selectedService as Servicio);
   };
 
@@ -114,14 +107,14 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
       >
         Servicio
       </Title>
-      {servicios && (
-        <StyledSelect value={servicio?.service_name || ''} onChange={handleSelectServicio}>
+      {allServicios && (
+        <StyledSelect value={servicio?.serviceName || ''} onChange={handleSelectServicio}>
           <option value={''}>Elige un servicio</option>
 
-          {servicios.map((servicio: Servicio) => {
+          {allServicios.map((servicio: Servicio) => {
             return (
-              <option key={servicio.service_id} value={servicio.service_name}>
-                {servicio.service_name}
+              <option key={servicio.id} value={servicio.serviceName}>
+                {servicio.serviceName}
               </option>
             );
           })}
@@ -139,22 +132,18 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
             Especialidad
           </Title>
           <StyledSelect
-            value={especialidad?.especialidad_name}
+            value={especialidad?.especialidadName}
             onChange={(e) => {
-              const selectedEspecialidad = especialidades.find(
-                (esp: Especialidad) => esp.especialidad_name === e.target.value,
+              selectEspecialidad(
+                servicio.especialidades.find((esp) => esp.especialidadName === e.target.value),
               );
-              selectEspecialidad(selectedEspecialidad as Especialidad);
             }}
           >
-            <option value={''}>Elige una especialidad</option>
-
-            {servicio.especialidades?.map((especialidad, i) => {
-              if (especialidad.especialidad_name === servicio.service_name)
-                return <option key={i}>Este servicio no tiene especialidad</option>;
+            <option value="">Selecciona una especialidad</option>
+            {servicio.especialidades?.map((especialidad) => {
               return (
-                <option key={especialidad.especialidad_id} value={especialidad.especialidad_name}>
-                  {especialidad.especialidad_name}
+                <option key={especialidad.id} value={especialidad.especialidadName}>
+                  {especialidad.especialidadName}
                 </option>
               );
             })}

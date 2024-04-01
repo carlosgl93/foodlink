@@ -1,5 +1,6 @@
 import { Fragment, Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import './styles.css';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import { CircularProgress } from '@mui/material';

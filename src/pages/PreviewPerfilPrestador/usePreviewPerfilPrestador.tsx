@@ -31,13 +31,13 @@ export const usePreviewPerfilPrestador = () => {
   };
 
   useEffect(() => {
-    const thisPrestadorServicio = allServicios?.find((s) => s.service_id === service_id);
+    const thisPrestadorServicio = allServicios?.find((s) => s.id === service_id);
     if (thisPrestadorServicio) {
       setPrestadorServicio(thisPrestadorServicio);
     }
 
     const thisPrestadorEspecialidad = thisPrestadorServicio?.especialidades.find(
-      (e) => e.especialidad_id === speciality_id,
+      (e) => e.id === speciality_id,
     ) as Especialidad;
 
     if (thisPrestadorEspecialidad) {

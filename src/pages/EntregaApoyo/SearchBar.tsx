@@ -4,12 +4,13 @@ import { Box } from '@mui/system';
 import { useState } from 'react';
 import useEntregaApoyo from '@/store/entregaApoyo';
 import { Comuna } from '@/types/Comuna';
+import { useComunas } from '@/hooks/useComunas';
 
 function SearchBar() {
-  const [{ allComunas, selectedComunas }, { addComuna, removeComuna }] = useEntregaApoyo();
+  const [{ selectedComunas }, { addComuna, removeComuna }] = useEntregaApoyo();
+  const { allComunas } = useComunas();
+  const [comunaBuscada, setComunaBuscada] = useState('');
   const [comunasState, setComunasState] = useState(allComunas || []);
-
-  console.log(selectedComunas);
 
   const clickComunaHandler = (comuna: Comuna) => {
     if (selectedComunas?.includes(comuna)) {
@@ -17,12 +18,14 @@ function SearchBar() {
     } else {
       setComunasState(allComunas || []);
       addComuna(comuna);
+      setComunaBuscada('');
     }
   };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setComunaBuscada(e.target.value);
     const match = allComunas?.filter((comuna) => {
-      if (comuna.name.toLowerCase().includes(e.target.value.toLowerCase())) {
+      if (comuna.name.toLowerCase().includes(comunaBuscada.toLowerCase())) {
         return comuna;
       }
     });
@@ -35,6 +38,7 @@ function SearchBar() {
     return (
       <>
         <OutlinedInput
+          value={comunaBuscada}
           id="searchByComuna"
           type={'text'}
           endAdornment={

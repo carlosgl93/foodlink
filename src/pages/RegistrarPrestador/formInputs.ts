@@ -6,9 +6,9 @@ export const formInputs = [
     type: 'text',
   },
   {
-    inputName: 'apellidos',
+    inputName: 'apellido',
     placeholder: 'Ingresa tus apellidos',
-    label: 'Apellidos (*)',
+    label: 'Apellido (*)',
     type: 'text',
   },
   {

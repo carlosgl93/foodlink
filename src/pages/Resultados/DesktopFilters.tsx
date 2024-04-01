@@ -11,10 +11,9 @@ import FiltersSearchBar from './FiltersSearchBar';
 import useRecibeApoyo from '@/store/recibeApoyo';
 
 import { availability } from '@/utils/constants';
-import { useRecoilValueLoadable } from 'recoil';
-import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
-import { Especialidad, Servicio } from '@/types/Servicio';
+import { Servicio } from '@/types/Servicio';
 import { ChangeEvent } from 'react';
+import { useServicios } from '@/hooks/useServicios';
 
 const DesktopFilters = () => {
   const [
@@ -22,20 +21,14 @@ const DesktopFilters = () => {
     { removeComuna, selectServicio, selectEspecialidad, setAvailability },
   ] = useRecibeApoyo();
 
-  const fetchServicios = useRecoilValueLoadable(getAllServiciosAndEspecialidades);
+  const { allServicios } = useServicios();
 
-  const serviciosAdEspecialidades = fetchServicios.contents.data;
-
-  const servicios: Servicio[] =
-    serviciosAdEspecialidades !== undefined ? Object?.values(serviciosAdEspecialidades) : [];
-
-  const especialidades =
-    servicios
-      ?.find((s: Servicio) => s.service_id === servicio?.service_id)
-      ?.especialidades.map((e: Especialidad) => e) || [];
+  const especialidades = allServicios
+    .map((s) => s.especialidades)
+    .map((e) => e.map((esp) => esp.especialidadName));
 
   const handleSelectServicio = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selectedService = servicios.find((s: Servicio) => s.service_name === e.target.value);
+    const selectedService = allServicios.find((s: Servicio) => s.serviceName === e.target.value);
     selectServicio(selectedService as Servicio);
   };
 
@@ -91,19 +84,13 @@ const DesktopFilters = () => {
       >
         Servicio
       </Title>
-      {servicios && (
-        <StyledSelect
-          // todo fix bug: if there is no state (servicios === null)
-          // the select should render "Selecciona un servicio"
-          // but it always defaults to the first service.name in the array
-          value={servicio?.service_name || ''}
-          onChange={handleSelectServicio}
-        >
+      {allServicios && (
+        <StyledSelect value={servicio?.serviceName || ''} onChange={handleSelectServicio}>
           <option>Selecciona un servicio</option>
-          {servicios.map((servicio: Servicio) => {
+          {allServicios.map((servicio: Servicio) => {
             return (
-              <option key={servicio.service_id} value={servicio.service_name}>
-                {servicio.service_name}
+              <option key={servicio.id} value={servicio.serviceName}>
+                {servicio.serviceName}
               </option>
             );
           })}
@@ -121,18 +108,18 @@ const DesktopFilters = () => {
             Especialidad
           </Title>
           <StyledSelect
-            value={especialidad?.especialidad_name}
+            value={especialidad?.especialidadName}
             onChange={(e) => {
-              const selectedEspecialidad = especialidades.find(
-                (esp: Especialidad) => esp.especialidad_name === e.target.value,
+              selectEspecialidad(
+                servicio.especialidades.find((esp) => esp.especialidadName === e.target.value),
               );
-              selectEspecialidad(selectedEspecialidad as Especialidad);
             }}
           >
+            <option value="">Selecciona una especialidad</option>
             {servicio.especialidades?.map((especialidad) => {
               return (
-                <option key={especialidad.especialidad_id} value={especialidad.especialidad_name}>
-                  {especialidad.especialidad_name}
+                <option key={especialidad.id} value={especialidad.especialidadName}>
+                  {especialidad.especialidadName}
                 </option>
               );
             })}

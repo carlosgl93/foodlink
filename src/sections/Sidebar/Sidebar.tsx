@@ -1,18 +1,16 @@
 import Drawer from '@mui/material/Drawer';
-
 import useSidebar from '@/store/sidebar';
-import useAuth from '@/store/auth';
 import { NotLoggedInDrawerList } from './NotLoggedInDrawerList';
 import PrestadorDrawerList from './PrestadorDrawer';
 import { UsuarioDrawerList } from './UsuarioDrawerList';
 import { BrandHomeLinkMobile } from './BrandHomeLinkMobile';
-import { User } from '@/types/User';
+import { useAuthNew } from '@/hooks/useAuthNew';
 
 function Sidebar() {
   const [isSidebarOpen, sidebarActions] = useSidebar();
-  const [{ user, isLoggedIn }] = useAuth();
+  const { user, prestador } = useAuthNew();
 
-  const role = user ? (user as User).role : undefined;
+  const isLoggedIn = user?.isLoggedIn || prestador?.isLoggedIn;
 
   const closeDrawer = sidebarActions.close;
 
@@ -23,7 +21,7 @@ function Sidebar() {
         <NotLoggedInDrawerList closeDrawer={closeDrawer} />
       </Drawer>
     );
-  } else if (isLoggedIn && role === 'prestador') {
+  } else if (isLoggedIn && prestador) {
     return (
       <Drawer anchor="left" open={isSidebarOpen} onClose={closeDrawer}>
         <BrandHomeLinkMobile />

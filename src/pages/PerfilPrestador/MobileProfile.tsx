@@ -80,7 +80,7 @@ export const MobileProfile = ({ prestador }: MobileProfileProps) => {
         </StyledNameContainer>
 
         <StyledServicio>
-          {prestadorServicio?.service_name} / {prestadorEspecialidad?.especialidad_name}
+          {prestadorServicio?.serviceName} / {prestadorEspecialidad?.especialidadName}
         </StyledServicio>
         <StyledCTAs>
           <StyledContactButton onClick={handleContact}>

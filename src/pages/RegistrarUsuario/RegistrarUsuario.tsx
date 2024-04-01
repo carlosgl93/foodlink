@@ -12,6 +12,7 @@ import { tablet } from '@/theme/breakpoints';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import useAuth from '@/store/auth';
 import Loading from '@/components/Loading';
+import { CreateUserParams, useAuthNew } from '@/hooks/useAuthNew';
 
 function RegistrarUsuario() {
   const [{ forWhom }] = useRecibeApoyo();
@@ -20,12 +21,9 @@ function RegistrarUsuario() {
   const theme = useTheme();
   const isTablet = useMediaQuery(tablet);
 
-  console.log('user from registrar', user);
+  const { createUser, createUserLoading } = useAuthNew();
 
   const resetPatientName = () => {
-    // search for the input with name nombrePaciente and reset its value
-    // if (forWhom === '') {
-    // }
     const input = document.querySelector('input[name="nombrePaciente"]') as HTMLInputElement;
     console.log(input);
     if (input) {
@@ -86,7 +84,7 @@ function RegistrarUsuario() {
           {formInputs.map((input, i) => {
             if (input.inputName === 'comuna') {
               return <ComunaSearchbar key={i} isTablet={isTablet} />;
-            } else if (forWhom && input.inputName === 'paciente') {
+            } else if (forWhom && input.inputName === 'tercero') {
               return (
                 <TextField
                   sx={{
@@ -155,10 +153,13 @@ function RegistrarUsuario() {
                 state.contrasena === '' ||
                 state.confirmarContrasena === '' ||
                 state.error !== '' ||
-                state.rut === ''
+                state.rut === '' ||
+                createUserLoading
               }
               variant="contained"
-              onClick={handleSubmit}
+              onClick={() => {
+                createUser({ ...(state as CreateUserParams) });
+              }}
               sx={{
                 marginTop: '2.5vh',
               }}

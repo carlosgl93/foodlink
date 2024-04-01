@@ -11,17 +11,21 @@ import {
 import { Link } from 'react-router-dom';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
-import useAuth from '@/store/auth';
-import { User } from '@/types/User';
 import { generalOptionsDrawerList, usuarioDrawerOptions } from './usuarioDrawerOptions';
 import { ChevronRightOutlined } from '@mui/icons-material';
+import { useRecoilValue } from 'recoil';
+import { useAuthNew } from '@/hooks/useAuthNew';
+import { User, userState } from '@/store/auth/user';
 
 type UsuarioDrawerListProps = {
   closeDrawer: () => void;
 };
 
 export const UsuarioDrawerList = ({ closeDrawer }: UsuarioDrawerListProps) => {
-  const [{ user }, { logout }] = useAuth();
+  const { logout } = useAuthNew();
+
+  const user = useRecoilValue(userState);
+
   const { firstname, lastname } = user as User;
 
   return (
@@ -51,7 +55,7 @@ export const UsuarioDrawerList = ({ closeDrawer }: UsuarioDrawerListProps) => {
         </Box>
       </ListItem>
       <ListItem>
-        <ListItemButton onClick={logout}>
+        <ListItemButton onClick={() => logout()}>
           <ListItemIcon>
             <LogoutOutlinedIcon />
           </ListItemIcon>

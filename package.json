@@ -28,7 +28,8 @@
     "preview": "vite preview",
     "https-preview": "serve dist",
     "prepare": "husky install",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -39,6 +40,7 @@
     "@mui/system": "^5.10.6",
     "@mui/utils": "^5.10.6",
     "axios": "^1.6.2",
+    "firebase": "^10.10.0",
     "is-mobile": "^3.1.1",
     "notistack": "^3.0.1",
     "react": "^18.2.0",

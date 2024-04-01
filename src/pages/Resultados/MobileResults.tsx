@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Box, Drawer, useTheme, Button } from '@mui/material';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 
-import { Prestador } from '@/types/Prestador';
 import { MobileFilters } from './MobileFilters';
-import useRecibeApoyo from '@/store/recibeApoyo';
-import { getAllServiciosAndEspecialidades } from '@/api/servicios/getAllServiciosAndEspecialidades';
-import { useRecoilValue } from 'recoil';
 import { MobileResultList } from './MobileResultList';
+import { Prestador } from '@/store/auth/prestador';
 import { Text } from '@/components/StyledComponents';
 
 type MobileResultsProps = {
@@ -18,20 +15,11 @@ const MobileResults = ({ filteredPrestadores }: MobileResultsProps) => {
   const theme = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  const [{ allServicios }, { setServicios }] = useRecibeApoyo();
-
-  const fetchServicios = useRecoilValue(getAllServiciosAndEspecialidades);
-  useEffect(() => {
-    if (allServicios === null) {
-      setServicios(fetchServicios?.data);
-    }
-  }, [setServicios, fetchServicios?.data, allServicios]);
-
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const resultsLength = filteredPrestadores.length;
+  const resultsLength = filteredPrestadores?.length;
 
   return (
     <>
@@ -97,10 +85,7 @@ const MobileResults = ({ filteredPrestadores }: MobileResultsProps) => {
           <MobileFilters closeFilters={toggleDrawer} />
         </Drawer>
 
-        <MobileResultList
-          allServicios={allServicios || []}
-          filteredPrestadores={filteredPrestadores}
-        />
+        <MobileResultList filteredPrestadores={filteredPrestadores} />
       </Box>
     </>
   );

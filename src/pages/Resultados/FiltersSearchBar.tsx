@@ -3,10 +3,13 @@ import { IconButton, InputAdornment, OutlinedInput, Box } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { Comuna } from '@/types/Comuna';
+import { useComunas } from '@/hooks/useComunas';
 
 function FiltersSearchBar() {
-  const [{ comuna, allComunas }, { addComuna, removeComuna }] = useRecibeApoyo();
+  const { allComunas } = useComunas();
+  const [{ comuna }, { addComuna, removeComuna }] = useRecibeApoyo();
   const [comunasState, setComunasState] = useState(allComunas);
+  const [comunaInput, setComunaInput] = useState('');
 
   const clickComunaHandler = (_comuna: Comuna) => {
     if (comuna === _comuna) {
@@ -16,9 +19,11 @@ function FiltersSearchBar() {
       addComuna(_comuna);
       setComunasState(allComunas);
     }
+    setComunaInput('');
   };
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setComunaInput(e.target.value);
     const match = allComunas.filter((comuna: Comuna) => {
       if (comuna.name.toLowerCase().includes(e.target.value.toLowerCase())) {
         return comuna;
@@ -32,6 +37,7 @@ function FiltersSearchBar() {
       <OutlinedInput
         id="searchByComuna"
         type={'text'}
+        value={comunaInput}
         endAdornment={
           <InputAdornment position="end">
             <IconButton aria-label="buscar por comuna" edge="end">

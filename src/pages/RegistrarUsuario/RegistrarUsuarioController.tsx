@@ -1,16 +1,16 @@
+import { ForWhom } from '@/hooks/useAuthNew';
 import useAuth from '@/store/auth';
 import useRecibeApoyo from '@/store/recibeApoyo';
-import { Comuna } from '@/types/Comuna';
 import { ChangeEvent, useReducer } from 'react';
 
 type FormState = {
   error: string;
   nombre: string;
   apellido: string;
-  paraQuien: string;
+  paraQuien: ForWhom;
   nombrePaciente: string;
   rut: string;
-  comuna: Comuna | null;
+  comuna: string | null;
   correo: string;
   contrasena: string;
   confirmarContrasena: string;
@@ -49,9 +49,7 @@ const reducer = (state: FormState, action: FormActions) => {
 };
 
 const RegistrarUsuarioController = () => {
-  const [_, { createUser }] = useAuth();
-
-  console.log(_);
+  const [, { createUser }] = useAuth();
 
   const [{ forWhom, comuna }] = useRecibeApoyo();
 
@@ -62,7 +60,7 @@ const RegistrarUsuarioController = () => {
     paraQuien: forWhom,
     nombrePaciente: '',
     rut: '',
-    comuna: comuna || null,
+    comuna: '' || null,
     correo: '',
     contrasena: '',
     confirmarContrasena: '',
@@ -70,7 +68,6 @@ const RegistrarUsuarioController = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const {
-    error,
     nombre,
     apellido,
     paraQuien,
@@ -81,8 +78,6 @@ const RegistrarUsuarioController = () => {
     confirmarContrasena,
   } = state;
 
-  console.log(error);
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     dispatch({ type: 'CHANGE', payload: { name, value } });
@@ -91,8 +86,6 @@ const RegistrarUsuarioController = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleSubmit = () => {
-    console.log(state);
-
     if (!emailRegex.test(correo)) {
       dispatch({
         type: 'ERROR',
@@ -124,7 +117,6 @@ const RegistrarUsuarioController = () => {
       try {
         createUser(newUser);
       } catch (error) {
-        console.log(error);
         dispatch({
           type: 'ERROR',
           payload: {

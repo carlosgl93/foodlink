@@ -1,13 +1,13 @@
-import useAuth from '@/store/auth';
 import useEntregaApoyo from '@/store/entregaApoyo';
 import { notificationState } from '@/store/snackbar';
 import { ChangeEvent, useReducer } from 'react';
 import { useRecoilState } from 'recoil';
+import { CreatePrestadorParams, useAuthNew } from '@/hooks/useAuthNew';
 
 type FormState = {
   error: string;
   nombre: string;
-  apellidos: string;
+  apellido: string;
   rut: string;
   telefono: string;
   correo: string;
@@ -50,14 +50,14 @@ const reducer = (state: FormState, action: FormActions) => {
 
 const RegistrarPrestadorController = () => {
   const [notification, setNotification] = useRecoilState(notificationState);
-  const [, { createPrestador }] = useAuth();
+  const { createPrestador } = useAuthNew();
 
   const [{ selectedComunas, selectedServicio, selectedEspecialidad }] = useEntregaApoyo();
 
   const initialState = {
     error: '',
     nombre: '',
-    apellidos: '',
+    apellido: '',
     rut: '',
     telefono: '',
     correo: '',
@@ -79,10 +79,9 @@ const RegistrarPrestadorController = () => {
   const rutRegex = /^[0-9]+-[0-9kK]{1}$/;
 
   const handleSubmit = async () => {
-    console.log(state);
-    const { nombre, apellidos, correo, rut, telefono, contrasena, confirmarContrasena } = state;
+    const { nombre, apellido, correo, rut, telefono, contrasena, confirmarContrasena } = state;
 
-    if (!emailRegex.test(state.correo)) {
+    if (!emailRegex.test(correo)) {
       dispatch({
         type: 'ERROR',
         payload: {
@@ -125,20 +124,17 @@ const RegistrarPrestadorController = () => {
       });
       setTimeout(() => dispatch({ type: 'ERROR', payload: { error: '' } }), 5000);
     } else {
-      //   TODO: IMPLEMENT CREATE PRESTADOR
-      console.log(state);
-      const prestador = {
-        firstname: nombre,
-        lastname: apellidos,
-        rut: rut,
-        phone: telefono,
-        email: correo,
-        password: contrasena,
+      const prestador: CreatePrestadorParams = {
+        nombre,
+        apellido,
+        rut,
+        telefono,
+        correo,
+        contrasena,
         comunas: selectedComunas,
-        service_id: selectedServicio?.service_id,
-        speciality_id: selectedEspecialidad?.especialidad_id,
+        servicio: selectedServicio ?? undefined,
+        especialidad: selectedEspecialidad ?? undefined,
       };
-      console.log('prestador before submitting', prestador);
 
       createPrestador(prestador);
     }

@@ -73,8 +73,6 @@ const RegistrarUsuarioController = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleSubmit = () => {
-    console.log(state);
-
     if (!emailRegex.test(state.correo)) {
       dispatch({
         type: 'ERROR',

@@ -44,9 +44,9 @@ const SpecialityList = ({ items }: ListProps) => {
                   color: alreadySelected ? 'white' : 'primary.dark',
                 },
               }}
-              key={item.especialidad_id}
+              key={item.id}
             >
-              <ListItemText primary={item.especialidad_name} />
+              <ListItemText primary={item.especialidadName} />
               <ListItemIcon
                 sx={{
                   color: 'primary.main',

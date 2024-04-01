@@ -1,18 +1,19 @@
 import { List, ListItemButton, ListItemText, ListItemIcon } from '@mui/material';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useRecibeApoyo from '@/store/recibeApoyo';
+import { ForWhom } from '@/hooks/useAuthNew';
 
 type ListProps = {
-  options:
-    | {
-        text: string;
-      }[];
+  options: {
+    text: string;
+    value: ForWhom;
+  }[];
 };
 
 const ForWhomList = ({ options }: ListProps) => {
   const [{ forWhom }, { selectForWhom }] = useRecibeApoyo();
 
-  const handleSelectForWhom = (whom: string) => {
+  const handleSelectForWhom = (whom: ForWhom) => {
     console.log(whom);
     selectForWhom(whom);
   };
@@ -25,10 +26,10 @@ const ForWhomList = ({ options }: ListProps) => {
         }}
       >
         {options.map((item) => {
-          const alreadySelected = forWhom.includes(item.text);
+          const alreadySelected = forWhom.includes(item.value);
           return (
             <ListItemButton
-              onClick={() => handleSelectForWhom(item.text)}
+              onClick={() => handleSelectForWhom(item.value)}
               sx={{
                 color: alreadySelected ? 'secondary.main' : 'primary.main',
                 display: 'grid',

@@ -4,21 +4,21 @@ import Meta from '@/components/Meta';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { Text, Title } from '@/components/StyledComponents';
-import useAuth from '@/store/auth';
+import { Title } from '@/components/StyledComponents';
 import Loading from '@/components/Loading';
+import { useAuthNew } from '@/hooks/useAuthNew';
 
 function Ingresar() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [user, { login }] = useAuth();
+  const { login, loginLoading } = useAuthNew();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    login(email, password);
+    login({ correo: email, contrasena: password });
   };
 
-  if (user.loading) return <Loading />;
+  if (loginLoading) return <Loading />;
 
   return (
     <>
@@ -73,16 +73,6 @@ function Ingresar() {
           <Typography variant="body2" mt={2}>
             Aun no tienes una cuenta? <Link to="/registrar-usuario">Creala aqui</Link>
           </Typography>
-
-          <Box>
-            <Text
-              sx={{
-                color: 'red',
-              }}
-            >
-              {user.error}
-            </Text>
-          </Box>
         </Box>
       </FullSizeCenteredFlexBox>
     </>
