@@ -9,7 +9,7 @@ import { Suspense } from 'react';
 import { useGetPrestadores } from '@/hooks/useGetPrestadores';
 
 function Resultados() {
-  const { data } = useGetPrestadores();
+  const { data, isLoading } = useGetPrestadores();
   const isTablet = useMediaQuery(tablet);
 
   return (
@@ -18,7 +18,9 @@ function Resultados() {
 
       <ResultadosHeader />
 
-      {isTablet ? (
+      {isLoading ? (
+        <Loading />
+      ) : isTablet ? (
         <MobileResults filteredPrestadores={data} />
       ) : (
         <DesktopResults filteredPrestadores={data} />
