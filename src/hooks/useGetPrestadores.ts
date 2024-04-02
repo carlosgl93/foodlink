@@ -27,8 +27,19 @@ export const useGetPrestadores = () => {
     }
 
     const querySnapshot = await getDocs(prestadoresQuery);
-    const results = querySnapshot.docs.map((doc) => doc.data());
-    return results as Prestador[];
+    const prestadores = querySnapshot.docs.map((doc) => doc.data());
+
+    // Fetch availability for each prestador
+    for (const prestador of prestadores) {
+      const availabilityRef = collection(db, 'providers', prestador.id, 'availability');
+      const availabilitySnapshot = await getDocs(availabilityRef);
+      const availability = availabilitySnapshot.docs.map((doc) => doc.data());
+
+      // Add availability to prestador object
+      prestador.availability = availability;
+    }
+
+    return prestadores as Prestador[];
   };
 
   const {

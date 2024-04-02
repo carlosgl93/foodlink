@@ -1,5 +1,15 @@
 import { atom } from 'recoil';
 
+type Availability = {
+  monday: [];
+  tuesday: [];
+  wednesday: [];
+  thursday: [];
+  friday: [];
+  saturday: [];
+  sunday: [];
+};
+
 export interface Prestador {
   email: string;
   id: string;
@@ -8,13 +18,15 @@ export interface Prestador {
   lastname: string;
   rut: string;
   comunas: string[];
-  servicio: string;
-  especialidad: string;
+  servicio: string | undefined;
+  especialidad: string | undefined;
+  telefono?: string;
   isLoggedIn: boolean;
-  availability?: string;
+  availability?: Availability;
   averageReviews?: number;
   description?: string;
   totalReviews?: number;
+  offersFreeMeetAndGreet: boolean;
 }
 
 export const prestadorState = atom<null | Prestador>({
@@ -31,5 +43,18 @@ export const prestadorState = atom<null | Prestador>({
     servicio: '',
     especialidad: '',
     isLoggedIn: false,
+    availability: {
+      monday: [],
+      tuesday: [],
+      wednesday: [],
+      thursday: [],
+      friday: [],
+      saturday: [],
+      sunday: [],
+    },
+    averageReviews: 0,
+    totalReviews: 0,
+    description: '',
+    offersFreeMeetAndGreet: false,
   },
 });

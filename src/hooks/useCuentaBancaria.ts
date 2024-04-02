@@ -10,12 +10,14 @@ import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { useAuthNew } from './useAuthNew';
 
 export const useCuentaBancaria = () => {
   const [notification, setNotification] = useRecoilState(notificationState);
   const [, setConstruirPerfil] = useRecoilState(construirPerfilState);
 
   const [{ user }] = useAuth();
+  const { isLoggedIn } = useAuthNew();
 
   const router = useNavigate();
   const client = useQueryClient();
@@ -85,7 +87,7 @@ export const useCuentaBancaria = () => {
   );
 
   useEffect(() => {
-    if (!user) {
+    if (!isLoggedIn) {
       router('/ingresar');
     }
   }, [user]);

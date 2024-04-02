@@ -20,10 +20,8 @@ import { postFreeMeetGreet } from '@/api/tarifas/postFreeMeetGreet';
 import { ExperienceState } from './experiencia';
 import { usePrestadorExperience } from '@/hooks/usePrestadorExperience';
 import { CuentaBancaria } from '@/types/CuentaBancaria';
-import { useCuentaBancaria } from '@/hooks/useCuentaBancaria';
-import { HistorialLaboralEntry, useHistorialLaboral } from '@/hooks/useHistorialLaboral';
+import { HistorialLaboralEntry } from '@/hooks/useHistorialLaboral';
 import { EducacionInputs } from '@/pages/ConstruirPerfil/EducacionFormacion/EducacionFormacion';
-import { useEducation } from '@/hooks/useEducation';
 
 type ConstruirPerfilState = {
   prestador: Prestador;
@@ -90,9 +88,9 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
   const [{ allComunas }] = useRecibeApoyo();
   const [{ user }] = useAuth();
   const [, setNotification] = useRecoilState(notificationState);
-  const { prestadorCuentaBancaria } = useCuentaBancaria();
-  const { prestadorHistorialLaboral } = useHistorialLaboral();
-  const { educacionData } = useEducation();
+  // const { prestadorCuentaBancaria } = useCuentaBancaria();
+  // const { prestadorHistorialLaboral } = useHistorialLaboral();
+  // const { educacionData } = useEducation();
   const router = useNavigate();
 
   usePrestadorExperience(user?.id as number, (data: ExperienceState) =>
@@ -376,32 +374,29 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
     setConstruirPerfil((prev) => ({ ...prev, loading: true }));
     if (user) {
       //   setConstruirPerfil((prev) => ({ ...prev, prestador: user as Prestador }));
-      !construirPerfil.prestador && getPrestador(user.id as number);
-      !construirPerfil.disponibilidad?.length && getDisponibilidad(user.id as number);
-      !construirPerfil.comunas?.length && getComunas(user.id as number);
-      !construirPerfil.tarifas?.length && getTarifas(user.id as number);
-      !construirPerfil.searchedComunasState?.length &&
-        setConstruirPerfil((prev) => ({
-          ...prev,
-          searchedComunasState: allComunas || [],
-        }));
-      !construirPerfil.cuentaBancaria &&
-        setConstruirPerfil((prev) => ({ ...prev, cuentaBancaria: prestadorCuentaBancaria }));
-
-      !construirPerfil.historialLaboral?.length &&
-        setConstruirPerfil((prev) => ({
-          ...prev,
-          historialLaboral: prestadorHistorialLaboral as HistorialLaboralEntry[],
-        }));
-
-      !construirPerfil.educacionFormacion?.length &&
-        setConstruirPerfil((prev) => ({
-          ...prev,
-          educacionFormacion: educacionData as EducacionInputs[],
-        }));
-
-      construirPerfil.prestador.offers_free_meet_greet === undefined &&
-        setConstruirPerfil((prev) => ({ ...prev, prestador: user as Prestador }));
+      // !construirPerfil.prestador && getPrestador(user.id as number);
+      // !construirPerfil.disponibilidad?.length && getDisponibilidad(user.id as number);
+      // !construirPerfil.comunas?.length && getComunas(user.id as number);
+      // !construirPerfil.tarifas?.length && getTarifas(user.id as number);
+      // !construirPerfil.searchedComunasState?.length &&
+      //   setConstruirPerfil((prev) => ({
+      //     ...prev,
+      //     searchedComunasState: allComunas || [],
+      //   }));
+      // !construirPerfil.cuentaBancaria &&
+      //   setConstruirPerfil((prev) => ({ ...prev, cuentaBancaria: prestadorCuentaBancaria }));
+      // !construirPerfil.historialLaboral?.length &&
+      //   setConstruirPerfil((prev) => ({
+      //     ...prev,
+      //     historialLaboral: prestadorHistorialLaboral as HistorialLaboralEntry[],
+      //   }));
+      // !construirPerfil.educacionFormacion?.length &&
+      //   setConstruirPerfil((prev) => ({
+      //     ...prev,
+      //     educacionFormacion: educacionData as EducacionInputs[],
+      //   }));
+      // construirPerfil.prestador.offers_free_meet_greet === undefined &&
+      //   setConstruirPerfil((prev) => ({ ...prev, prestador: user as Prestador }));
     }
     setConstruirPerfil((prev) => ({ ...prev, loading: false }));
   }, [setConstruirPerfil, user, allComunas]);

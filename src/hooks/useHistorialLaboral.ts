@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { useAuthNew } from './useAuthNew';
 
 export type HistorialLaboralEntry = {
   id?: number;
@@ -25,6 +26,7 @@ export const useHistorialLaboral = () => {
   const [, setConstruirPerfil] = useRecoilState(construirPerfilState);
 
   const [{ user }] = useAuth();
+  const { isLoggedIn } = useAuthNew();
 
   const router = useNavigate();
   const client = useQueryClient();
@@ -145,7 +147,7 @@ export const useHistorialLaboral = () => {
   );
 
   useEffect(() => {
-    if (!user) {
+    if (!isLoggedIn) {
       router('/ingresar');
     }
   }, [user]);

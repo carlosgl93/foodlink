@@ -2,7 +2,16 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from 'react-query';
 import { auth, db } from '../../firebase/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { collection, addDoc, query, where, getDocs, limit } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  limit,
+  writeBatch,
+  doc,
+} from 'firebase/firestore';
 import { useRecoilState } from 'recoil';
 import { notificationState } from '@/store/snackbar';
 import { Comuna } from '@/types';
@@ -41,6 +50,7 @@ export const useAuthNew = () => {
   const [user, setUserState] = useRecoilState(userState);
   const [prestador, setPrestadorState] = useRecoilState(prestadorState);
 
+  const isLoggedIn = user?.isLoggedIn || prestador?.isLoggedIn;
   const navigate = useNavigate();
 
   const { mutate: createPrestador, isLoading: createPrestadorLoading } = useMutation(
@@ -62,7 +72,7 @@ export const useAuthNew = () => {
       });
 
       return createUserWithEmailAndPassword(auth, correo, contrasena).then(({ user }) => {
-        const newPrestador = {
+        const newPrestador: Prestador = {
           email: correo,
           id: user.uid,
           role: 'prestador',
@@ -73,13 +83,37 @@ export const useAuthNew = () => {
           servicio: servicio?.serviceName,
           especialidad: especialidad?.especialidadName,
           telefono,
-          availability: '',
+          availability: {
+            monday: [],
+            tuesday: [],
+            wednesday: [],
+            thursday: [],
+            friday: [],
+            saturday: [],
+            sunday: [],
+          },
           averageReviews: 0,
           totalReviews: 0,
           description: '',
           offersFreeMeetAndGreet: false,
+          isLoggedIn: true,
         };
-        return addDoc(collection(db, 'providers'), newPrestador).then(() => newPrestador);
+        return addDoc(collection(db, 'providers'), newPrestador).then(() => {
+          const defaultAvailability = [
+            { day: 'monday', times: [] },
+            { day: 'tuesday', times: [] },
+            // ...
+          ];
+
+          const batch = writeBatch(db);
+
+          defaultAvailability.forEach((day) => {
+            const dayRef = doc(db, 'providers', user.uid, 'availability', day.day);
+            batch.set(dayRef, { times: day.times });
+          });
+
+          return batch.commit().then(() => newPrestador);
+        });
       });
     },
     {
@@ -282,5 +316,6 @@ export const useAuthNew = () => {
     user,
     prestador,
     logout,
+    isLoggedIn,
   };
 };

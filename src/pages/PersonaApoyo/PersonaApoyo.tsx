@@ -124,7 +124,7 @@ function PersonaApoyo() {
           </Text>
           <Button
             component={Link}
-            to="/comienzo"
+            to="/entrega-apoyo"
             variant="outlined"
             sx={{
               maxWidth: '30%',
