@@ -15,65 +15,70 @@ import {
   StyledServicio,
   StyledShortListButton,
 } from './DesktopPerfilPrestadorStyledComponents';
-import useRecibeApoyo from '@/store/recibeApoyo';
-import { useEffect, useState } from 'react';
-import { Especialidad, Servicio } from '@/types/Servicio';
 import { Text, Title } from '@/components/StyledComponents';
 import Reviews from '@/components/Reviews';
-import { useNavigate } from 'react-router-dom';
-import useAuth from '@/store/auth';
-
-import { Prestador } from '@/types';
+import { Prestador } from '@/store/auth/prestador';
 
 type DesktopProfileProps = {
   prestador: Prestador;
 };
 
 export const DesktopProfile = ({ prestador }: DesktopProfileProps) => {
-  const [{ isLoggedIn, user }, { updateRedirectToAfterLogin }] = useAuth();
-
+  // const [{ isLoggedIn, user }, { updateRedirectToAfterLogin }] = useAuth();
   const {
-    id,
+    // id,
     firstname,
     lastname,
+    averageReviews,
+    totalReviews,
     imageUrl,
-    service_id,
-    speciality_id,
-    average_review,
-    total_reviews,
+    servicio,
+    especialidad,
     description,
+    // isLoggedIn,
   } = prestador;
-  const [{ allServicios }] = useRecibeApoyo();
-  const [prestadorServicio, setPrestadorServicio] = useState({} as Servicio);
-  const [prestadorEspecialidad, setPrestadorEspecialidad] = useState({} as Especialidad);
-  const navigate = useNavigate();
+
+  // const {
+  //   id,
+  //   firstname,
+  //   lastname,
+  //   imageUrl,
+  //   service_id,
+  //   speciality_id,
+  //   average_review,
+  //   total_reviews,
+  //   description,
+  // } = prestador;
+  // const [{ allServicios }] = useRecibeApoyo();
+  // const [prestadorServicio, setPrestadorServicio] = useState({} as Servicio);
+  // const [prestadorEspecialidad, setPrestadorEspecialidad] = useState({} as Especialidad);
+  // const navigate = useNavigate();
 
   const handleContact = () => {
-    console.log(isLoggedIn, user);
-    if (isLoggedIn && user) {
-      navigate(`/chat/${id}`);
-      return;
-    }
-
-    updateRedirectToAfterLogin(`/perfil-prestador/${id}`);
-    navigate('/registrar-usuario');
+    // if (isLoggedIn && user) {
+    //   navigate(`/chat/${id}`);
     return;
   };
 
-  useEffect(() => {
-    const thisPrestadorServicio = allServicios?.find((s) => s.id === service_id);
-    if (thisPrestadorServicio) {
-      setPrestadorServicio(thisPrestadorServicio);
-    }
+  //   updateRedirectToAfterLogin(`/perfil-prestador/${id}`);
+  //   navigate('/registrar-usuario');
+  //   return;
+  // };
 
-    const thisPrestadorEspecialidad = thisPrestadorServicio?.especialidades.find(
-      (e) => e.id === speciality_id,
-    ) as Especialidad;
+  // useEffect(() => {
+  //   const thisPrestadorServicio = allServicios?.find((s) => s.id === service_id);
+  //   if (thisPrestadorServicio) {
+  //     setPrestadorServicio(thisPrestadorServicio);
+  //   }
 
-    if (thisPrestadorEspecialidad) {
-      setPrestadorEspecialidad(thisPrestadorEspecialidad);
-    }
-  }, [allServicios, service_id, speciality_id]);
+  //   const thisPrestadorEspecialidad = thisPrestadorServicio?.especialidades.find(
+  //     (e) => e.id === speciality_id,
+  //   ) as Especialidad;
+
+  //   if (thisPrestadorEspecialidad) {
+  //     setPrestadorEspecialidad(thisPrestadorEspecialidad);
+  //   }
+  // }, [allServicios, service_id, speciality_id]);
 
   return (
     <>
@@ -97,10 +102,10 @@ export const DesktopProfile = ({ prestador }: DesktopProfileProps) => {
             <StyledName>
               {firstname} {lastname}
             </StyledName>
-            <Reviews average={average_review || 0} total_reviews={total_reviews || 0} />
+            <Reviews average={averageReviews || 0} total_reviews={totalReviews || 0} />
 
             <StyledServicio>
-              {prestadorServicio?.serviceName} / {prestadorEspecialidad?.especialidadName}
+              {servicio} / {especialidad}
             </StyledServicio>
             <StyledCTAs>
               <StyledContactButton onClick={handleContact}>Contactar</StyledContactButton>

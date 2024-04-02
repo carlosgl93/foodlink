@@ -11,6 +11,7 @@ import {
   limit,
   writeBatch,
   doc,
+  setDoc,
 } from 'firebase/firestore';
 import { useRecoilState } from 'recoil';
 import { notificationState } from '@/store/snackbar';
@@ -19,6 +20,8 @@ import { Servicio, Especialidad } from '@/types/Servicio';
 import { FirebaseError } from 'firebase/app';
 import { User, userState } from '@/store/auth/user';
 import { Prestador, prestadorState } from '@/store/auth/prestador';
+import useEntregaApoyo from '@/store/entregaApoyo';
+import useRecibeApoyo from '@/store/recibeApoyo';
 
 export type ForWhom = 'paciente' | 'tercero' | '';
 
@@ -49,6 +52,8 @@ export const useAuthNew = () => {
   const [, setNotification] = useRecoilState(notificationState);
   const [user, setUserState] = useRecoilState(userState);
   const [prestador, setPrestadorState] = useRecoilState(prestadorState);
+  const [, { resetEntregaApoyoState }] = useEntregaApoyo();
+  const [, { resetRecibeApoyoState }] = useRecibeApoyo();
 
   const isLoggedIn = user?.isLoggedIn || prestador?.isLoggedIn;
   const navigate = useNavigate();
@@ -83,33 +88,28 @@ export const useAuthNew = () => {
           servicio: servicio?.serviceName,
           especialidad: especialidad?.especialidadName,
           telefono,
-          availability: {
-            monday: [],
-            tuesday: [],
-            wednesday: [],
-            thursday: [],
-            friday: [],
-            saturday: [],
-            sunday: [],
-          },
           averageReviews: 0,
           totalReviews: 0,
           description: '',
           offersFreeMeetAndGreet: false,
-          isLoggedIn: true,
         };
-        return addDoc(collection(db, 'providers'), newPrestador).then(() => {
+        const providerRef = doc(db, 'providers', user.uid);
+        return setDoc(providerRef, newPrestador).then(() => {
           const defaultAvailability = [
-            { day: 'monday', times: [] },
-            { day: 'tuesday', times: [] },
-            // ...
+            { day: 'monday', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'tuesday', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'wednesday', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'thursday', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'friday', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'saturday', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'sunday', times: [{ startTime: '00:00', endTime: '24:00' }] },
           ];
 
           const batch = writeBatch(db);
 
           defaultAvailability.forEach((day) => {
-            const dayRef = doc(db, 'providers', user.uid, 'availability', day.day);
-            batch.set(dayRef, { times: day.times });
+            const dayRef = doc(providerRef, 'availability', day.day);
+            batch.set(dayRef, day);
           });
 
           return batch.commit().then(() => newPrestador);
@@ -172,28 +172,31 @@ export const useAuthNew = () => {
         message: 'Creando tu cuenta...',
         severity: 'info',
       });
-      await createUserWithEmailAndPassword(auth, correo, contrasena).then(async ({ user }) => {
-        await addDoc(collection(db, 'users'), {
-          email: correo,
-          id: user.uid,
-          role: 'user',
-          firstname: nombre,
-          lastname: apellido,
-          forWhom: paraQuien ?? 'paciente',
-          patientName: nombrePaciente,
-          rut,
-          comuna,
-        });
-      });
+      const { user } = await createUserWithEmailAndPassword(auth, correo, contrasena);
+      const newUser = {
+        email: correo,
+        id: user.uid,
+        role: 'user',
+        firstname: nombre,
+        lastname: apellido,
+        forWhom: paraQuien ?? 'paciente',
+        patientName: nombrePaciente,
+        rut,
+        comuna,
+      };
+      await addDoc(collection(db, 'users'), newUser);
+      return newUser;
     },
     {
-      onSuccess() {
+      onSuccess(data) {
         setNotification({
           open: true,
           message: `Cuenta creada exitosamente`,
           severity: 'success',
         });
-        navigate(`/usuario-dashboard`);
+        console.log(data, 'data from user login');
+        setUserState({ ...data, isLoggedIn: true } as User);
+        navigate('/usuario-dashboard');
       },
       onError(error: FirebaseError) {
         let message = 'Hubo un error creando tu cuenta: ';
@@ -288,9 +291,11 @@ export const useAuthNew = () => {
           severity: 'success',
         });
         if (data?.role === 'user') {
+          setUserState({ ...data.data, isLoggedIn: true } as User);
           navigate(`/usuario-dashboard`);
         } else {
           if (data?.role === 'prestador') {
+            setPrestadorState({ ...data.data, isLoggedIn: true } as Prestador);
             navigate(`/prestador-dashboard`);
           }
         }
@@ -302,6 +307,8 @@ export const useAuthNew = () => {
     onSuccess: () => {
       setUserState(null);
       setPrestadorState(null);
+      resetEntregaApoyoState();
+      resetRecibeApoyoState();
       navigate('/ingresar');
     },
   });

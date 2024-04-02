@@ -46,6 +46,7 @@ type ListAvailableDaysProps = {
 };
 
 export const ListAvailableDays = ({ disponibilidad }: ListAvailableDaysProps) => {
+  console.log(disponibilidad);
   return (
     <StyledList>
       {disponibilidad.map((day) => {

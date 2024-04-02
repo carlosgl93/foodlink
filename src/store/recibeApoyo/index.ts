@@ -41,6 +41,20 @@ const recibeApoyoState = atom<RecibeApoyoState>({
 function useRecibeApoyo(): [RecibeApoyoState, Actions] {
   const [apoyo, setApoyo] = useRecoilState(recibeApoyoState);
 
+  const resetRecibeApoyoState = () => {
+    setApoyo({
+      step: 0,
+      comuna: null,
+      servicio: null,
+      forWhom: '',
+      especialidad: null,
+      disponibilidad: [],
+      allServicios: null,
+      allComunas: [],
+      prestadores: [],
+    });
+  };
+
   const setComunas = useCallback(
     (comunas: Comuna[]) => {
       if (comunas.length === 0) return;
@@ -178,6 +192,7 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
       setServicios,
       setComunas,
       setPrestadores,
+      resetRecibeApoyoState,
     },
   ];
 }

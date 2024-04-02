@@ -21,12 +21,13 @@ export interface Prestador {
   servicio: string | undefined;
   especialidad: string | undefined;
   telefono?: string;
-  isLoggedIn: boolean;
+  isLoggedIn?: boolean;
   availability?: Availability;
   averageReviews?: number;
   description?: string;
   totalReviews?: number;
   offersFreeMeetAndGreet: boolean;
+  imageUrl?: string;
 }
 
 export const prestadorState = atom<null | Prestador>({
@@ -42,7 +43,6 @@ export const prestadorState = atom<null | Prestador>({
     comunas: [],
     servicio: '',
     especialidad: '',
-    isLoggedIn: false,
     availability: {
       monday: [],
       tuesday: [],

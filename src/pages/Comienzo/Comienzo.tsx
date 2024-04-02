@@ -2,7 +2,6 @@ import { Box } from '@mui/material';
 
 import Meta from '@/components/Meta';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
-import { Image } from '@/components/ImageContainer';
 import { Text, TextContainer, Title } from '@/components/StyledComponents';
 import StyledList from '@/components/StyledList';
 
@@ -26,12 +25,12 @@ function Comienzo() {
           flexDirection: 'column',
           justifyContent: 'start',
           gap: 2,
-          pt: 4,
+          pt: 12,
           minHeight: '75vh',
         }}
       >
         <Box>
-          <Image
+          {/* <Image
             src="/images/blui-new.png"
             sx={{
               width: '100%',
@@ -40,7 +39,7 @@ function Comienzo() {
               marginTop: '5vh',
               marginBottom: '5vh',
             }}
-          />
+          /> */}
         </Box>
         <TextContainer
           sx={{

@@ -29,6 +29,18 @@ const entregaApoyoState = atom<EntregaApoyoState>({
 function useEntregaApoyo(): [EntregaApoyoState, Actions] {
   const [apoyo, setApoyo] = useRecoilState(entregaApoyoState);
 
+  const resetEntregaApoyoState = () => {
+    setApoyo({
+      step: 0,
+      selectedComunas: [],
+      selectedServicio: null,
+      especialidadesFromServicio: null,
+      selectedEspecialidad: null,
+      allServicios: null,
+      allComunas: [],
+    });
+  };
+
   const addComuna = (comuna: Comuna) => {
     if (apoyo.selectedComunas.find((c) => c.id === comuna.id)) return;
     setApoyo((prev) => ({
@@ -85,6 +97,7 @@ function useEntregaApoyo(): [EntregaApoyoState, Actions] {
       selectServicio,
       selectEspecialidad,
       decreaseStep,
+      resetEntregaApoyoState,
     },
   ];
 }

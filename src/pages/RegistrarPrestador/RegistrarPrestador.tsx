@@ -1,10 +1,7 @@
 import Meta from '@/components/Meta';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
-
-import { Image } from '@/components/ImageContainer';
 import { TextContainer, Title } from '@/components/StyledComponents';
-
 import RegistrarPrestadorController from './RegistrarPrestadorController';
 import { formInputs } from './formInputs';
 import { useAuthNew } from '@/hooks/useAuthNew';
@@ -24,7 +21,7 @@ function RegistrarPrestador() {
           margin: '5vh auto',
         }}
       >
-        <Box>
+        {/* <Box>
           <Image
             src="/images/blui-new.png"
             sx={{
@@ -33,7 +30,7 @@ function RegistrarPrestador() {
               height: 'auto',
             }}
           />
-        </Box>
+        </Box> */}
         <TextContainer>
           <Title
             sx={{

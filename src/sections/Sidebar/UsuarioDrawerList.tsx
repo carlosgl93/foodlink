@@ -13,18 +13,15 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 import { generalOptionsDrawerList, usuarioDrawerOptions } from './usuarioDrawerOptions';
 import { ChevronRightOutlined } from '@mui/icons-material';
-import { useRecoilValue } from 'recoil';
 import { useAuthNew } from '@/hooks/useAuthNew';
-import { User, userState } from '@/store/auth/user';
+import { User } from '@/store/auth/user';
 
 type UsuarioDrawerListProps = {
   closeDrawer: () => void;
 };
 
 export const UsuarioDrawerList = ({ closeDrawer }: UsuarioDrawerListProps) => {
-  const { logout } = useAuthNew();
-
-  const user = useRecoilValue(userState);
+  const { user, logout } = useAuthNew();
 
   const { firstname, lastname } = user as User;
 

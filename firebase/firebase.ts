@@ -21,7 +21,7 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const analytics = getAnalytics(app);
 
-if (import.meta.env.MODE === 'development') {
+if (import.meta.env.MODE === 'dev') {
   console.log('connecting to emulators');
   connectAuthEmulator(auth, 'http://localhost:9099/auth');
   connectFirestoreEmulator(db, 'localhost', 8080);
