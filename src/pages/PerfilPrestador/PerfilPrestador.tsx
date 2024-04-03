@@ -15,7 +15,8 @@ function PerfilPrestador() {
   const navigate = useNavigate();
 
   if (!prestador) {
-    return navigate('/resultados');
+    navigate('/resultados');
+    return <></>;
   }
 
   return (
