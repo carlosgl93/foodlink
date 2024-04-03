@@ -28,6 +28,24 @@ export interface Prestador {
   totalReviews?: number;
   offersFreeMeetAndGreet: boolean;
   imageUrl?: string;
+  settings?: {
+    disponibilidad: boolean;
+    comunas: boolean;
+    tarifas: boolean;
+    experiencia: boolean;
+    cuentaBancaria: boolean;
+    historialLaboral: boolean;
+    educacionFormacion: boolean;
+    registroSuperIntendenciaSalud: boolean;
+    insignias: boolean;
+    inmunizacion: boolean;
+    idiomas: boolean;
+    antecedentesCulturales: boolean;
+    religion: boolean;
+    interesesHobbies: boolean;
+    sobreMi: boolean;
+    misPreferencias: boolean;
+  };
 }
 
 export const prestadorState = atom<null | Prestador>({

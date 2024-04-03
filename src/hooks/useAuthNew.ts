@@ -92,17 +92,35 @@ export const useAuthNew = () => {
           totalReviews: 0,
           description: '',
           offersFreeMeetAndGreet: false,
+          settings: {
+            disponibilidad: false,
+            comunas: true,
+            tarifas: false,
+            experiencia: false,
+            cuentaBancaria: false,
+            historialLaboral: false,
+            educacionFormacion: false,
+            registroSuperIntendenciaSalud: false,
+            insignias: false,
+            inmunizacion: false,
+            idiomas: false,
+            antecedentesCulturales: false,
+            religion: false,
+            interesesHobbies: false,
+            sobreMi: false,
+            misPreferencias: false,
+          },
         };
         const providerRef = doc(db, 'providers', user.uid);
         return setDoc(providerRef, newPrestador).then(() => {
           const defaultAvailability = [
-            { day: 'monday', times: [{ startTime: '00:00', endTime: '24:00' }] },
-            { day: 'tuesday', times: [{ startTime: '00:00', endTime: '24:00' }] },
-            { day: 'wednesday', times: [{ startTime: '00:00', endTime: '24:00' }] },
-            { day: 'thursday', times: [{ startTime: '00:00', endTime: '24:00' }] },
-            { day: 'friday', times: [{ startTime: '00:00', endTime: '24:00' }] },
-            { day: 'saturday', times: [{ startTime: '00:00', endTime: '24:00' }] },
-            { day: 'sunday', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'Lunes', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'Martes', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'Miercoles', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'Jueves', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'Viernes', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'Sabado', times: [{ startTime: '00:00', endTime: '24:00' }] },
+            { day: 'Domingo', times: [{ startTime: '00:00', endTime: '24:00' }] },
           ];
 
           const batch = writeBatch(db);
@@ -179,7 +197,7 @@ export const useAuthNew = () => {
         role: 'user',
         firstname: nombre,
         lastname: apellido,
-        forWhom: paraQuien ?? 'paciente',
+        forWhom: paraQuien !== nombre ? 'tercero' : 'paciente',
         patientName: nombrePaciente,
         rut,
         comuna,

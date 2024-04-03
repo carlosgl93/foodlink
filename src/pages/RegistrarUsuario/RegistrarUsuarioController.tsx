@@ -106,9 +106,9 @@ const RegistrarUsuarioController = () => {
       const newUser = {
         firstname: nombre,
         lastname: apellido,
-        forWhom: paraQuien,
+        forWhom: paraQuien !== nombre ? 'tercero' : 'paciente',
         nombrePaciente: nombrePaciente,
-        rut: rut,
+        rut,
         comuna_id: comuna!.id,
         email: correo,
         password: contrasena,

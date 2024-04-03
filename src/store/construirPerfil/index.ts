@@ -18,7 +18,6 @@ import { useNavigate } from 'react-router-dom';
 import { postTarifas } from '@/api/tarifas';
 import { postFreeMeetGreet } from '@/api/tarifas/postFreeMeetGreet';
 import { ExperienceState } from './experiencia';
-import { usePrestadorExperience } from '@/hooks/usePrestadorExperience';
 import { CuentaBancaria } from '@/types/CuentaBancaria';
 import { HistorialLaboralEntry } from '@/hooks/useHistorialLaboral';
 import { EducacionInputs } from '@/pages/ConstruirPerfil/EducacionFormacion/EducacionFormacion';
@@ -93,11 +92,11 @@ const useConstruirPerfil = (): [ConstruirPerfilState, Actions] => {
   // const { educacionData } = useEducation();
   const router = useNavigate();
 
-  usePrestadorExperience(user?.id as number, (data: ExperienceState) =>
-    setConstruirPerfil((prev) => {
-      return { ...prev, experiencia: data };
-    }),
-  );
+  // usePrestadorExperience(user?.id as number, (data: ExperienceState) =>
+  //   setConstruirPerfil((prev) => {
+  //     return { ...prev, experiencia: data };
+  //   }),
+  // );
 
   async function getPrestador(id: number) {
     try {

@@ -21,6 +21,7 @@ const SpecialityList = ({ items }: ListProps) => {
       <List
         sx={{
           gap: 1,
+          px: '10vw',
         }}
       >
         {items.map((item) => {

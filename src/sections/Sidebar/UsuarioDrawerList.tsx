@@ -23,7 +23,7 @@ type UsuarioDrawerListProps = {
 export const UsuarioDrawerList = ({ closeDrawer }: UsuarioDrawerListProps) => {
   const { user, logout } = useAuthNew();
 
-  const { firstname, lastname } = user as User;
+  const { firstname, lastname, patientName, forWhom } = user as User;
 
   return (
     <List
@@ -49,10 +49,24 @@ export const UsuarioDrawerList = ({ closeDrawer }: UsuarioDrawerListProps) => {
           }}
         >
           <ListItemText>{firstname + ' ' + lastname}</ListItemText>
+          {forWhom === 'tercero' && patientName ? (
+            <span
+              style={{
+                fontSize: '0.85rem',
+              }}
+            >
+              Paciente: {patientName}
+            </span>
+          ) : null}
         </Box>
       </ListItem>
       <ListItem>
-        <ListItemButton onClick={() => logout()}>
+        <ListItemButton
+          onClick={() => {
+            logout();
+            closeDrawer();
+          }}
+        >
           <ListItemIcon>
             <LogoutOutlinedIcon />
           </ListItemIcon>

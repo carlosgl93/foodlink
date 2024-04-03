@@ -61,7 +61,12 @@ function PrestadorDrawerList({ closeDrawer }: PrestadorDrawerListProps) {
         </Box>
       </ListItem>
       <ListItem>
-        <ListItemButton onClick={() => logout()}>
+        <ListItemButton
+          onClick={() => {
+            logout();
+            closeDrawer();
+          }}
+        >
           <ListItemIcon>
             <LogoutOutlinedIcon />
           </ListItemIcon>

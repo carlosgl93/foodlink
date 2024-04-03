@@ -16,41 +16,12 @@ import {
 } from './StyledConstruirPerfilComponents';
 import BackButton from '@/components/BackButton';
 import useConstruirPerfil from '@/store/construirPerfil';
-import { emptyTarifaFront } from './Tarifas/emptyTarifa';
 import Loading from '@/components/Loading';
-import { useCallback } from 'react';
+import { useConstruirPerfilNew } from '@/hooks/useConstruirPerfilNew';
 
 export const ConstruirPerfil = () => {
   const [construirPerfil, { handleVerPerfil }] = useConstruirPerfil();
-
-  const isStepCompleted = useCallback(
-    (key: string) => {
-      if (!key) return false;
-
-      if (Array.isArray(construirPerfil[key]) && (construirPerfil[key] as []).length > 0) {
-        return true;
-      }
-
-      if (
-        key === 'cuentaBancaria' &&
-        construirPerfil[key] !== null &&
-        construirPerfil[key] !== undefined
-      ) {
-        return true;
-      }
-
-      if (
-        key === 'educacionFormacion' &&
-        construirPerfil[key] !== null &&
-        construirPerfil[key] !== undefined
-      ) {
-        return true;
-      }
-
-      return false;
-    },
-    [construirPerfil],
-  );
+  const { settings } = useConstruirPerfilNew();
 
   return (
     <Wrapper>
@@ -84,11 +55,7 @@ export const ConstruirPerfil = () => {
                 return (
                   <StyledLink key={opcion.key} to={`/construir-perfil/${opcion.key}`}>
                     <StyledListItem>
-                      {isStepCompleted(key) && construirPerfil.tarifas !== emptyTarifaFront ? (
-                        <StyledCheckedIcon />
-                      ) : (
-                        <StyledUncheckedIcon />
-                      )}
+                      {settings?.[key] ? <StyledCheckedIcon /> : <StyledUncheckedIcon />}
                       <StyledOption>{value}</StyledOption>
                     </StyledListItem>
                   </StyledLink>
