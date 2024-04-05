@@ -19,7 +19,9 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const analytics = getAnalytics(app);
+
+// Check if window is defined before initializing Firebase Analytics
+export const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null;
 
 if (import.meta.env.VITE_ENV === 'dev') {
   console.log('connecting to emulators');

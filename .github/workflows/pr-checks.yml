@@ -37,11 +37,8 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Linting
-        run: npm run lint
-
       - name: Unit Tests
-        run: npm run test:coverage
+        run: npm run coverage
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools

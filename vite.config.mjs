@@ -29,4 +29,9 @@ export default defineConfig({
       '@': path.resolve('./src'),
     },
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    files: ['src/**/*.test.tsx'],
+  },
 });
