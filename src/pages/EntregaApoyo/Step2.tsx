@@ -3,9 +3,11 @@ import { entregaApoyoSteps } from './entregaApoyoSteps';
 import ServiceTypeList from './ServiceTypeList';
 import useEntregaApoyo from '@/store/entregaApoyo';
 import { Box, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const Step2 = () => {
-  const [{ selectedServicio }, { increaseStep, decreaseStep }] = useEntregaApoyo();
+  const [{ selectedServicio }, { decreaseStep }] = useEntregaApoyo();
+  const router = useNavigate();
 
   return (
     <>
@@ -37,7 +39,11 @@ const Step2 = () => {
         <Button variant="contained" onClick={decreaseStep}>
           Atras
         </Button>
-        <Button disabled={selectedServicio === null} variant="contained" onClick={increaseStep}>
+        <Button
+          disabled={selectedServicio === null}
+          variant="contained"
+          onClick={() => router('/registrar-prestador')}
+        >
           Siguiente
         </Button>
       </Box>

@@ -7,22 +7,6 @@ export const entregaApoyoSteps = [
     title: '¿Qué tipo de ayuda entregarás?',
     options: [
       {
-        text: 'Apoyo en el hogar',
-        speciality: [
-          {
-            text: 'Apoyo en el hogar',
-          },
-        ],
-      },
-      {
-        text: 'Cuidadora',
-        speciality: [
-          {
-            text: 'Cuidadora',
-          },
-        ],
-      },
-      {
         text: 'Soporte Terapéutico',
         speciality: [
           {
@@ -56,6 +40,22 @@ export const entregaApoyoSteps = [
           },
           {
             text: 'Técnico en enfermería',
+          },
+        ],
+      },
+      {
+        text: 'Apoyo en el hogar',
+        speciality: [
+          {
+            text: 'Apoyo en el hogar',
+          },
+        ],
+      },
+      {
+        text: 'Cuidadora',
+        speciality: [
+          {
+            text: 'Cuidadora',
           },
         ],
       },

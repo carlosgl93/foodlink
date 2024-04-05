@@ -13,7 +13,7 @@
     "plugin:vitest-globals/recommended"
   ],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["react", "react-hooks", "@typescript-eslint"],
+  "plugins": ["react", "react-hooks", "@typescript-eslint", "vitest-globals"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
