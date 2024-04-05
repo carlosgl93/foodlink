@@ -2,15 +2,13 @@ import { ListItem, Avatar, Button, Box, useTheme, List } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Reviews from '@/components/Reviews';
 import { Text, Title } from '@/components/StyledComponents';
-import { Prestador } from '@/types/Prestador';
-import { Servicio } from '@/types/Servicio';
+import { Prestador } from '@/store/auth/prestador';
 
 type MobileFilteredProps = {
   filteredPrestadores: Prestador[];
-  allServicios: Servicio[] | null;
 };
 
-export const MobileResultList = ({ filteredPrestadores, allServicios }: MobileFilteredProps) => {
+export const MobileResultList = ({ filteredPrestadores }: MobileFilteredProps) => {
   const theme = useTheme();
 
   return (
@@ -23,21 +21,8 @@ export const MobileResultList = ({ filteredPrestadores, allServicios }: MobileFi
     >
       {filteredPrestadores?.length > 0 ? (
         filteredPrestadores?.map((prestador) => {
-          const {
-            id,
-            firstname,
-            lastname,
-            service_id,
-            speciality_id,
-            average_review,
-            total_reviews,
-          } = prestador;
+          const { id, firstname, lastname, averageReviews, totalReviews } = prestador;
 
-          const thisPrestadorServicio = allServicios?.find((s) => s.service_id === service_id);
-
-          const thisPrestadorEspecialidad = thisPrestadorServicio?.especialidades.find(
-            (e) => e.especialidad_id === speciality_id,
-          );
           return (
             <Link
               key={id}
@@ -88,16 +73,11 @@ export const MobileResultList = ({ filteredPrestadores, allServicios }: MobileFi
                     >
                       {firstname} {lastname}
                     </Title>
-                    <Reviews average={average_review || 0} total_reviews={total_reviews || 0} />
+                    <Reviews average={averageReviews || 0} total_reviews={totalReviews || 0} />
                   </Box>
-                  <Text>{thisPrestadorServicio?.service_name}</Text>
+                  <Text>{prestador.servicio}</Text>
 
-                  <Text>
-                    {thisPrestadorServicio?.service_name ===
-                    thisPrestadorEspecialidad?.especialidad_name
-                      ? null
-                      : thisPrestadorEspecialidad?.especialidad_name}
-                  </Text>
+                  <Text>{prestador.especialidad}</Text>
                   <Button
                     variant="outlined"
                     sx={{

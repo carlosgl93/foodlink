@@ -1,4 +1,22 @@
-export const construirPerfilOpciones = [
+type SettingsKey =
+  | 'disponibilidad'
+  | 'comunas'
+  | 'tarifas'
+  | 'experiencia'
+  | 'cuentaBancaria'
+  | 'historialLaboral'
+  | 'educacionFormacion'
+  | 'registroSuperIntendenciaSalud'
+  | 'insignias'
+  | 'inmunizacion'
+  | 'idiomas'
+  | 'antecedentesCulturales'
+  | 'religion'
+  | 'interesesHobbies'
+  | 'sobreMi'
+  | 'misPreferencias';
+
+export const construirPerfilOpciones: { key: SettingsKey; value: string }[] = [
   { key: 'disponibilidad', value: 'Disponibilidad' },
   { key: 'comunas', value: 'Comunas' },
   { key: 'tarifas', value: 'Tarifas' },

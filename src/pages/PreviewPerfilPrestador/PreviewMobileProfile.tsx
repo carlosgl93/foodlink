@@ -60,7 +60,7 @@ export const PreviewMobileProfile = () => {
         </StyledNameContainer>
 
         <StyledServicio>
-          {prestadorServicio?.service_name} / {prestadorEspecialidad?.especialidad_name}
+          {prestadorServicio?.serviceName} / {prestadorEspecialidad?.especialidadName}
         </StyledServicio>
         <StyledCTAs>
           <StyledContactButton onClick={handleEditPerfil}>Editar perfil</StyledContactButton>

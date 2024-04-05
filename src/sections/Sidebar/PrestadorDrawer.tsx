@@ -8,24 +8,22 @@ import ListItemText from '@mui/material/ListItemText';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Avatar, Box, Divider } from '@mui/material';
 
-import { Prestador } from '@/types/Prestador';
 import { generalOptionsDrawerList, prestadorDrawerOptions } from './prestadorDrawerOptions';
-import useAuth from '@/store/auth';
-import useEntregaApoyo from '@/store/entregaApoyo';
 import { ChevronRightOutlined } from '@mui/icons-material';
+import { useRecoilValue } from 'recoil';
+import { Prestador, prestadorState } from '@/store/auth/prestador';
+import { useAuthNew } from '@/hooks/useAuthNew';
 
 type PrestadorDrawerListProps = {
   closeDrawer: () => void;
 };
 
 function PrestadorDrawerList({ closeDrawer }: PrestadorDrawerListProps) {
-  const [auth, { logout }] = useAuth();
-  const [{ allServicios }] = useEntregaApoyo();
+  const { logout } = useAuthNew();
 
-  const prestador = auth.user as Prestador;
-  const { firstname, lastname, service_id } = prestador;
+  const prestador = useRecoilValue(prestadorState) as Prestador;
 
-  const servicio = allServicios?.find((servicio) => servicio.service_id === service_id);
+  const { firstname, lastname, servicio } = prestador;
 
   return (
     <List
@@ -58,12 +56,17 @@ function PrestadorDrawerList({ closeDrawer }: PrestadorDrawerListProps) {
               fontSize: '0.85rem',
             }}
           >
-            {servicio?.service_name}
+            {servicio}
           </span>
         </Box>
       </ListItem>
       <ListItem>
-        <ListItemButton onClick={logout}>
+        <ListItemButton
+          onClick={() => {
+            logout();
+            closeDrawer();
+          }}
+        >
           <ListItemIcon>
             <LogoutOutlinedIcon />
           </ListItemIcon>

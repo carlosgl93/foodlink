@@ -3,18 +3,19 @@ import { tablet } from '@/theme/breakpoints';
 import { useMediaQuery } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useChatMessages } from '../Chat/useChatMessages';
-import { sendMessage } from '@/api/chat/sendMessage';
-import useRecibeApoyo from '@/store/recibeApoyo';
-import { notificationState } from '@/store/snackbar';
+// import { sendMessage } from '@/api/chat/sendMessage';
+// import useRecibeApoyo from '@/store/recibeApoyo';
+// import { notificationState } from '@/store/snackbar';
 import { Servicio, Especialidad } from '@/types/Servicio';
-import { useState, useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useState } from 'react';
+// import { useRecoilState } from 'recoil';
 import {
   DisponibilidadFromFront,
-  getDisponibilidadByPrestadorId,
+  // getDisponibilidadByPrestadorId,
 } from '@/api/disponibilidad/getDisponibilidadByPrestadorId';
-import { Prestador, TarifaFront } from '@/types';
-import { getPrestadorTarifas } from '@/api/tarifas';
+import { TarifaFront } from '@/types';
+// import { getPrestadorTarifas } from '@/api/tarifas';
+import { Prestador } from '@/store/auth/prestador';
 
 export const usePerfilPrestador = (prestador: Prestador) => {
   const { id } = useParams();
@@ -26,16 +27,18 @@ export const usePerfilPrestador = (prestador: Prestador) => {
     prestadorId: prestador.id,
   });
 
-  const [{ allServicios }] = useRecibeApoyo();
-  const [notification, setNotification] = useRecoilState(notificationState);
-  const [prestadorServicio, setPrestadorServicio] = useState({} as Servicio);
-  const [prestadorEspecialidad, setPrestadorEspecialidad] = useState({} as Especialidad);
+  // const [{ allServicios }] = useRecibeApoyo();
+  // const [notification, setNotification] = useRecoilState(notificationState);
+  const [prestadorServicio] = useState({} as Servicio);
+  const [prestadorEspecialidad] = useState({} as Especialidad);
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [disponibilidad, setDisponibilidad] = useState<DisponibilidadFromFront[]>([]);
-  const [tarifas, setTarifas] = useState<TarifaFront[]>([]);
+  const [disponibilidad] = useState<DisponibilidadFromFront[]>([]);
+  const [tarifas] = useState<TarifaFront[]>([]);
 
-  const { service_id, speciality_id, offers_free_meet_greet } = prestador;
+  const { offersFreeMeetAndGreet } = prestador;
+
+  // const { service, speciality_id, offers_free_meet_greet } = prestador;
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -65,77 +68,77 @@ export const usePerfilPrestador = (prestador: Prestador) => {
   };
 
   const handleSendMessage = async () => {
-    const res = await sendMessage({
-      message,
-      prestadorId: prestador.id as number,
-      userId: user!.id as number,
-      token: user!.token as string,
-      sentBy: user?.role || 'user',
-    });
-
-    if (res.status === 'success') {
-      setNotification({
-        ...notification,
-        open: true,
-        message: 'Mensaje enviado con exito',
-        severity: res.status,
-      });
-      // handleClose();
-      navigate('/chat', {
-        state: {
-          prestador,
-          messages: [
-            ...messages,
-            {
-              created_at: new Date().toISOString(),
-              id: Math.floor(Math.random() * 10000),
-              message,
-              prestador_id: prestador.id,
-              sent_by: user?.role || 'user',
-              usuario_id: user?.id,
-            },
-          ],
-        },
-      });
-      return;
-    } else {
-      setNotification({
-        ...notification,
-        open: true,
-        message: 'Hubo un error, por favor intentalo mas tarde',
-        severity: res.status,
-      });
-      handleClose();
-      return;
-    }
+    // todo handle messages
+    // const res = await sendMessage({
+    //   message,
+    //   prestadorId: prestador.id,
+    //   userId: user!.id as number,
+    //   token: user!.token as string,
+    //   sentBy: user?.role || 'user',
+    // });
+    // if (res.status === 'success') {
+    //   setNotification({
+    //     ...notification,
+    //     open: true,
+    //     message: 'Mensaje enviado con exito',
+    //     severity: res.status,
+    //   });
+    //   // handleClose();
+    //   navigate('/chat', {
+    //     state: {
+    //       prestador,
+    //       messages: [
+    //         ...messages,
+    //         {
+    //           created_at: new Date().toISOString(),
+    //           id: Math.floor(Math.random() * 10000),
+    //           message,
+    //           prestador_id: prestador.id,
+    //           sent_by: user?.role || 'user',
+    //           usuario_id: user?.id,
+    //         },
+    //       ],
+    //     },
+    //   });
+    //   return;
+    // } else {
+    //   setNotification({
+    //     ...notification,
+    //     open: true,
+    //     message: 'Hubo un error, por favor intentalo mas tarde',
+    //     severity: res.status,
+    //   });
+    //   handleClose();
+    //   return;
+    // }
   };
 
-  useEffect(() => {
-    const thisPrestadorServicio = allServicios?.find((s) => s.service_id === service_id);
-    if (thisPrestadorServicio) {
-      setPrestadorServicio(thisPrestadorServicio);
-    }
+  // useEffect(() => {
+  //   const thisPrestadorServicio = allServicios?.find((s) => s.id === service_id);
+  //   if (thisPrestadorServicio) {
+  //     setPrestadorServicio(thisPrestadorServicio);
+  //   }
 
-    const thisPrestadorEspecialidad = thisPrestadorServicio?.especialidades.find(
-      (e) => e.especialidad_id === speciality_id,
-    ) as Especialidad;
+  //   const thisPrestadorEspecialidad = thisPrestadorServicio?.especialidades.find(
+  //     (e) => e.id === speciality_id,
+  //   ) as Especialidad;
 
-    if (thisPrestadorEspecialidad) {
-      setPrestadorEspecialidad(thisPrestadorEspecialidad);
-    }
-  }, [allServicios, service_id, speciality_id]);
+  //   if (thisPrestadorEspecialidad) {
+  //     setPrestadorEspecialidad(thisPrestadorEspecialidad);
+  //   }
+  // }, [allServicios, service_id, speciality_id]);
 
-  useEffect(() => {
-    getDisponibilidadByPrestadorId(prestador.id as number).then((res) => {
-      setDisponibilidad(res as DisponibilidadFromFront[]);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getDisponibilidadByPrestadorId(prestador.id as number).then((res) => {
+  //     setDisponibilidad(res as DisponibilidadFromFront[]);
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    getPrestadorTarifas(prestador.id as number).then((res) => {
-      setTarifas(res as TarifaFront[]);
-    });
-  }, []);
+  // useEffect(() => {
+  //   getPrestadorTarifas(prestador.id as number).then((res) => {
+  //     setTarifas(res as TarifaFront[]);
+  //   });
+  // }, []);
 
   return {
     prestador,
@@ -147,7 +150,7 @@ export const usePerfilPrestador = (prestador: Prestador) => {
     message,
     disponibilidad,
     tarifas,
-    freeMeetGreet: offers_free_meet_greet,
+    freeMeetGreet: offersFreeMeetAndGreet,
     handleContact,
     handleOpen,
     handleClose,

@@ -1,12 +1,10 @@
 export type Servicio = {
+  id: number;
   especialidades: Especialidad[];
-  service_id: number;
-  service_name: string;
-  servicio_description: string | null;
+  serviceName: string;
 };
 
 export type Especialidad = {
-  especialidad_id: number;
-  especialidad_name: string;
-  especialidad_description: string | null;
+  id: number;
+  especialidadName: string;
 };

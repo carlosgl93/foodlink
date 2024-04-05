@@ -81,7 +81,7 @@ export const StyledButton = styled(Button)(({ theme }) => ({
 export const StyledSelect = styled('select')(({ theme }) => ({
   width: '100%',
   border: '1px solid',
-  padding: '1rem',
+  padding: '0.8rem',
   borderRadius: '2rem',
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.common.white,

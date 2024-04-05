@@ -1,25 +1,26 @@
-import React, { useState } from 'react';
-import { InputAdornment, IconButton, Box, TextField } from '@mui/material';
+import React from 'react';
+import { InputAdornment, IconButton, Box, TextField, CircularProgress } from '@mui/material';
 import useRecibeApoyo from '@/store/recibeApoyo';
-import { Comuna } from '@/types/Comuna';
 import { Search } from '@mui/icons-material';
 import { SearchBarIcon, StyledComunaSearchBar, StyledResults } from './StyledRegistrarUsuario';
+import { useComunas } from '@/hooks/useComunas';
+import { Comuna } from '@/types';
 
 type ComunaSearchbarProps = {
   isTablet: boolean;
 };
 
 export const ComunaSearchbar = ({ isTablet }: ComunaSearchbarProps) => {
-  const [{ comuna, allComunas }, { addComuna, removeComuna }] = useRecibeApoyo();
-  const [comunasState, setComunasState] = useState(allComunas);
+  const { allComunas, comunasSearched, setComunasSearched } = useComunas();
+  const [{ comuna }, { addComuna, removeComuna }] = useRecibeApoyo();
 
   const clickComunaHandler = (_comuna: Comuna) => {
     if (comuna === _comuna) {
       removeComuna(comuna);
-      setComunasState(allComunas);
+      setComunasSearched(allComunas);
     } else {
       addComuna(_comuna);
-      setComunasState(allComunas);
+      setComunasSearched(allComunas);
     }
   };
 
@@ -29,10 +30,11 @@ export const ComunaSearchbar = ({ isTablet }: ComunaSearchbarProps) => {
         return comuna;
       }
     });
-    setComunasState(match);
+    setComunasSearched(match);
   };
+  if (!allComunas) return <CircularProgress />;
 
-  if (comuna === null) {
+  if (comuna == null) {
     return (
       <>
         <StyledComunaSearchBar
@@ -58,8 +60,8 @@ export const ComunaSearchbar = ({ isTablet }: ComunaSearchbarProps) => {
           onChange={onChangeHandler}
         />
         <StyledResults>
-          {comunasState.length <= 5 &&
-            comunasState.map((_comuna) => (
+          {comunasSearched?.length <= 5 &&
+            comunasSearched?.map((_comuna) => (
               <Box
                 key={_comuna.id}
                 sx={{

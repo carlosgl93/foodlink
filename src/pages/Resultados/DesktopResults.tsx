@@ -2,7 +2,7 @@ import { Box, useTheme } from '@mui/material';
 
 import DesktopFilters from './DesktopFilters';
 import DesktopResultList from './DesktopResultList';
-import { Prestador } from '@/types/Prestador';
+import { Prestador } from '@/store/auth/prestador';
 
 type DesktopResultsProps = {
   filteredPrestadores: Prestador[];

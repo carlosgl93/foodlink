@@ -8,6 +8,7 @@ type Actions = {
   selectServicio: (servicio: Servicio) => void;
   selectEspecialidad: (especialidad: Especialidad) => void;
   decreaseStep: () => void;
+  resetEntregaApoyoState: () => void;
 };
 
 export type { Actions };

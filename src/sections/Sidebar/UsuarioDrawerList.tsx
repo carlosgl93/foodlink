@@ -11,18 +11,19 @@ import {
 import { Link } from 'react-router-dom';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
-import useAuth from '@/store/auth';
-import { User } from '@/types/User';
 import { generalOptionsDrawerList, usuarioDrawerOptions } from './usuarioDrawerOptions';
 import { ChevronRightOutlined } from '@mui/icons-material';
+import { useAuthNew } from '@/hooks/useAuthNew';
+import { User } from '@/store/auth/user';
 
 type UsuarioDrawerListProps = {
   closeDrawer: () => void;
 };
 
 export const UsuarioDrawerList = ({ closeDrawer }: UsuarioDrawerListProps) => {
-  const [{ user }, { logout }] = useAuth();
-  const { firstname, lastname } = user as User;
+  const { user, logout } = useAuthNew();
+
+  const { firstname, lastname, patientName, forWhom } = user as User;
 
   return (
     <List
@@ -48,10 +49,24 @@ export const UsuarioDrawerList = ({ closeDrawer }: UsuarioDrawerListProps) => {
           }}
         >
           <ListItemText>{firstname + ' ' + lastname}</ListItemText>
+          {forWhom === 'tercero' && patientName ? (
+            <span
+              style={{
+                fontSize: '0.85rem',
+              }}
+            >
+              Paciente: {patientName}
+            </span>
+          ) : null}
         </Box>
       </ListItem>
       <ListItem>
-        <ListItemButton onClick={logout}>
+        <ListItemButton
+          onClick={() => {
+            logout();
+            closeDrawer();
+          }}
+        >
           <ListItemIcon>
             <LogoutOutlinedIcon />
           </ListItemIcon>

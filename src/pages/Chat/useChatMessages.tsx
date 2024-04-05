@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { sendMessage } from '@/api/chat/sendMessage';
 import useAuth from '@/store/auth';
 import api from '@/api/api';
 
 type useChatMessagesProps = {
   userId?: number;
-  prestadorId?: number;
+  prestadorId?: string;
 };
 
 export const useChatMessages = ({ userId, prestadorId }: useChatMessagesProps) => {
@@ -46,14 +45,14 @@ export const useChatMessages = ({ userId, prestadorId }: useChatMessagesProps) =
 
   const handleSendMessage = async () => {
     try {
-      const messageResponse = await sendMessage({
-        message,
-        prestadorId: prestadorId ? prestadorId : prestadorIdFromSearchParams,
-        userId: userId ? userId : userIdFromSearchParams,
-        sentBy: user?.role || 'user',
-        token: user?.token || '',
-      });
-      setMessages(() => messageResponse.messages);
+      // const messageResponse = await sendMessage({
+      //   message,
+      //   prestadorId: prestadorId ? prestadorId : prestadorIdFromSearchParams,
+      //   userId: userId ? userId : userIdFromSearchParams,
+      //   sentBy: user?.role || 'user',
+      //   token: user?.token || '',
+      // });
+      // setMessages(() => messageResponse.messages);
       setMessage('');
     } catch (error) {
       if (error instanceof Error) {

@@ -1,23 +1,15 @@
 import { IconButton, InputAdornment, List, ListItem, OutlinedInput } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import { Box } from '@mui/system';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilValueLoadable } from 'recoil';
-import { getAllComunas } from '@/api/comunas/getAllComunas';
 import useRecibeApoyo from '@/store/recibeApoyo';
+import { useComunas } from '@/hooks/useComunas';
 
 function SearchBar() {
-  const [{ allComunas }, { setComunas, addComuna }] = useRecibeApoyo();
+  const { allComunas } = useComunas();
+  const [, { addComuna }] = useRecibeApoyo();
   const [comunasState, setComunasState] = useState(allComunas);
-
-  const comunasFetched = useRecoilValueLoadable(getAllComunas);
-
-  useEffect(() => {
-    if (comunasFetched.state === 'hasValue') {
-      setComunas(comunasFetched.contents?.data);
-    }
-  }, [comunasFetched, setComunas]);
 
   const router = useNavigate();
 

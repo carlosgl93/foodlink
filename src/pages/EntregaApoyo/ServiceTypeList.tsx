@@ -2,12 +2,14 @@ import { List, ListItemButton, ListItemText, ListItemIcon } from '@mui/material'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useEntregaApoyo from '@/store/entregaApoyo';
 import { Servicio } from '@/types/Servicio';
+import { useServicios } from '@/hooks/useServicios';
 
 const ServiceTypeList = () => {
-  const [{ selectedServicio, allServicios }, { selectServicio }] = useEntregaApoyo();
+  const [{ selectedServicio }, { selectServicio }] = useEntregaApoyo();
+
+  const { allServicios } = useServicios();
 
   const handleSelectServicio = (servicio: Servicio) => {
-    console.log(servicio);
     selectServicio(servicio);
   };
 
@@ -39,9 +41,9 @@ const ServiceTypeList = () => {
                   color: alreadySelected ? 'white' : 'primary.dark',
                 },
               }}
-              key={servicio.service_id}
+              key={servicio.id}
             >
-              <ListItemText primary={servicio.service_name} />
+              <ListItemText primary={servicio.serviceName} />
               <ListItemIcon
                 sx={{
                   color: 'primary.main',

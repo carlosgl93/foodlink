@@ -61,7 +61,12 @@ const times = Array.from({ length: 24 }, (_, hour) => [
 export const EditAvailableDays = () => {
   const [
     { disponibilidad },
-    { handleToggleDisponibilidadDay, handleTimeChange, handleSaveDisponibilidad },
+    {
+      handleEditDisponibilidad,
+      handleToggleDisponibilidadDay,
+      handleTimeChange,
+      handleSaveDisponibilidad,
+    },
   ] = useConstruirPerfil();
 
   return (
@@ -118,18 +123,37 @@ export const EditAvailableDays = () => {
         })}
 
       <CenteredDivider />
-
-      <Button
-        variant="contained"
-        color="primary"
-        fullWidth
+      <Box
         sx={{
-          my: '1rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          width: '80vw',
+          gap: '2rem',
         }}
-        onClick={() => handleSaveDisponibilidad()}
       >
-        Guardar
-      </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{
+            my: '1rem',
+          }}
+          onClick={() => handleEditDisponibilidad()}
+        >
+          Cancelar
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{
+            my: '1rem',
+          }}
+          onClick={() => handleSaveDisponibilidad()}
+        >
+          Guardar
+        </Button>
+      </Box>
     </Container>
   );
 };

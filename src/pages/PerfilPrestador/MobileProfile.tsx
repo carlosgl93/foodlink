@@ -21,15 +21,11 @@ import {
 import { ChatModal } from '@/components/ChatModal';
 
 import { usePerfilPrestador } from './usePerfilPrestador';
-import { ListAvailableDays } from './ListAvailableDays';
+// import { ListAvailableDays } from './ListAvailableDays';
 import PerfilBackButton from './PerfilBackButton';
-import { Prestador } from '@/types';
 import { Box, styled } from '@mui/material';
-import { Tarifas } from './Tarifas';
-
-type MobileProfileProps = {
-  prestador: Prestador;
-};
+// import { Tarifas } from './Tarifas';
+import { Prestador } from '@/store/auth/prestador';
 
 const SectionContainer = styled(Box)(() => ({
   display: 'flex',
@@ -46,23 +42,23 @@ const SectionTitle = styled(StyledTitle)(({ theme }) => ({
   fontSize: '1.5rem',
 }));
 
-export const MobileProfile = ({ prestador }: MobileProfileProps) => {
-  const {
-    messages,
-    handleClose,
-    handleContact,
-    handleSendMessage,
-    open,
-    message,
-    setMessage,
-    prestadorServicio,
-    prestadorEspecialidad,
-    disponibilidad,
-    tarifas,
-    freeMeetGreet,
-  } = usePerfilPrestador(prestador);
+type MobileProfileProps = {
+  prestador: Prestador;
+};
 
-  const { firstname, lastname, imageUrl, average_review, total_reviews, description } = prestador;
+export const MobileProfile = ({ prestador }: MobileProfileProps) => {
+  const { handleClose, handleContact, handleSendMessage, open, message, messages, setMessage } =
+    usePerfilPrestador(prestador as Prestador);
+  const {
+    firstname,
+    lastname,
+    imageUrl,
+    averageReviews,
+    totalReviews,
+    description,
+    // availability,
+    // offersFreeMeetAndGreet,
+  } = prestador;
 
   return (
     <Wrapper>
@@ -75,12 +71,12 @@ export const MobileProfile = ({ prestador }: MobileProfileProps) => {
             {firstname} {lastname}
           </StyledTitle>
           <ReviewsContainer>
-            <Reviews average={average_review || 0} total_reviews={total_reviews || 0} />
+            <Reviews average={averageReviews || 0} total_reviews={totalReviews || 0} />
           </ReviewsContainer>
         </StyledNameContainer>
 
         <StyledServicio>
-          {prestadorServicio?.service_name} / {prestadorEspecialidad?.especialidad_name}
+          {prestador.servicio} / {prestador.especialidad}
         </StyledServicio>
         <StyledCTAs>
           <StyledContactButton onClick={handleContact}>
@@ -106,10 +102,10 @@ export const MobileProfile = ({ prestador }: MobileProfileProps) => {
       <SectionContainer>
         <SectionTitle>Disponibilidad</SectionTitle>
       </SectionContainer>
-      <ListAvailableDays disponibilidad={disponibilidad} />
+      {/* <ListAvailableDays disponibilidad={availability} /> */}
       <SectionContainer>
         <SectionTitle>Tarifas</SectionTitle>
-        <Tarifas tarifas={tarifas} freeMeetGreet={freeMeetGreet as boolean} />
+        {/* <Tarifas tarifas={tarifas} freeMeetGreet={offersFreeMeetAndGreet} /> */}
       </SectionContainer>
     </Wrapper>
   );

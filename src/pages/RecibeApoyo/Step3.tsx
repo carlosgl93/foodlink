@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 const Step3 = () => {
   const [{ step, servicio }, { decreaseStep }] = useRecibeApoyo();
 
+  console.log(servicio);
+
   const router = useNavigate();
 
   const handleNext = () => {
@@ -47,11 +49,7 @@ const Step3 = () => {
         <Button variant="contained" onClick={handlePrevious}>
           Atras
         </Button>
-        <Button
-          disabled={servicio?.service_name.length === 0}
-          variant="contained"
-          onClick={handleNext}
-        >
+        <Button disabled={!servicio} variant="contained" onClick={handleNext}>
           Siguiente
         </Button>
       </Box>

@@ -1,15 +1,14 @@
 import Meta from '@/components/Meta';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
-
-import { Image } from '@/components/ImageContainer';
 import { TextContainer, Title } from '@/components/StyledComponents';
-
 import RegistrarPrestadorController from './RegistrarPrestadorController';
 import { formInputs } from './formInputs';
+import { useAuthNew } from '@/hooks/useAuthNew';
 
 function RegistrarPrestador() {
   const { state, handleChange, handleSubmit } = RegistrarPrestadorController();
+  const { createPrestadorLoading } = useAuthNew();
   const theme = useTheme();
   return (
     <>
@@ -22,7 +21,7 @@ function RegistrarPrestador() {
           margin: '5vh auto',
         }}
       >
-        <Box>
+        {/* <Box>
           <Image
             src="/images/blui-new.png"
             sx={{
@@ -31,7 +30,7 @@ function RegistrarPrestador() {
               height: 'auto',
             }}
           />
-        </Box>
+        </Box> */}
         <TextContainer>
           <Title
             sx={{
@@ -61,33 +60,6 @@ function RegistrarPrestador() {
             </TextContainer>
           )}
           {formInputs.map((input) => {
-            // if (input.inputName === 'comoEnteraste') {
-            //   return (
-            //     <select
-            //       style={{
-            //         padding: '10px',
-            //         borderRadius: '5px',
-            //         border: '1px solid #ccc',
-            //         fontSize: '16px',
-            //         marginTop: '1vh',
-            //       }}
-            //       key={input.inputName + input.label}
-            //       name={input.inputName}
-            //       placeholder={input.placeholder}
-            //       onChange={handleSelect}
-            //       value={state.comoEnteraste}
-            //     >
-            //       <option value="" disabled>
-            //         Como te enteraste de nosotros?
-            //       </option>
-            //       {input!.options!.map((option) => (
-            //         <option key={option} value={option}>
-            //           {option}
-            //         </option>
-            //       ))}
-            //     </select>
-            //   );
-            // } else {
             return (
               <TextField
                 sx={{
@@ -119,13 +91,19 @@ function RegistrarPrestador() {
             <Button
               disabled={
                 state.nombre === '' ||
-                state.apellidos === '' ||
+                state.apellido === '' ||
                 state.telefono === '' ||
                 state.correo === '' ||
                 state.contrasena === '' ||
                 state.confirmarContrasena === '' ||
-                state.error !== ''
+                state.error !== '' ||
+                createPrestadorLoading
               }
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSubmit();
+                }
+              }}
               variant="contained"
               onClick={handleSubmit}
               sx={{

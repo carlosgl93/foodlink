@@ -58,13 +58,13 @@ export const PreviewDesktopProfile = () => {
   };
 
   useEffect(() => {
-    const thisPrestadorServicio = allServicios?.find((s) => s.service_id === service_id);
+    const thisPrestadorServicio = allServicios?.find((s) => s.id === service_id);
     if (thisPrestadorServicio) {
       setPrestadorServicio(thisPrestadorServicio);
     }
 
     const thisPrestadorEspecialidad = thisPrestadorServicio?.especialidades.find(
-      (e) => e.especialidad_id === speciality_id,
+      (e) => e.id === speciality_id,
     ) as Especialidad;
 
     if (thisPrestadorEspecialidad) {
@@ -97,7 +97,7 @@ export const PreviewDesktopProfile = () => {
             <Reviews average={average_review || 0} total_reviews={total_reviews || 0} />
 
             <StyledServicio>
-              {prestadorServicio?.service_name} / {prestadorEspecialidad?.especialidad_name}
+              {prestadorServicio?.serviceName} / {prestadorEspecialidad?.especialidadName}
             </StyledServicio>
             <StyledCTAs>
               <StyledContactButton onClick={handleContact}>Contactar</StyledContactButton>
