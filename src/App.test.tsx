@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { test, expect } from 'vitest';
-import App from './../App';
+import App from './App';
 import { RecoilRoot } from 'recoil';
 
 test('renders without crashing', () => {
