@@ -16,7 +16,7 @@ import {
 import { useRecoilState } from 'recoil';
 import { notificationState } from '@/store/snackbar';
 import { Comuna } from '@/types';
-import { Servicio, Especialidad } from '@/types/Servicio';
+import { Servicio } from '@/types/Servicio';
 import { FirebaseError } from 'firebase/app';
 import { User, userState } from '@/store/auth/user';
 import { Prestador, prestadorState } from '@/store/auth/prestador';
@@ -37,15 +37,15 @@ export type CreateUserParams = {
 };
 
 export type CreatePrestadorParams = {
-  nombre: string;
-  apellido: string;
+  // nombre: string;
+  // apellido: string;
   rut: string;
-  telefono: string;
+  // telefono: string;
   correo: string;
   contrasena: string;
   comunas: Comuna[];
   servicio: Servicio | undefined;
-  especialidad: Especialidad | undefined;
+  // especialidad: Especialidad | undefined;
 };
 
 export const useAuthNew = () => {
@@ -60,16 +60,16 @@ export const useAuthNew = () => {
 
   const { mutate: createPrestador, isLoading: createPrestadorLoading } = useMutation(
     ({
-      nombre,
-      apellido,
+      // nombre,
+      // apellido,
       rut,
-      telefono,
+      // telefono,
       correo,
       contrasena,
       comunas,
       servicio,
-      especialidad,
-    }: CreatePrestadorParams) => {
+    }: // especialidad,
+    CreatePrestadorParams) => {
       setNotification({
         open: true,
         message: 'Creando tu cuenta...',
@@ -81,13 +81,13 @@ export const useAuthNew = () => {
           email: correo,
           id: user.uid,
           role: 'prestador',
-          firstname: nombre,
-          lastname: apellido,
+          // firstname: nombre,
+          // lastname: apellido,
           rut,
           comunas: comunas.map((comuna) => comuna.name),
           servicio: servicio?.serviceName,
-          especialidad: especialidad?.especialidadName,
-          telefono,
+          // especialidad: especialidad?.especialidadName,
+          // telefono,
           averageReviews: 0,
           totalReviews: 0,
           description: '',

@@ -2,40 +2,6 @@ import { Servicio } from '@/types/Servicio';
 
 export const services: Servicio[] = [
   {
-    serviceName: 'Apoyo en el hogar',
-    especialidades: [
-      {
-        especialidadName: 'Demencia senil',
-      },
-      {
-        especialidadName: 'Alzheimer',
-      },
-      {
-        especialidadName: 'Parkinson',
-      },
-    ],
-  },
-  {
-    serviceName: 'Cuidadora',
-    especialidades: [
-      {
-        especialidadName: 'Artritis',
-      },
-      {
-        especialidadName: 'Asma',
-      },
-      {
-        especialidadName: 'Enfermedad Cardiovascular',
-      },
-      {
-        especialidadName: 'EPOC o Enfermedad Respiratoria',
-      },
-      {
-        especialidadName: 'Diabetes',
-      },
-    ],
-  },
-  {
     serviceName: 'Soporte Terapéutico',
     especialidades: [
       {
@@ -114,6 +80,41 @@ export const services: Servicio[] = [
       },
     ],
   },
+  {
+    serviceName: 'Apoyo en el hogar',
+    especialidades: [
+      {
+        especialidadName: 'Demencia senil',
+      },
+      {
+        especialidadName: 'Alzheimer',
+      },
+      {
+        especialidadName: 'Parkinson',
+      },
+    ],
+  },
+  {
+    serviceName: 'Cuidadora',
+    especialidades: [
+      {
+        especialidadName: 'Artritis',
+      },
+      {
+        especialidadName: 'Asma',
+      },
+      {
+        especialidadName: 'Enfermedad Cardiovascular',
+      },
+      {
+        especialidadName: 'EPOC o Enfermedad Respiratoria',
+      },
+      {
+        especialidadName: 'Diabetes',
+      },
+    ],
+  },
+
   {
     serviceName: 'Sana compañía',
     especialidades: [],

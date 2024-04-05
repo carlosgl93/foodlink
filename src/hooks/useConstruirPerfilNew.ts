@@ -5,7 +5,7 @@ export const useConstruirPerfilNew = () => {
   const { prestador } = useAuthNew();
   const navigate = useNavigate();
 
-  if (!prestador?.firstname) {
+  if (!prestador?.rut) {
     navigate('/ingresar');
   }
   const settings = prestador ? prestador!.settings : undefined;

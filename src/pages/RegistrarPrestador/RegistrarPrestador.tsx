@@ -5,6 +5,7 @@ import { TextContainer, Title } from '@/components/StyledComponents';
 import RegistrarPrestadorController from './RegistrarPrestadorController';
 import { formInputs } from './formInputs';
 import { useAuthNew } from '@/hooks/useAuthNew';
+import { Image } from '@/components/ImageContainer';
 
 function RegistrarPrestador() {
   const { state, handleChange, handleSubmit } = RegistrarPrestadorController();
@@ -21,7 +22,7 @@ function RegistrarPrestador() {
           margin: '5vh auto',
         }}
       >
-        {/* <Box>
+        <Box>
           <Image
             src="/images/blui-new.png"
             sx={{
@@ -30,7 +31,7 @@ function RegistrarPrestador() {
               height: 'auto',
             }}
           />
-        </Box> */}
+        </Box>
         <TextContainer>
           <Title
             sx={{
@@ -76,6 +77,7 @@ function RegistrarPrestador() {
                 placeholder={input.placeholder}
                 onChange={handleChange}
                 type={input.type}
+                helperText={input?.helperText ?? ''}
               />
             );
             // }
@@ -90,9 +92,9 @@ function RegistrarPrestador() {
           >
             <Button
               disabled={
-                state.nombre === '' ||
-                state.apellido === '' ||
-                state.telefono === '' ||
+                // state.nombre === '' ||
+                // state.apellido === '' ||
+                // state.telefono === '' ||
                 state.correo === '' ||
                 state.contrasena === '' ||
                 state.confirmarContrasena === '' ||

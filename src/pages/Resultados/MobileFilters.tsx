@@ -55,6 +55,25 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
       <Box
         sx={{
           display: 'flex',
+          justifyContent: 'flex-end',
+          mb: '1.75rem',
+        }}
+      >
+        <Button
+          variant="outlined"
+          onClick={closeFilters}
+          sx={{
+            display: 'flex',
+            borderRadius: '1rem',
+            borderColor: '#99979c',
+          }}
+        >
+          Cerrar <CloseIcon />
+        </Button>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
           justifyContent: 'space-between',
         }}
       >
@@ -64,12 +83,8 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
             fontSize: '1.2rem',
           }}
         >
-          Comunas
+          Comuna donde recibirás apoyo.
         </Title>
-
-        <Button variant="outlined" onClick={closeFilters}>
-          <CloseIcon />
-        </Button>
       </Box>
       <FiltersSearchBar />
       {comuna && (
@@ -98,28 +113,34 @@ export const MobileFilters = ({ closeFilters }: MobileFiltersProps) => {
         </List>
       )}
 
-      {/* SERVICIO */}
-      <Title
-        variant="h6"
+      <Box
         sx={{
-          fontSize: '1.2rem',
+          my: '1rem',
         }}
       >
-        Servicio
-      </Title>
-      {allServicios && (
-        <StyledSelect value={servicio?.serviceName || ''} onChange={handleSelectServicio}>
-          <option value={''}>Elige un servicio</option>
+        {/* SERVICIO */}
+        <Title
+          variant="h6"
+          sx={{
+            fontSize: '1.2rem',
+          }}
+        >
+          Servicio
+        </Title>
+        {allServicios && (
+          <StyledSelect value={servicio?.serviceName || ''} onChange={handleSelectServicio}>
+            <option value={''}>Elige un servicio</option>
 
-          {allServicios.map((servicio: Servicio) => {
-            return (
-              <option key={servicio.id} value={servicio.serviceName}>
-                {servicio.serviceName}
-              </option>
-            );
-          })}
-        </StyledSelect>
-      )}
+            {allServicios.map((servicio: Servicio) => {
+              return (
+                <option key={servicio.id} value={servicio.serviceName}>
+                  {servicio.serviceName}
+                </option>
+              );
+            })}
+          </StyledSelect>
+        )}
+      </Box>
 
       {servicio && especialidades && (
         <>

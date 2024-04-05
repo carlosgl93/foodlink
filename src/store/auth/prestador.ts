@@ -14,12 +14,12 @@ export interface Prestador {
   email: string;
   id: string;
   role: string;
-  firstname: string;
-  lastname: string;
+  firstname?: string;
+  lastname?: string;
   rut: string;
   comunas: string[];
   servicio: string | undefined;
-  especialidad: string | undefined;
+  especialidad?: string | undefined;
   telefono?: string;
   isLoggedIn?: boolean;
   availability?: Availability;
