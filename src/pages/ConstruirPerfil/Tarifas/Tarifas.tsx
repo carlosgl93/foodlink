@@ -9,14 +9,21 @@ import { StyledText } from '../StyledConstruirPerfilComponents';
 import { Box } from '@mui/material';
 import { TarifaDiaria } from './TarifaDiaria';
 import { TarifaFront } from '@/types';
-import useConstruirPerfil from '@/store/construirPerfil';
 import { SaveButton } from '@/components/SaveButton';
+import { useRecoilValue } from 'recoil';
+import { tarifasState } from '@/store/construirPerfil/tarifas';
+import { TarifaController } from './TarifaController';
+import Loading from '@/components/Loading';
 
 export const Tarifas = () => {
-  const [
-    { tarifas, prestador },
-    { handleSaveTarifas, handleChangeTarifa, handleChangeFreeMeetGreet },
-  ] = useConstruirPerfil();
+  const {
+    prestador,
+    isSavingTarifas,
+    handleChangeTarifa,
+    handleChangeFreeMeetGreet,
+    handleSaveTarifas,
+  } = TarifaController();
+  const newTarifas = useRecoilValue(tarifasState);
 
   return (
     <Wrapper>
@@ -47,32 +54,37 @@ export const Tarifas = () => {
           >
             Usa solo números, sin puntos ni comas.
           </StyledText>
-          <form onSubmit={handleSaveTarifas}>
-            {tarifas.map((tarifa: TarifaFront) => (
-              <div key={tarifa.id}>
-                <TarifaDiaria tarifa={tarifa} handleChangeTarifa={handleChangeTarifa} />
-              </div>
-            ))}
+          {isSavingTarifas ? (
+            <Loading />
+          ) : (
+            <form onSubmit={handleSaveTarifas}>
+              {newTarifas?.map((tarifa: TarifaFront) => (
+                <div key={tarifa.id}>
+                  <TarifaDiaria tarifa={tarifa} handleChangeTarifa={handleChangeTarifa} />
+                </div>
+              ))}
 
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'start',
-                alignItems: 'center',
-                marginTop: '1rem',
-              }}
-            >
-              <input
-                type="checkbox"
-                name="meetAndGreet"
-                checked={prestador?.offers_free_meet_greet}
-                onChange={handleChangeFreeMeetGreet}
-              />
-              <label htmlFor="meetAndGreet">Ofrezco conocernos gratuitamente.</label>
-            </Box>
-            <SaveButton />
-          </form>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'start',
+                  alignItems: 'center',
+                  marginTop: '1rem',
+                }}
+              >
+                <input
+                  id="meetAndGreet"
+                  type="checkbox"
+                  name="meetAndGreet"
+                  checked={prestador?.offersFreeMeetAndGreet}
+                  onChange={handleChangeFreeMeetGreet}
+                />
+                <label htmlFor="meetAndGreet">Ofrezco conocernos gratuitamente.</label>
+              </Box>
+              <SaveButton />
+            </form>
+          )}
         </Box>
       </Container>
     </Wrapper>

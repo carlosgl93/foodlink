@@ -22,6 +22,7 @@ import { User, userState } from '@/store/auth/user';
 import { Prestador, prestadorState } from '@/store/auth/prestador';
 import useEntregaApoyo from '@/store/entregaApoyo';
 import useRecibeApoyo from '@/store/recibeApoyo';
+import { defaultTarifas } from '@/utils/constants';
 
 export type ForWhom = 'paciente' | 'tercero' | '';
 
@@ -69,8 +70,7 @@ export const useAuthNew = () => {
       contrasena,
       comunas,
       servicio,
-    }: // especialidad,
-    CreatePrestadorParams) => {
+    }: CreatePrestadorParams) => {
       setNotification({
         open: true,
         message: 'Creando tu cuenta...',
@@ -86,6 +86,7 @@ export const useAuthNew = () => {
           // lastname: apellido,
           rut,
           comunas: comunas,
+          tarifas: defaultTarifas,
           servicio: servicio?.serviceName,
           // especialidad: especialidad?.especialidadName,
           // telefono,

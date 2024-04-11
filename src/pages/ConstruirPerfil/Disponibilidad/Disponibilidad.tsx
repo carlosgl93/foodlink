@@ -10,13 +10,12 @@ import { Box, Button } from '@mui/material';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { ListAvailableDays } from './ListAvailableDays';
 import { EditAvailableDays } from './EditAvailableDays';
-import useConstruirPerfil from '@/store/construirPerfil';
 import { useDisponibilidadNew } from '@/hooks/useDisponibilidadNew';
 import Loading from '@/components/Loading';
 
 export const Disponibilidad = () => {
-  const [{ editDisponibilidad }, { handleEditDisponibilidad }] = useConstruirPerfil();
-  const { availability, isLoading } = useDisponibilidadNew();
+  const { availability, isLoading, editDisponibilidad, handleEditDisponibilidad } =
+    useDisponibilidadNew();
 
   return (
     <Wrapper>
@@ -44,7 +43,7 @@ export const Disponibilidad = () => {
             onClick={handleEditDisponibilidad}
             sx={{ fontWeight: 'bold' }}
           >
-            Editar disponibilidad
+            {editDisponibilidad ? 'Editando' : 'Editar'}
           </Button>
         </Box>
         {isLoading ? (

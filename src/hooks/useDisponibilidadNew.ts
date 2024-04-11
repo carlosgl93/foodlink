@@ -8,7 +8,7 @@ import { AvailabilityData } from '@/pages/ConstruirPerfil/Disponibilidad/ListAva
 import { availabilityState } from '@/store/construirPerfil/availability';
 import { db } from 'firebase/firebase';
 import { prestadorState } from '@/store/auth/prestador';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const daysOfWeek = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
 const sortAvailability = (data: AvailabilityData[]) =>
@@ -23,11 +23,11 @@ async function fetchAvailability(prestadorId: string) {
   return snapshot.docs.map((doc) => doc.data()) as AvailabilityData[];
 }
 
-const updateDisponibilidad = async (id: string, disponibilidad: boolean) => {
+const updateDisponibilidad = async (id: string) => {
   const providerRef = doc(db, 'providers', id);
 
   await updateDoc(providerRef, {
-    'settings.disponibilidad': disponibilidad,
+    'settings.disponibilidad': true,
   });
 };
 
@@ -36,12 +36,11 @@ export const useDisponibilidadNew = () => {
   const [, setNotification] = useRecoilState(notificationState);
   const [availability, setAvailability] = useRecoilState(availabilityState);
   const [, setPrestadorState] = useRecoilState(prestadorState);
-
+  const [editDisponibilidad, setEditDisponibilidad] = useState(false);
   const { prestador } = useAuthNew();
   const id = prestador?.id ?? '';
   const client = useQueryClient();
 
-  // Use the useQuery hook to fetch the data when the component mounts
   const { error, isLoading, isError } = useQuery(
     ['availability', id],
     () => {
@@ -83,7 +82,6 @@ export const useDisponibilidadNew = () => {
     startOrEnd: 'startTime' | 'endTime',
   ) => {
     const { value: newTime } = e.target;
-    // let hasError = false;
 
     setAvailability((prev) => {
       const newDisponibilidad = prev.map((day) => {
@@ -91,7 +89,6 @@ export const useDisponibilidadNew = () => {
           return day;
         }
 
-        console.log(newTime);
         const updatedDay = {
           ...day,
           times: {
@@ -100,30 +97,16 @@ export const useDisponibilidadNew = () => {
           },
         };
 
-        // if (updatedDay.times.startTime >= updatedDay.times.endTime) {
-        //   hasError = true;
-        //   return day;
-        // }
-
         return updatedDay;
       });
 
       return newDisponibilidad;
     });
-
-    // if (hasError) {
-    //   setNotification({
-    //     open: true,
-    //     message: 'La hora de inicio debe ser antes de la hora de finalización',
-    //     severity: 'error',
-    //   });
-    //   console.error('Start time must be before end time');
-    // }
   };
 
   const { mutate: handleSaveDisponibilidad, isLoading: saveDisponibilidadLoading } = useMutation(
     () => {
-      updateDisponibilidad(id, true);
+      updateDisponibilidad(id);
       return Promise.all(
         availability.map((a) => setDoc(doc(db, 'providers', id, 'availability', a.day), a)),
       );
@@ -135,6 +118,7 @@ export const useDisponibilidadNew = () => {
           if (!prev) return null;
           return { ...prev, settings: { ...prev.settings, disponibilidad: true } };
         });
+        setEditDisponibilidad((prev) => !prev);
         setNotification({
           open: true,
           message: 'Disponibilidad guardada exitosamente',
@@ -152,6 +136,10 @@ export const useDisponibilidadNew = () => {
     },
   );
 
+  const handleEditDisponibilidad = () => {
+    setEditDisponibilidad((prev) => !prev);
+  };
+
   useEffect(() => {
     if (!id) {
       navigate('/ingresar');
@@ -163,9 +151,12 @@ export const useDisponibilidadNew = () => {
     error,
     isLoading,
     isError,
+    editDisponibilidad,
+    saveDisponibilidadLoading,
+    setEditDisponibilidad,
     handleToggleDisponibilidadDay,
     handleTimeChange,
     handleSaveDisponibilidad,
-    saveDisponibilidadLoading,
+    handleEditDisponibilidad,
   };
 };
