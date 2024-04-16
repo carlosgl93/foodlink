@@ -1,5 +1,4 @@
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { Mensaje } from '@/types/Mensaje';
 import {
   ChatContainer,
   StyledChatInput,
@@ -14,45 +13,34 @@ import {
   StyledUsuarioMensajeText,
 } from './StyledChatMensajes';
 
-import { Prestador } from '@/types/Prestador';
-
 import Loading from '@/components/Loading';
 import { formatDate } from '@/utils/formatDate';
 import { Box } from '@mui/material';
-import { useRetrieveCustomerAndPrestador } from '@/hooks/useRetrieveCustomerAndPrestador';
 import { usePrestadorChatMessages } from '../PrestadorChat/usePrestadorChatMessages';
-
-export type LocationState = {
-  messages: Mensaje[];
-  prestador: Prestador;
-  sentBy: string;
-};
+import { useAuthNew } from '@/hooks/useAuthNew';
+import { useRecoilValue } from 'recoil';
+import { chatState } from '@/store/chat/chatStore';
+import { interactedPrestadorState } from '@/store/resultados/interactedPrestador';
+import { useChat } from '@/hooks';
 
 export const Chat = () => {
-  const {
-    customer,
-    prestador,
-    isLoading: customerPrestadorLoading,
-  } = useRetrieveCustomerAndPrestador();
-
+  const { user } = useAuthNew();
+  const messages = useRecoilValue(chatState);
+  const customer = user;
+  const prestador = useRecoilValue(interactedPrestadorState);
   const customerId = customer?.id;
-  const prestadorId = prestador?.id;
 
-  const {
-    messages,
-    message,
-    isLoading,
-    error,
-    lastMessageRef,
-    handleInputChange,
-    handleSendMessage,
-    sendWithEnter,
-  } = usePrestadorChatMessages({
-    userId: customerId,
-    prestadorId,
+  const { isSending, lastMessageRef } = usePrestadorChatMessages({
+    userId: customerId ?? '',
+    prestadorId: prestador?.id ?? '',
   });
 
-  if (isLoading) {
+  const { message, messagesLoading, setMessage, handleSaveMessage, sendWithEnter } = useChat(
+    customerId ?? '',
+    prestador?.id ?? '',
+  );
+
+  if (messagesLoading) {
     return (
       <ChatContainer>
         <Loading />
@@ -62,18 +50,21 @@ export const Chat = () => {
 
   return (
     <ChatContainer>
-      {(isLoading || customerPrestadorLoading) && <Loading />}
-      {error && <p>Hubo un error</p>}
-      {messages &&
-        messages.map((m: Mensaje, index: number) => {
+      {isSending ? (
+        <Loading />
+      ) : (
+        messages &&
+        messages.map((m, index: number) => {
           const isLastMessage = index === messages.length - 1;
-          if (m.sent_by === 'prestador') {
+          if (m.sentBy === 'provider') {
             return (
               <StyledPrestadorMensajeContainer
                 key={m.id}
                 ref={isLastMessage ? lastMessageRef : null}
               >
-                <StyledPrestadorName>{prestador?.firstname}:</StyledPrestadorName>
+                <StyledPrestadorName>
+                  {prestador?.firstname ? prestador.firstname : prestador?.email}:
+                </StyledPrestadorName>
                 <Box
                   sx={{
                     display: 'flex',
@@ -85,7 +76,7 @@ export const Chat = () => {
                 >
                   <StyledPrestadorMensajeText>{m.message}</StyledPrestadorMensajeText>
                   <StyledTimestampContainer>
-                    <StyledMensajeTimestamp>{formatDate(m.created_at)}</StyledMensajeTimestamp>
+                    <StyledMensajeTimestamp>{formatDate(m.timestamp)}</StyledMensajeTimestamp>
                   </StyledTimestampContainer>
                 </Box>
               </StyledPrestadorMensajeContainer>
@@ -95,20 +86,54 @@ export const Chat = () => {
               <StyledUsuarioMensajeContainer key={m.id} ref={isLastMessage ? lastMessageRef : null}>
                 <StyledUsuarioMensajeText>{m.message}</StyledUsuarioMensajeText>
                 <StyledTimestampContainer>
-                  <StyledMensajeTimestamp>{formatDate(m.created_at)}</StyledMensajeTimestamp>
+                  <StyledMensajeTimestamp>{formatDate(m.timestamp)}</StyledMensajeTimestamp>
                 </StyledTimestampContainer>
               </StyledUsuarioMensajeContainer>
             );
           }
-        })}
+        })
+      )}
       <StyledChatInputContainer>
         <StyledChatInput
           value={message}
           placeholder="Escribe tu mensaje"
-          onChange={(e) => handleInputChange(e)}
-          onKeyDown={(e) => sendWithEnter(e)}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) =>
+            sendWithEnter(e, {
+              message,
+              sentBy: 'user',
+              providerId: prestador?.id ?? '',
+              userId: customerId ?? '',
+              username: customer?.firstname
+                ? customer.firstname
+                : customer?.email
+                ? customer.email
+                : '',
+              providerName: prestador?.firstname?.length
+                ? prestador.firstname
+                : prestador?.email || '',
+            })
+          }
         />
-        <StyledChatSendButton onClick={handleSendMessage} disabled={message.length === 0}>
+        <StyledChatSendButton
+          onClick={() =>
+            handleSaveMessage({
+              message,
+              sentBy: 'user',
+              providerId: prestador?.id ?? '',
+              userId: customerId ?? '',
+              username: customer?.firstname
+                ? customer.firstname
+                : customer?.email
+                ? customer.email
+                : '',
+              providerName: prestador?.firstname?.length
+                ? prestador.firstname
+                : prestador?.email || '',
+            })
+          }
+          disabled={message.length === 0}
+        >
           <SendOutlinedIcon />
         </StyledChatSendButton>
       </StyledChatInputContainer>

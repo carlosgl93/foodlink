@@ -13,7 +13,7 @@ import {
   doc,
   setDoc,
 } from 'firebase/firestore';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { notificationState } from '@/store/snackbar';
 import { Comuna } from '@/types';
 import { Servicio } from '@/types/Servicio';
@@ -23,6 +23,8 @@ import { Prestador, prestadorState } from '@/store/auth/prestador';
 import useEntregaApoyo from '@/store/entregaApoyo';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { defaultTarifas } from '@/utils/constants';
+import { AvailabilityData } from '@/pages/ConstruirPerfil/Disponibilidad/ListAvailableDays';
+import { redirectToAfterLoginState } from '@/store/auth';
 
 export type ForWhom = 'paciente' | 'tercero' | '';
 
@@ -52,6 +54,7 @@ export type CreatePrestadorParams = {
 export const useAuthNew = () => {
   const [, setNotification] = useRecoilState(notificationState);
   const [user, setUserState] = useRecoilState(userState);
+  const redirectAfterLogin = useRecoilValue(redirectToAfterLoginState);
   const [prestador, setPrestadorState] = useRecoilState(prestadorState);
   const [, { resetEntregaApoyoState }] = useEntregaApoyo();
   const [, { resetRecibeApoyoState }] = useRecibeApoyo();
@@ -285,6 +288,15 @@ export const useAuthNew = () => {
           return { role: 'user', data: user };
         } else if (prestadores.docs.length > 0) {
           const prestador = prestadores.docs[0].data() as Prestador;
+          const availabilityCollectionRef = collection(
+            db,
+            'providers',
+            prestador.id,
+            'availability',
+          );
+          const availabilityData = await getDocs(availabilityCollectionRef);
+          const availability = availabilityData.docs.map((doc) => doc.data()) as AvailabilityData[];
+          prestador.availability = availability;
           setPrestadorState({ ...prestador, isLoggedIn: true });
           queryClient.setQueryData(['prestador', correo], prestador);
           return { role: 'prestador', data: prestador };
@@ -326,11 +338,12 @@ export const useAuthNew = () => {
         });
         if (data?.role === 'user') {
           setUserState({ ...data.data, isLoggedIn: true } as User);
-          navigate(`/usuario-dashboard`);
+
+          redirectAfterLogin ? navigate(redirectAfterLogin) : navigate(`/usuario-dashboard`);
         } else {
           if (data?.role === 'prestador') {
             setPrestadorState({ ...data.data, isLoggedIn: true } as Prestador);
-            navigate(`/prestador-dashboard`);
+            redirectAfterLogin ? navigate(redirectAfterLogin) : navigate(`/prestador-dashboard`);
           }
         }
       },
@@ -343,6 +356,7 @@ export const useAuthNew = () => {
       setPrestadorState(null);
       resetEntregaApoyoState();
       resetRecibeApoyoState();
+      queryClient.resetQueries();
       navigate('/ingresar');
     },
   });

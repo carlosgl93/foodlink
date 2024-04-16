@@ -29,9 +29,9 @@ const authState = atom<AuthState>({
   },
 });
 
-const redirectToAfterLoginState = atom<string>({
+export const redirectToAfterLoginState = atom<string | null>({
   key: 'redirectToAfterLoginState',
-  default: '/',
+  default: null,
 });
 
 function useAuth(): [AuthState, Actions] {
@@ -204,33 +204,16 @@ function useAuth(): [AuthState, Actions] {
   function logout() {
     setUser((prev) => ({ ...prev, isLoggedIn: false, user: null, role: null }));
     localStorage.removeItem('user');
-    // TODO: RESET ALL STATE
     navigate('/');
   }
 
   function redirectAfterLogin() {
-    navigate(redirectToAfterLogin);
+    return redirectToAfterLogin ? navigate(redirectToAfterLogin) : null;
   }
 
   function updateRedirectToAfterLogin(path: string) {
     setRedirectToAfterLogin(path);
   }
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser !== null) {
-      const user = JSON.parse(storedUser);
-      setUser((prev) => ({ ...prev, isLoggedIn: true, user }));
-    }
-    if (
-      storedUser === null &&
-      (location.pathname.includes('prestador-chat') || location.pathname.includes('chat'))
-    ) {
-      updateRedirectToAfterLogin(location.pathname);
-      console.log(redirectToAfterLogin);
-      navigate('/ingresar');
-    }
-  }, [setUser]);
 
   useEffect(() => {
     const cleanErrorMessage = setTimeout(() => {
