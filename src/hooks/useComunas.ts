@@ -90,7 +90,7 @@ export const useComunas = () => {
         return comuna;
       }
     });
-    if (match) {
+    if (match.length) {
       setMatchedComunas(match);
     }
   };
