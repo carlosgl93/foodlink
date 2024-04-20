@@ -3,27 +3,32 @@ import {
   aggregatedExperienceState,
   allExperiencesState,
   ExperienceOption,
-  ExperienceState,
   ExperienceType,
-  mapExperiencesToState,
 } from '@/store/construirPerfil/experiencia';
 import { notificationState } from '@/store/snackbar';
 import { AxiosError } from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { useRecoilState } from 'recoil';
-import useAuth from '@/store/auth';
-import { usePrestadorExperience } from './usePrestadorExperience';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { prestadorState } from '@/store/auth/prestador';
 
 export const useExperiencia = () => {
   const [notification, setNotification] = useRecoilState(notificationState);
+  const [prestador, setPrestadorState] = useRecoilState(prestadorState);
+
   const [aggregatedExperience, setAggregatedExperience] = useRecoilState(aggregatedExperienceState);
-  const [experienceOptions, setExperienceOptions] = useRecoilState(allExperiencesState);
+  const experienceOptions = useRecoilValue(allExperiencesState);
 
   const queryClient = useQueryClient();
 
-  const [{ user }] = useAuth();
+  const providerId = prestador?.id;
 
-  const { isError, isLoading, error } = useQuery(['allExperiences'], () => getAllExperiences(), {
+  const {
+    data: allExperiences,
+    isError,
+    isLoading,
+    error,
+  } = useQuery(['allExperiences'], () => getAllExperiences(providerId ?? ''), {
+    enabled: Boolean(providerId?.length),
     onError: (error: { message: string }) => {
       setNotification({
         ...notification,
@@ -33,20 +38,16 @@ export const useExperiencia = () => {
       });
     },
     onSuccess: (data) => {
-      setExperienceOptions(mapExperiencesToState(data));
+      if (!data) return;
+      setAggregatedExperience(data);
     },
   });
-
-  const { isLoading: loadingPrestadorExp } = usePrestadorExperience(
-    user?.id ?? '',
-    (data: ExperienceState) => setAggregatedExperience(data),
-  );
 
   const {
     isLoading: saveExpLoading,
     error: saveExpError,
     mutate,
-  } = useMutation(() => saveExperiences(user?.id ?? '', aggregatedExperience), {
+  } = useMutation(() => saveExperiences(providerId ?? '', aggregatedExperience), {
     onSuccess: () => {
       // Handle success
       setNotification({
@@ -56,7 +57,11 @@ export const useExperiencia = () => {
         severity: 'success',
       });
       // invalidate prestador Experiences
-      queryClient.invalidateQueries('prestadorExperience');
+      queryClient.resetQueries();
+      setPrestadorState((prev) => {
+        if (!prev) return null;
+        return { ...prev, settings: { ...prev.settings, experiencia: true } };
+      });
     },
     onError: (error: AxiosError) => {
       // Handle error
@@ -81,7 +86,7 @@ export const useExperiencia = () => {
   const selectPreviousExperience = (option: ExperienceOption) => {
     const { id, label } = option;
     setAggregatedExperience((prev) => {
-      const experience = prev.find((exp) => exp.id === id);
+      const experience = prev?.find((exp) => exp.id === id);
       if (experience) {
         return prev.filter((e) => e.id !== id);
       } else {
@@ -104,7 +109,7 @@ export const useExperiencia = () => {
   };
 
   const selectExperienceType = (type: ExperienceType, id: number) => {
-    const experience = aggregatedExperience.find((exp) => exp.id === id);
+    const experience = aggregatedExperience?.find((exp) => exp.id === id);
     if (experience) {
       setAggregatedExperience((prev) => {
         return prev.map((exp) => {
@@ -189,7 +194,7 @@ export const useExperiencia = () => {
     error,
     experienceOptions,
     aggregatedExperience,
-    loadingPrestadorExp,
+    allExperiences,
     selectPreviousExperience,
     detectPreviousExperience,
     selectExperienceType,
