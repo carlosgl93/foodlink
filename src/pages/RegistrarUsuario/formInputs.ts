@@ -23,12 +23,7 @@ export const formInputs = [
     label: 'Rut Paciente (*): ',
     type: 'text',
   },
-  {
-    inputName: 'comuna',
-    placeholder: 'Ingresa tu comuna',
-    label: 'Comuna (*)',
-    type: 'text',
-  },
+
   {
     inputName: 'correo',
     placeholder: 'Ingresa tu email',

@@ -1,25 +1,23 @@
 import Meta from '@/components/Meta';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
-import { Box, Button, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
-
+import { Box, Button, TextField, Typography, useTheme } from '@mui/material';
 import { Text, TextContainer, Title } from '@/components/StyledComponents';
-
 import RegistrarUsuarioController from './RegistrarUsuarioController';
 import { formInputs } from './formInputs';
-import { ComunaSearchbar } from './ComunaSearchbar';
-import { tablet } from '@/theme/breakpoints';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import useAuth from '@/store/auth';
 import Loading from '@/components/Loading';
 import { CreateUserParams, useAuthNew } from '@/hooks/useAuthNew';
 import { Link } from 'react-router-dom';
+import { useComunas } from '@/hooks';
+import SearchBar from '../RecibeApoyo/SearchBar';
 
 function RegistrarUsuario() {
   const [{ forWhom }] = useRecibeApoyo();
   const { state, handleChange, handleSubmit } = RegistrarUsuarioController();
+  const { selectedComunas } = useComunas();
   const [user] = useAuth();
   const theme = useTheme();
-  const isTablet = useMediaQuery(tablet);
 
   const { createUser, createUserLoading } = useAuthNew();
 
@@ -92,25 +90,25 @@ function RegistrarUsuario() {
             </TextContainer>
           )}
           {formInputs.map((input, i) => {
-            if (input.inputName === 'comuna') {
-              return <ComunaSearchbar key={i} isTablet={isTablet} />;
-            } else if (forWhom && input.inputName === 'tercero') {
+            if (!selectedComunas.length && input.inputName === 'comuna') {
+              return <SearchBar key={i} />;
+            } else if (forWhom === 'tercero' && input.inputName === 'nombrePaciente') {
               return (
                 <TextField
                   sx={{
                     m: {
-                      xs: 1,
-                      sm: 2,
+                      xs: 2,
+                      sm: 5,
                       md: 3,
                     },
                   }}
                   key={i}
-                  label={input.label}
+                  label={'Nombre del paciente'}
                   name={'nombrePaciente'}
                   variant="outlined"
                   onChange={handleChange}
-                  type={input.type}
-                  value={forWhom && state.nombrePaciente === '' ? forWhom : state.nombrePaciente}
+                  type={'text'}
+                  value={state.nombrePaciente}
                   onClick={() => resetPatientName()}
                 />
               );
@@ -119,7 +117,7 @@ function RegistrarUsuario() {
                 <TextField
                   sx={{
                     m: {
-                      xs: 3.5,
+                      xs: 2,
                       sm: 5,
                       md: 3,
                     },
