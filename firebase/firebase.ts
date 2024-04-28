@@ -7,13 +7,13 @@ import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 
 
 const firebaseConfig = {
- apiKey: import.meta.env.VITE_APP_API_KEY,
-  authDomain: import.meta.env.VITE_APP_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_APP_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_APP_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_APP_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_APP_APP_ID,
-  measurementId: import.meta.env.VITE_APP_MEASUREMENT_ID
+  apiKey: 'AIzaSyDDJc5qIHqs1EH-tgDXFTwDjTeHtsVKu8Q',
+  authDomain: 'foodlink-74e76.firebaseapp.com',
+  projectId: 'foodlink-74e76',
+  storageBucket: 'foodlink-74e76.appspot.com',
+  messagingSenderId: '477970081298',
+  appId: '1:477970081298:web:f7f79c561047edb1d69acb',
+  measurementId: 'G-MXQ17X357D',
 };
 
 

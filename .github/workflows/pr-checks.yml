@@ -9,7 +9,7 @@ jobs:
   build:
     environment: 
       name: production
-      url: https://blui-6ec33.web.app/
+      url: https://foodlink-74e76.web.app/
       
     name: Check Codebase
     runs-on: ubuntu-22.04
