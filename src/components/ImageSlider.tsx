@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, Typography } from '@mui/material';
-import SearchBar from './SearchBar/SearchBar';
+import { Box, Button, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface ImageSliderProps {
   interval?: number;
@@ -36,6 +36,7 @@ const images = ['/images/slide-1.jpg', '/images/slide-2.jpg', '/images/slide-3.j
 
 function ImageSlider({ interval = 5000 }: ImageSliderProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -65,7 +66,7 @@ function ImageSlider({ interval = 5000 }: ImageSliderProps) {
           style={{
             backgroundImage: `url(${image})`,
             backgroundPosition: 'center',
-            opacity: index === currentImageIndex ? 1 : 0,
+            opacity: index === currentImageIndex ? 0.8 : 0,
           }}
         >
           {index === currentImageIndex && <ImageSliderOverlay />}
@@ -93,17 +94,31 @@ function ImageSlider({ interval = 5000 }: ImageSliderProps) {
             color: 'white',
           }}
         >
-          Encuentra ayuda confiable y segura cerca de ti
+          ¿Qué necesitas hacer?
         </ImageSliderText>
-        <ImageSliderText
+        {/* <ImageSliderText
           variant="subtitle1"
           sx={{
             color: 'white',
           }}
         >
           Blui conecta a personas para construir una red de apoyo segura y comunitaria
-        </ImageSliderText>
-        <SearchBar />
+        </ImageSliderText> */}
+        {/* <SearchBar /> */}
+        <Box
+          sx={{
+            display: 'flex',
+            gap: '1rem',
+            mt: '1rem',
+          }}
+        >
+          <Button onClick={() => navigate('/comenzar/comprar')} variant="contained">
+            Comprar
+          </Button>
+          <Button onClick={() => navigate('/comenzar/vender')} variant="contained">
+            Vender
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

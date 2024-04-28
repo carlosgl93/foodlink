@@ -5,15 +5,17 @@ import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyCFFGtQ8UCPXendLYZc0koY2X2xqCqg4D8',
-  authDomain: 'blui-6ec33.firebaseapp.com',
-  projectId: 'blui-6ec33',
-  storageBucket: 'blui-6ec33.appspot.com',
-  messagingSenderId: '612874412823',
-  appId: '1:612874412823:web:fbfd0f29b5b53450e8cd52',
-  measurementId: 'G-QWQ7SXL2SW',
+ apiKey: import.meta.env.VITE_APP_API_KEY,
+  authDomain: import.meta.env.VITE_APP_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_APP_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_APP_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_APP_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_APP_ID,
+  measurementId: import.meta.env.VITE_APP_MEASUREMENT_ID
 };
+
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);

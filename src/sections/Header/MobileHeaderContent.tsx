@@ -2,7 +2,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
 import { Link } from 'react-router-dom';
 
-import { FlexBox, HeaderIconImage } from '@/components/styled';
+import { FlexBox } from '@/components/styled';
 import useSidebar from '@/store/sidebar';
 import { ChatTitle } from '@/pages/Chat/StyledChatMensajes';
 import BackButton from '@/components/BackButton';
@@ -55,7 +55,8 @@ const MobileHeaderContent = () => {
           alignItems: 'center',
         }}
       >
-        <HeaderIconImage src={`/images/blui-new.png`} alt="Blui logo" />
+        {/* <HeaderIconImage src={`/images/blui-new.png`} alt="Blui logo" /> */}
+        <p>TODO: LOGO</p>
       </Link>
     </FlexBox>
   );

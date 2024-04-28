@@ -1,6 +1,6 @@
-const title = 'Blui';
+const title = 'Foodlink';
 // TODO change this email
-const email = 'soporte@blui.com';
+const email = 'soporte@foodlink.com';
 // TODO change the repository
 const repository = 'https://github.com/TODO';
 
@@ -33,7 +33,7 @@ const loader = {
 
 const defaultMetaTags = {
   image: '/cover.png',
-  description: 'Blui: Cuidado en casa, siempre.',
+  description: 'Foodlink: Alimentando negocios.',
 };
 const giphy404 = 'https://giphy.com/embed/2asOjumchIeb5gZO9m';
 

@@ -7,19 +7,19 @@ import StyledList from '@/components/StyledList';
 
 const comienzoOptions = [
   {
-    text: 'Recibir apoyo',
-    url: '/recibe-apoyo',
+    text: 'Comprar',
+    url: '/comenzar/comprar',
   },
   {
-    text: 'Entregar apoyo',
-    url: '/entrega-apoyo',
+    text: 'Vender',
+    url: '/comenzar/vender',
   },
 ];
 
-function Comienzo() {
+function Comenzar() {
   return (
     <>
-      <Meta title="Comienza a usar Blui" />
+      <Meta title="Comienza a usar FoodLink" />
       <FullSizeCenteredFlexBox
         sx={{
           flexDirection: 'column',
@@ -69,4 +69,4 @@ function Comienzo() {
   );
 }
 
-export default Comienzo;
+export default Comenzar;

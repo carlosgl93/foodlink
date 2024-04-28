@@ -1,7 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { FlexBox, HeaderIconImage } from '@/components/styled';
+import { FlexBox } from '@/components/styled';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -33,7 +32,8 @@ const DesktopHeaderContent = () => {
             alignItems: 'center',
           }}
         >
-          <HeaderIconImage src={`/images/blui-new.png`} alt="Blui logo" />
+          {/* <HeaderIconImage src={`/images/blui-new.png`} alt="Blui logo" /> */}
+          <p>TODO: LOGO</p>
         </Link>
       </Box>
 
@@ -106,47 +106,12 @@ const DesktopHeaderContent = () => {
         ) : (
           <>
             <ListItem sx={{ mx: 'auto' }}>
-              <Button
-                component={Link}
-                to="/ingresar"
-                variant="contained"
-                sx={{
-                  backgroundColor: theme.palette.secondary.main,
-                  color: theme.palette.primary.main,
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.secondary.main,
-                  },
-                }}
-              >
+              <Button component={Link} to="/ingresar" variant="contained">
                 Ingresar
               </Button>
             </ListItem>
-            <ListItem sx={{ mx: 'auto', width: '100%' }}>
-              <Button
-                component={Link}
-                to="/persona-de-apoyo"
-                sx={{
-                  whiteSpace: 'nowrap',
-                  width: 'auto',
-                  textOverflow: 'ellipsis',
-                }}
-                variant="outlined"
-              >
-                Conviértete en persona de apoyo
-              </Button>
-            </ListItem>
             <ListItem sx={{ mx: 'auto' }}>
-              <Button
-                component={Link}
-                to="/comienzo"
-                variant="contained"
-                sx={{
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.dark,
-                  },
-                }}
-              >
+              <Button component={Link} to="/comienzo" variant="contained">
                 Comenzar
               </Button>
             </ListItem>
