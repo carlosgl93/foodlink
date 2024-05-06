@@ -26,8 +26,12 @@ const Step3 = () => {
     <>
       <TextContainer
         sx={{
-          maxWidth: 500,
+          maxWidth: { xs: '500px', md: '800px' },
           textAlign: 'center',
+          mx: {
+            xs: '5vw',
+            md: 'auto',
+          },
         }}
       >
         <Title

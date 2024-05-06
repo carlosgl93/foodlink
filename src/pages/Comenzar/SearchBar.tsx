@@ -65,8 +65,7 @@ function SearchBar() {
         sx={{
           width: {
             xs: '90%',
-            sm: '80vw',
-            md: '60vw',
+            sm: '60vw',
             lg: '50vw',
           },
 
