@@ -12,6 +12,12 @@ export type Quantity = {
   value: string;
 };
 
+export type Certification = {
+  id?: string;
+  name: string;
+  value: string;
+};
+
 export const comprarStepState = atom<number>({
   key: 'comprarStep',
   default: 0,
@@ -24,5 +30,10 @@ export const interestedProductsState = atom<InterestedProduct[]>({
 
 export const quantitiesState = atom<Quantity[]>({
   key: 'quantity',
+  default: [],
+});
+
+export const certificationsState = atom<Certification[]>({
+  key: 'certifications',
   default: [],
 });

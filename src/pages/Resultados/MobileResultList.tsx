@@ -2,13 +2,13 @@ import { ListItem, Avatar, Button, Box, useTheme, List } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Reviews from '@/components/Reviews';
 import { Text, Title } from '@/components/StyledComponents';
-import { Prestador } from '@/store/auth/prestador';
+import { Proveedor } from '@/types';
 
 type MobileFilteredProps = {
-  filteredPrestadores: Prestador[];
+  filteredProveedores: Proveedor[];
 };
 
-export const MobileResultList = ({ filteredPrestadores }: MobileFilteredProps) => {
+export const MobileResultList = ({ filteredProveedores }: MobileFilteredProps) => {
   const theme = useTheme();
 
   return (
@@ -19,14 +19,14 @@ export const MobileResultList = ({ filteredPrestadores }: MobileFilteredProps) =
         p: 0,
       }}
     >
-      {filteredPrestadores?.length > 0 ? (
-        filteredPrestadores?.map((prestador) => {
-          const { id, firstname, lastname, averageReviews, totalReviews, email } = prestador;
+      {filteredProveedores?.length > 0 ? (
+        filteredProveedores?.map((prestador) => {
+          const { id, companyName, productType, averageReviews, totalReviews } = prestador;
 
           return (
             <Link
               key={id}
-              to={`/perfil-prestador/${id}`}
+              to={`/perfil-proveedor/${id}`}
               style={{ textDecoration: 'none' }}
               state={{
                 prestador,
@@ -74,13 +74,12 @@ export const MobileResultList = ({ filteredPrestadores }: MobileFilteredProps) =
                         textOverflow: 'ellipsis',
                       }}
                     >
-                      {firstname ? firstname : email} {lastname}
+                      {companyName}
                     </Title>
                     <Reviews average={averageReviews || 0} total_reviews={totalReviews || 0} />
                   </Box>
-                  <Text>{prestador.servicio}</Text>
+                  <Text>Productos: {productType.map((t) => t.name).join(', ')}</Text>
 
-                  <Text>{prestador.especialidad}</Text>
                   <Button
                     variant="outlined"
                     sx={{
@@ -101,7 +100,7 @@ export const MobileResultList = ({ filteredPrestadores }: MobileFilteredProps) =
             px: '2rem',
           }}
         >
-          <Text>Conoces a alguien para esta comuna y servicio? Invitalo a Blui!</Text>
+          <Text>¿Conoces a algun proveedor? Invitalo a FoodLink!</Text>
         </Box>
       )}
     </List>

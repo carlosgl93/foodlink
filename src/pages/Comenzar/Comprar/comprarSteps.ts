@@ -13,7 +13,7 @@
 
 export const comprarSteps = [
   {
-    title: 'Productos de interes',
+    title: 'Productos de interés',
     text: '¿Qué tipo de productos estás buscando comprar al por mayor?',
     options: [
       {
@@ -57,36 +57,82 @@ export const comprarSteps = [
     ],
   },
   {
-    title: 'Cantidad',
-    text: '¿Cuál es la cantidad estimada que estás interesado en comprar?',
+    title: 'Certificaciones',
+    text: '¿Buscas alguna certificación en especial?',
     options: [
       {
-        id: '0',
-        value: 'kilogramos',
-        name: 'Kilogramos',
+        id: '10',
+        value: 'libre-sellos',
+        name: 'Libre de sellos',
       },
       {
-        id: '4',
-        value: 'docenas',
-        name: 'Docenas',
+        id: '11',
+        value: 'ISO-22000',
+        name: 'ISO 22000 - Inoculidad',
+      },
+      {
+        id: '0',
+        value: 'orgánico',
+        name: 'Orgánico',
       },
       {
         id: '1',
-        value: 'cajas',
-        name: 'Cajas',
-      },
-      {
-        id: '2',
-        value: 'pallets',
-        name: 'Pallets',
+        value: 'vegano',
+        name: 'Vegano',
       },
       {
         id: '3',
-        value: 'toneladas',
-        name: 'Toneladas',
+        value: 'kosher',
+        name: 'Kosher',
+      },
+      {
+        id: '4',
+        value: 'sin-gluten',
+        name: 'Sin gluten',
+      },
+      {
+        id: '5',
+        value: 'sin-lactosa',
+        name: 'Sin lactosa',
+      },
+      {
+        id: '6',
+        value: 'fair-trade',
+        name: 'Fair Trade',
       },
     ],
   },
+  // {
+  //   title: 'Cantidad',
+  //   text: '¿Cuál es la cantidad estimada que estás interesado en comprar?',
+  //   options: [
+  //     {
+  //       id: '0',
+  //       value: 'kilogramos',
+  //       name: 'Kilogramos',
+  //     },
+  //     {
+  //       id: '4',
+  //       value: 'docenas',
+  //       name: 'Docenas',
+  //     },
+  //     {
+  //       id: '1',
+  //       value: 'cajas',
+  //       name: 'Cajas',
+  //     },
+  //     {
+  //       id: '2',
+  //       value: 'pallets',
+  //       name: 'Pallets',
+  //     },
+  //     {
+  //       id: '3',
+  //       value: 'toneladas',
+  //       name: 'Toneladas',
+  //     },
+  //   ],
+  // },
   {
     title: 'Comuna de entrega',
     text: '¿En qué comuna deseas recibir tu pedido?',

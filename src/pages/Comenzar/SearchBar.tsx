@@ -64,7 +64,7 @@ function SearchBar() {
         placeholder="Indicanos tu comuna"
         sx={{
           width: {
-            xs: '80%',
+            xs: '90%',
             sm: '80vw',
             md: '60vw',
             lg: '50vw',
@@ -78,8 +78,10 @@ function SearchBar() {
       />
       <Box
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
           width: {
-            xs: '80%',
+            xs: '90%',
             sm: '80vw',
             md: '60vw',
             lg: '50vw',
@@ -88,6 +90,8 @@ function SearchBar() {
           borderRadius: '5px',
           maxHeight: '10rem',
           overflow: 'auto',
+          justifyContent: 'center',
+          mx: 'auto',
         }}
       >
         {comunasState?.length <= 5 &&

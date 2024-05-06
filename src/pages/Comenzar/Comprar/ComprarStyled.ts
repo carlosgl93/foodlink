@@ -16,6 +16,6 @@ export const StyledListItemButton = styled(ListItemButton)(() => ({
   border: '1px solid',
   borderColor: 'primary.dark',
   borderRadius: '0.25rem',
-  minWidth: '300px',
+  minWidth: '60vw',
   padding: '0.5rem 1rem',
 }));

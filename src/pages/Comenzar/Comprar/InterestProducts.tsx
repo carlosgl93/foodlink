@@ -13,11 +13,7 @@ export const InterestProducts = ({ options }: InterestedProductsProps) => {
 
   return (
     <>
-      <List
-        sx={{
-          gap: 1,
-        }}
-      >
+      <List>
         {options.map((item) => {
           const alreadySelected = interestedProducts.find((i) => i.id === item.id);
           return (
@@ -26,6 +22,7 @@ export const InterestProducts = ({ options }: InterestedProductsProps) => {
               sx={{
                 color: alreadySelected ? 'white' : 'primary.main',
                 backgroundColor: alreadySelected ? 'primary.dark' : 'white',
+                my: '0.5rem',
                 ':hover': {
                   backgroundColor: alreadySelected ? 'primary.dark' : 'primary.light',
                   color: alreadySelected ? 'white' : 'primary.dark',

@@ -11,8 +11,9 @@ import { Avatar, Box, Divider } from '@mui/material';
 import { generalOptionsDrawerList, prestadorDrawerOptions } from './prestadorDrawerOptions';
 import { ChevronRightOutlined } from '@mui/icons-material';
 import { useRecoilValue } from 'recoil';
-import { Prestador, prestadorState } from '@/store/auth/prestador';
+import { proveedorState } from '@/store/auth/proveedor';
 import { useAuthNew } from '@/hooks/useAuthNew';
+import { Proveedor } from '@/types';
 
 type PrestadorDrawerListProps = {
   closeDrawer: () => void;
@@ -21,9 +22,9 @@ type PrestadorDrawerListProps = {
 function PrestadorDrawerList({ closeDrawer }: PrestadorDrawerListProps) {
   const { logout } = useAuthNew();
 
-  const prestador = useRecoilValue(prestadorState) as Prestador;
+  const prestador = useRecoilValue(proveedorState) as Proveedor;
 
-  const { firstname, lastname, servicio, email } = prestador;
+  const { companyName, productType } = prestador;
 
   return (
     <List
@@ -49,18 +50,14 @@ function PrestadorDrawerList({ closeDrawer }: PrestadorDrawerListProps) {
             ml: '1rem',
           }}
         >
-          {firstname && lastname ? (
-            <ListItemText>{firstname + ' ' + lastname}</ListItemText>
-          ) : (
-            <ListItemText>{email}</ListItemText>
-          )}
+          <ListItemText>{companyName}</ListItemText>
 
           <span
             style={{
               fontSize: '0.85rem',
             }}
           >
-            {servicio}
+            {productType.map((t) => t.name).join(', ')}
           </span>
         </Box>
       </ListItem>

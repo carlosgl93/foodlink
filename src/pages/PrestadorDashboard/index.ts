@@ -1,3 +1,3 @@
-import { PrestadorDashboard } from './PrestadorDashboard';
+import { ProveedorDashboard } from './ProveedorDashboard';
 
-export default PrestadorDashboard;
+export default ProveedorDashboard;

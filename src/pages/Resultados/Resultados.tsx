@@ -21,9 +21,9 @@ function Resultados() {
       {isLoading ? (
         <Loading />
       ) : isTablet ? (
-        <MobileResults filteredPrestadores={data} />
+        <MobileResults filteredProveedores={data} />
       ) : (
-        <DesktopResults filteredPrestadores={data} />
+        <DesktopResults filteredProveedores={data} />
       )}
     </Suspense>
   );

@@ -4,14 +4,14 @@ import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 
 import { MobileFilters } from './MobileFilters';
 import { MobileResultList } from './MobileResultList';
-import { Prestador } from '@/store/auth/prestador';
+import { Proveedor } from '@/types';
 import { Text } from '@/components/StyledComponents';
 
 type MobileResultsProps = {
-  filteredPrestadores: Prestador[];
+  filteredProveedores: Proveedor[];
 };
 
-const MobileResults = ({ filteredPrestadores }: MobileResultsProps) => {
+const MobileResults = ({ filteredProveedores }: MobileResultsProps) => {
   const theme = useTheme();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -19,7 +19,7 @@ const MobileResults = ({ filteredPrestadores }: MobileResultsProps) => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const resultsLength = filteredPrestadores?.length;
+  const resultsLength = filteredProveedores?.length;
 
   return (
     <>
@@ -67,9 +67,9 @@ const MobileResults = ({ filteredPrestadores }: MobileResultsProps) => {
         <Text>
           {resultsLength > 0
             ? `${resultsLength} ${
-                resultsLength === 1 ? 'prestador encontrado' : 'prestadores encontrados'
+                resultsLength === 1 ? 'proveedor encontrado' : 'proveedores encontrados'
               }`
-            : 'Ningun prestador encontrado para esta combinación de filtros.'}
+            : 'Ningun proveedor encontrado para esta combinación de filtros.'}
         </Text>
       </Box>
       <Box
@@ -84,7 +84,7 @@ const MobileResults = ({ filteredPrestadores }: MobileResultsProps) => {
           <MobileFilters closeFilters={toggleDrawer} />
         </Drawer>
 
-        <MobileResultList filteredPrestadores={filteredPrestadores} />
+        <MobileResultList filteredProveedores={filteredProveedores} />
       </Box>
     </>
   );

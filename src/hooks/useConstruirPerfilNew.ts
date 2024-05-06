@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuthNew } from './useAuthNew';
+import { Proveedor } from '@/types';
 
 export const useConstruirPerfilNew = () => {
-  const { prestador } = useAuthNew();
+  const { proveedor } = useAuthNew();
   const navigate = useNavigate();
 
-  if (!prestador?.rut) {
+  if (!proveedor?.companyRut) {
     navigate('/ingresar');
   }
-  const settings = prestador ? prestador!.settings : undefined;
+  const settings: Proveedor['settings'] = proveedor!.settings;
 
   if (!settings) {
     navigate('/ingresar');

@@ -18,16 +18,16 @@ const routes: Routes = {
   //   path: '/ayuda',
   //   title: 'Ayuda',
   // },
-  // [Pages.Ingresar]: {
-  //   component: asyncComponentLoader(() => import('@/pages/Ingresar')),
-  //   path: '/ingresar',
-  //   title: 'Ingresar',
-  // },
-  // [Pages.RegistrarPrestador]: {
-  //   component: asyncComponentLoader(() => import('@/pages/RegistrarPrestador')),
-  //   path: '/registrar-prestador',
-  //   title: 'Registrarse',
-  // },
+  [Pages.Ingresar]: {
+    component: asyncComponentLoader(() => import('@/pages/Ingresar')),
+    path: '/ingresar',
+    title: 'Ingresar',
+  },
+  [Pages.RegistrarProveedor]: {
+    component: asyncComponentLoader(() => import('@/pages/RegistrarProveedor')),
+    path: '/registrar-proveedor',
+    title: 'Registrarse',
+  },
   // [Pages.RegistrarUsuario]: {
   //   component: asyncComponentLoader(() => import('@/pages/RegistrarUsuario')),
   //   path: '/registrar-usuario',
@@ -58,22 +58,26 @@ const routes: Routes = {
   //   component: asyncComponentLoader(() => import('@/pages/RecibeApoyo')),
   //   path: '/recibe-apoyo',
   // },
-  // [Pages.Resultados]: {
-  //   component: asyncComponentLoader(() => import('@/pages/Resultados')),
-  //   path: '/resultados',
-  // },
-  // [Pages.PerfilPrestador]: {
-  //   component: asyncComponentLoader(() => import('@/pages/PerfilPrestador')),
-  //   path: '/perfil-prestador/:id',
-  // },
+  [Pages.Resultados]: {
+    component: asyncComponentLoader(() => import('@/pages/Resultados')),
+    path: '/resultados',
+  },
+  [Pages.PerfilProveedor]: {
+    component: asyncComponentLoader(() => import('@/pages/PerfilProveedor')),
+    path: '/perfil-proveedor/:id',
+  },
   // [Pages.PreviewPerfilPrestador]: {
   //   component: asyncComponentLoader(() => import('@/pages/PreviewPerfilPrestador')),
   //   path: '/preview-perfil-prestador/',
   // },
-  // [Pages.ConstruirPerfil]: {
-  //   component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil')),
-  //   path: '/construir-perfil',
-  // },
+  [Pages.ConstruirPerfil]: {
+    component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil')),
+    path: '/construir-perfil',
+  },
+  [Pages.CrearProveedor]: {
+    component: asyncComponentLoader(() => import('@/pages/CrearProveedor')),
+    path: '/backoffice/crear-proveedor',
+  },
   // [Pages.Disponibilidad]: {
   //   component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/Disponibilidad')),
   //   path: '/construir-perfil/disponibilidad',
@@ -138,10 +142,10 @@ const routes: Routes = {
   //   component: asyncComponentLoader(() => import('@/pages/EmailVerificadoPrestador')),
   //   path: '/email-verificado-prestador',
   // },
-  // [Pages.PrestadorDashboard]: {
-  //   component: asyncComponentLoader(() => import('@/pages/PrestadorDashboard')),
-  //   path: '/prestador-dashboard',
-  // },
+  [Pages.ProveedorDashboard]: {
+    component: asyncComponentLoader(() => import('@/pages/PrestadorDashboard')),
+    path: '/proveedor-dashboard',
+  },
   [Pages.NotFound]: {
     component: asyncComponentLoader(() => import('@/pages/NotFound')),
     path: '*',

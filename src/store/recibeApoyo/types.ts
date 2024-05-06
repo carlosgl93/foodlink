@@ -1,6 +1,6 @@
 import { ForWhom } from '@/hooks/useAuthNew';
 import { Comuna } from '@/types/Comuna';
-import { Prestador } from '@/types/Prestador';
+import { Proveedor } from '@/types';
 import { Especialidad, Servicio } from '@/types/Servicio';
 
 type Actions = {
@@ -15,7 +15,7 @@ type Actions = {
   setAvailability: (availability: { id: number; name: string }) => void;
   setServicios: (servicios: Servicio[]) => void;
   setComunas: (comunas: Comuna[]) => void;
-  setPrestadores: (prestadores: Prestador[]) => void;
+  setPrestadores: (prestadores: Proveedor[]) => void;
   resetRecibeApoyoState: () => void;
 };
 

@@ -1,5 +1,5 @@
 export * from './User';
-export * from './Prestador';
+export * from './Proveedor';
 export * from './Mensaje';
 export * from './Especialidad';
 export * from './Tarifa';

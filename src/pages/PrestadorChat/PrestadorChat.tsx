@@ -16,7 +16,7 @@ import {
   StyledUsuarioMensajeText,
 } from './StyledPrestadorChatMensajes';
 
-import { Prestador } from '@/types/Prestador';
+import { Proveedor } from '@/types';
 
 import { usePrestadorChatMessages } from './usePrestadorChatMessages';
 import Loading from '@/components/Loading';
@@ -28,7 +28,7 @@ import { useChat } from '@/hooks';
 
 export type LocationState = {
   messages: Mensaje[];
-  prestador: Prestador;
+  prestador: Proveedor;
   sentBy: string;
 };
 

@@ -1,11 +1,11 @@
-import { Prestador } from '@/types/Prestador';
+import { Proveedor } from '@/types';
 
 type PerfilGeneralPrestadorProps = {
-  prestador: Prestador;
+  proveedor: Proveedor;
 };
 
-export const PerfilGeneralPrestador = ({ prestador }: PerfilGeneralPrestadorProps) => {
-  console.log('This prestador', prestador);
+export const PerfilGeneralPrestador = ({ proveedor }: PerfilGeneralPrestadorProps) => {
+  console.log('This prestador', proveedor);
   return (
     <>
       <h1>Perfil General Prestador</h1>

@@ -1,4 +1,4 @@
-import { Prestador } from '@/store/auth/prestador';
+import { Proveedor } from '@/types';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { db } from 'firebase/firebase';
 import { collection, query, limit, where, getDocs } from 'firebase/firestore';
@@ -39,14 +39,14 @@ export const useGetPrestadores = () => {
       prestador.availability = availability;
     }
 
-    return prestadores as Prestador[];
+    return prestadores as Proveedor[];
   };
 
   const {
     data = [],
     isLoading,
     isError,
-  } = useQuery<Prestador[]>(
+  } = useQuery<Proveedor[]>(
     ['prestadoresByComunaAndServicio', comuna, servicio, especialidad],
     getPrestadoresByComunaAndServicio,
     {

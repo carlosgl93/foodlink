@@ -1,4 +1,6 @@
 import {
+  Certification,
+  certificationsState,
   comprarStepState,
   InterestedProduct,
   quantitiesState,
@@ -12,15 +14,18 @@ export const ComprarController = () => {
   const [comprarStep, setComprarStep] = useRecoilState(comprarStepState);
   const [interestedProducts, setInterestedProducts] = useRecoilState(interestedProductsState);
   const [quantities, setQuantities] = useRecoilState(quantitiesState);
+  const [certifications, setCertifications] = useRecoilState(certificationsState);
 
   const navigate = useNavigate();
 
   const increaseStep = () => {
-    if (comprarStep === 2) navigate('/resultados');
+    if (comprarStep === 2) {
+      navigate('/resultados', { replace: true });
+      return;
+    }
 
     setComprarStep((prev) => prev + 1);
   };
-
   const handlePrevious = () => {
     if (!comprarStep) {
       navigate('/comenzar');
@@ -45,13 +50,23 @@ export const ComprarController = () => {
     setQuantities((prev) => [...prev, q]);
   };
 
+  const handleSelectCertifications = (c: Certification) => {
+    if (certifications.find((i) => i.id === c.id)) {
+      setCertifications((prev) => prev.filter((i) => i.id !== c.id));
+      return;
+    }
+    setCertifications((prev) => [...prev, c]);
+  };
+
   return {
     quantities,
     comprarStep,
     interestedProducts,
+    certifications,
     increaseStep,
     handleSelectInterestedProduct,
     handleSelectQuantities,
     handlePrevious,
+    handleSelectCertifications,
   };
 };

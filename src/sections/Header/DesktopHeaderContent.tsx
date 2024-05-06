@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
-
-import { FlexBox } from '@/components/styled';
-
+import { FlexBox, HeaderIconImage } from '@/components/styled';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -9,13 +7,14 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Button, useTheme, Box } from '@mui/material';
 import { Theme } from '@mui/material/styles';
-
 import routes from '@/routes';
 import { routesToExcludeInHeader } from './routesToExcludeInHeader';
-import useAuth from '@/store/auth';
+import { useAuthNew } from '@/hooks';
 
 const DesktopHeaderContent = () => {
-  const [user, { logout }] = useAuth();
+  const { user, proveedor, logout } = useAuthNew();
+
+  const role = user?.id ? 'usuario' : proveedor?.id ? 'proveedor' : null;
 
   const theme = useTheme<Theme>();
   return (
@@ -32,8 +31,7 @@ const DesktopHeaderContent = () => {
             alignItems: 'center',
           }}
         >
-          {/* <HeaderIconImage src={`/images/blui-new.png`} alt="Blui logo" /> */}
-          <p>TODO: LOGO</p>
+          <HeaderIconImage src={`/android-chrome-192x192.png`} alt="FoodLink logo" />
         </Link>
       </Box>
 
@@ -70,21 +68,13 @@ const DesktopHeaderContent = () => {
             ),
           )}
 
-        {user.isLoggedIn ? (
+        {user?.id || proveedor?.id ? (
           <>
             <ListItem sx={{ mx: 'auto' }}>
               <Button
                 component={Link}
-                to="/perfil-usuario"
+                to={role === 'usuario' ? '/perfil-usuario' : 'perfil-proveedor'}
                 variant="contained"
-                sx={{
-                  backgroundColor: theme.palette.secondary.main,
-                  color: theme.palette.primary.main,
-                  '&:hover': {
-                    backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.secondary.main,
-                  },
-                }}
               >
                 Perfil
               </Button>

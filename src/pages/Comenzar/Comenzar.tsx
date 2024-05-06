@@ -4,6 +4,9 @@ import Meta from '@/components/Meta';
 import { FullSizeCenteredFlexBox } from '@/components/styled';
 import { Text, TextContainer, Title } from '@/components/StyledComponents';
 import StyledList from '@/components/StyledList';
+import { useEffect } from 'react';
+import { comprarStepState } from '@/store/comienzo/comprar';
+import { useSetRecoilState } from 'recoil';
 
 const comienzoOptions = [
   {
@@ -17,6 +20,12 @@ const comienzoOptions = [
 ];
 
 function Comenzar() {
+  const setComprarState = useSetRecoilState(comprarStepState);
+
+  useEffect(() => {
+    setComprarState(0);
+  }, []);
+
   return (
     <>
       <Meta title="Comienza a usar FoodLink" />
