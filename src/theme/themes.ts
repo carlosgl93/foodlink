@@ -11,9 +11,24 @@ const sharedTheme = {
     },
   },
   palette: {
+    primary: {
+      main: '#3F51B5', // Indigo
+    },
+    secondary: {
+      main: '#FF5722', // Deep Orange
+    },
     background: {
       default: '#fafafa',
       paper: '#fff',
+    },
+    success: {
+      main: '#4CAF50', // Green
+    },
+    grey: {
+      500: '#9E9E9E', // Grey
+    },
+    common: {
+      white: '#FFFFFF', // White
     },
   },
   components: {
@@ -67,18 +82,21 @@ const themes: Record<Themes, ThemeOptions> = {
         grey: '#f9f7f6',
       },
       primary: {
-        main: '#970B80',
-        dark: '#502048',
+        main: '#3F51B5',
         light: '#fff7fe',
         contrastText: '#fff',
       },
       secondary: {
-        main: '#fff7fe',
-        dark: '#414042',
-        contrastText: '#f56b0c',
+        main: '#FF5722',
       },
       error: {
         main: '#d72a31',
+      },
+      grey: {
+        500: '#9E9E9E', // Grey
+      },
+      common: {
+        white: '#FFFFFF', // White
       },
     },
   }),

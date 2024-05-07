@@ -2,29 +2,18 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
 import { auth, db } from '../../firebase/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  limit,
-  writeBatch,
-  doc,
-  setDoc,
-} from 'firebase/firestore';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { collection, query, where, getDocs, limit, doc, setDoc } from 'firebase/firestore';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { notificationState } from '@/store/snackbar';
-import { Comuna } from '@/types';
-import { Servicio } from '@/types/Servicio';
+import { Comuna, Proveedor } from '@/types';
 import { FirebaseError } from 'firebase/app';
 import { User, userState } from '@/store/auth/user';
-import { Prestador, prestadorState } from '@/store/auth/prestador';
+import { proveedorState } from '@/store/auth/proveedor';
 import useEntregaApoyo from '@/store/entregaApoyo';
 import useRecibeApoyo from '@/store/recibeApoyo';
-import { defaultTarifas } from '@/utils/constants';
-import { AvailabilityData } from '@/pages/ConstruirPerfil/Disponibilidad/ListAvailableDays';
 import { redirectToAfterLoginState } from '@/store/auth';
 import { comunasState } from '@/store/construirPerfil/comunas';
+import { certificationsState, InterestedProduct } from '@/store/comienzo/comprar';
 
 export type ForWhom = 'paciente' | 'tercero' | '';
 
@@ -39,44 +28,43 @@ export type CreateUserParams = {
   contrasena: string;
 };
 
-export type CreatePrestadorParams = {
-  // nombre: string;
-  // apellido: string;
-  rut: string;
-  // telefono: string;
-  correo: string;
-  contrasena: string;
-  comunas: Comuna[];
-  servicio: Servicio | undefined;
-  // especialidad: Especialidad | undefined;
+export type CreateProveedorParams = {
+  representativeName: string;
+  companyName: string;
+  companyRut: string;
+  email: string;
+  password: string;
+  despacho: string;
+  productType: InterestedProduct[];
+  comunas?: Comuna[];
 };
 
 const defaultNewUser = { dob: '', phone: '', gender: '', address: '' };
 
 export const useAuthNew = () => {
-  const [, setNotification] = useRecoilState(notificationState);
+  const setNotification = useSetRecoilState(notificationState);
   const [user, setUserState] = useRecoilState(userState);
+  const [proveedor, setProveedorState] = useRecoilState(proveedorState);
   const redirectAfterLogin = useRecoilValue(redirectToAfterLoginState);
-  const [prestador, setPrestadorState] = useRecoilState(prestadorState);
   const selectedComunas = useRecoilValue(comunasState);
+  const certifications = useRecoilValue(certificationsState);
   const [, { resetEntregaApoyoState }] = useEntregaApoyo();
   const [, { resetRecibeApoyoState }] = useRecibeApoyo();
 
-  const isLoggedIn = user?.isLoggedIn || prestador?.isLoggedIn;
+  const isLoggedIn = user?.isLoggedIn || proveedor?.isLoggedIn;
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { mutate: createPrestador, isLoading: createPrestadorLoading } = useMutation(
+  const { mutate: createProveedor, isLoading: createProveedorLoading } = useMutation(
     async ({
-      // nombre,
-      // apellido,
-      rut,
-      // telefono,
-      correo,
-      contrasena,
-      comunas,
-      servicio,
-    }: CreatePrestadorParams) => {
+      companyName,
+      companyRut,
+      email,
+      password,
+      productType,
+      representativeName,
+      despacho,
+    }: CreateProveedorParams) => {
       setNotification({
         open: true,
         message: 'Creando tu cuenta...',
@@ -84,88 +72,48 @@ export const useAuthNew = () => {
       });
 
       // Check if a user with the given email already exists in the users collection
-      const userQuery = query(collection(db, 'users'), where('email', '==', correo));
+      const userQuery = query(collection(db, 'users'), where('email', '==', email));
       const userSnapshot = await getDocs(userQuery);
       if (!userSnapshot.empty) {
         throw new Error('Este email ya tiene una cuenta.');
       }
 
       // Check if a user with the given email already exists in the providers collection
-      const providerQuery = query(collection(db, 'providers'), where('email', '==', correo));
+      const providerQuery = query(collection(db, 'providers'), where('email', '==', email));
       const providerSnapshot = await getDocs(providerQuery);
       if (!providerSnapshot.empty) {
         throw new Error('Este email ya tiene una cuenta.');
       }
 
-      return createUserWithEmailAndPassword(auth, correo, contrasena).then(({ user }) => {
-        const newPrestador: Prestador = {
-          email: correo,
+      return createUserWithEmailAndPassword(auth, email, password).then(({ user }) => {
+        const newPrestador: Proveedor = {
+          email,
           id: user.uid,
-          role: 'prestador',
-          // firstname: nombre,
-          // lastname: apellido,
-          rut,
-          comunas: comunas,
-          tarifas: defaultTarifas,
-          servicio: servicio?.serviceName,
-          // especialidad: especialidad?.especialidadName,
-          // telefono,
+          role: 'proveedor',
+          companyName,
+          companyRut,
+          comunas: selectedComunas ?? [],
+          dispatch: despacho,
+          representativeName,
+          productType: productType ?? [],
           averageReviews: 0,
           totalReviews: 0,
           description: '',
-          offersFreeMeetAndGreet: false,
+          certifications: certifications ?? [],
           settings: {
+            products: false,
             detallesBasicos: false,
-            disponibilidad: false,
             comunas: true,
-            tarifas: false,
-            experiencia: false,
             cuentaBancaria: false,
-            historialLaboral: false,
-            educacionFormacion: false,
-            registroSuperIntendenciaSalud: false,
             insignias: false,
-            inmunizacion: false,
-            idiomas: false,
-            antecedentesCulturales: false,
-            religion: false,
-            interesesHobbies: false,
             sobreMi: false,
             misPreferencias: false,
+            inmunizacion: false,
           },
         };
-        const providerRef = doc(db, 'providers', user.uid);
+        const providerRef = doc(db, 'providers', newPrestador.id);
         return setDoc(providerRef, newPrestador).then(() => {
-          const defaultAvailability = [
-            { isAvailable: true, day: 'Lunes', times: { startTime: '00:00', endTime: '00:00' } },
-            { isAvailable: true, day: 'Martes', times: { startTime: '00:00', endTime: '00:00' } },
-            {
-              isAvailable: true,
-              day: 'Miercoles',
-              times: { startTime: '00:00', endTime: '00:00' },
-            },
-            { isAvailable: true, day: 'Jueves', times: { startTime: '00:00', endTime: '00:00' } },
-            {
-              isAvailable: true,
-              day: 'Viernes',
-              times: { startTime: '00:00', endTime: '00:00' },
-            },
-            { isAvailable: true, day: 'Sabado', times: { startTime: '00:00', endTime: '00:00' } },
-            {
-              isAvailable: true,
-              day: 'Domingo',
-              times: { startTime: '00:00', endTime: '00:00' },
-            },
-          ];
-
-          const batch = writeBatch(db);
-
-          defaultAvailability.forEach((day) => {
-            const dayRef = doc(providerRef, 'availability', day.day);
-            batch.set(dayRef, day);
-          });
-
-          return batch.commit().then(() => newPrestador);
+          return newPrestador;
         });
       });
     },
@@ -176,12 +124,13 @@ export const useAuthNew = () => {
           message: `Cuenta creada exitosamente`,
           severity: 'success',
         });
-        setPrestadorState({ ...data, isLoggedIn: true } as Prestador);
-        queryClient.setQueryData(['prestador', data.email], prestador);
-        navigate('/prestador-dashboard');
+        setProveedorState({ ...data, isLoggedIn: true } as Proveedor);
+        queryClient.setQueryData(['proveedor', data.email], proveedor);
+
+        navigate('/proveedor-dashboard');
       },
       onError(error: FirebaseError) {
-        let message = 'Hubo un error creando el prestador: ';
+        let message = 'Hubo un error creando el proveedor: ';
 
         switch (error.code) {
           case 'auth/email-already-in-use':
@@ -303,35 +252,22 @@ export const useAuthNew = () => {
       });
       return signInWithEmailAndPassword(auth, correo, contrasena).then(async () => {
         const usersColectionRef = collection(db, 'users');
-        const prestadorCollectionRef = collection(db, 'providers');
+        const proveedorCollectionRef = collection(db, 'providers');
         const userQuery = query(usersColectionRef, limit(1), where('email', '==', correo));
-        const prestadorQuery = query(
-          prestadorCollectionRef,
-          limit(1),
-          where('email', '==', correo),
-        );
+        const proveedor = query(proveedorCollectionRef, limit(1), where('email', '==', correo));
         const users = await getDocs(userQuery);
-        const prestadores = await getDocs(prestadorQuery);
+        const proveedores = await getDocs(proveedor);
 
         if (users.docs.length > 0) {
           const user = users.docs[0].data() as User;
           setUserState({ ...user, isLoggedIn: true });
           queryClient.setQueryData(['user', correo], user);
           return { role: 'user', data: user };
-        } else if (prestadores.docs.length > 0) {
-          const prestador = prestadores.docs[0].data() as Prestador;
-          const availabilityCollectionRef = collection(
-            db,
-            'providers',
-            prestador.id,
-            'availability',
-          );
-          const availabilityData = await getDocs(availabilityCollectionRef);
-          const availability = availabilityData.docs.map((doc) => doc.data()) as AvailabilityData[];
-          prestador.availability = availability;
-          setPrestadorState({ ...prestador, isLoggedIn: true });
-          queryClient.setQueryData(['prestador', correo], prestador);
-          return { role: 'prestador', data: prestador };
+        } else if (proveedores.docs.length > 0) {
+          const proveedor = proveedores.docs[0].data() as Proveedor;
+          setProveedorState({ ...proveedor, isLoggedIn: true });
+          queryClient.setQueryData(['proveedor', correo], proveedor);
+          return { role: 'proveedor', data: proveedor };
         }
       });
     },
@@ -370,12 +306,11 @@ export const useAuthNew = () => {
         });
         if (data?.role === 'user') {
           setUserState({ ...data.data, isLoggedIn: true } as User);
-          console.log(redirectAfterLogin);
           redirectAfterLogin ? navigate(redirectAfterLogin) : navigate(`/usuario-dashboard`);
         } else {
-          if (data?.role === 'prestador') {
-            setPrestadorState({ ...data.data, isLoggedIn: true } as Prestador);
-            redirectAfterLogin ? navigate(redirectAfterLogin) : navigate(`/prestador-dashboard`);
+          if (data?.role === 'proveedor') {
+            setProveedorState({ ...data.data, isLoggedIn: true } as Proveedor);
+            redirectAfterLogin ? navigate(redirectAfterLogin) : navigate(`/proveedor-dashboard`);
           }
         }
       },
@@ -385,7 +320,7 @@ export const useAuthNew = () => {
   const { mutate: logout } = useMutation(() => signOut(auth), {
     onSuccess: () => {
       setUserState(null);
-      setPrestadorState(null);
+      setProveedorState(null);
       resetEntregaApoyoState();
       resetRecibeApoyoState();
       queryClient.resetQueries();
@@ -396,12 +331,12 @@ export const useAuthNew = () => {
   return {
     createUser,
     createUserLoading,
-    createPrestador,
-    createPrestadorLoading,
+    createProveedor,
+    createProveedorLoading,
     login,
     loginLoading,
     user,
-    prestador,
+    proveedor,
     logout,
     isLoggedIn,
   };

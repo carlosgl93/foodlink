@@ -2,18 +2,17 @@ import { Box, ListItem, Button } from '@mui/material';
 import { Text, Title } from '@/components/StyledComponents';
 import { Link } from 'react-router-dom';
 import Reviews from '@/components/Reviews';
-import { Prestador } from '@/store/auth/prestador';
+import { Proveedor } from '@/types';
 import { useGetPrestadores } from '@/hooks/useGetPrestadores';
 import Loading from '@/components/Loading';
 import { Suspense } from 'react';
 
 type DesktopResultListProps = {
-  filteredResults: Prestador[];
+  filteredResults: Proveedor[];
 };
 
 const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
   const { isLoading } = useGetPrestadores();
-  console.log(isLoading);
 
   if (isLoading) return <Loading />;
 
@@ -28,7 +27,7 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
           px: '2rem',
         }}
       >
-        <Text>Conoces a alguien para esta comuna y servicio? Invitalo a Blui!</Text>
+        <Text>Conoces a alguien para esta comuna y servicio? Invitalo a FoodLink!</Text>
       </Box>
     );
   }
@@ -44,10 +43,9 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
           const {
             id,
             email,
-            firstname,
-            lastname,
-            servicio,
-            especialidad,
+            companyName,
+            productType,
+
             averageReviews,
             totalReviews,
           } = prestador;
@@ -99,12 +97,11 @@ const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
                         fontSize: '1.4rem',
                       }}
                     >
-                      {firstname} {lastname}
+                      {companyName}
                     </Title>
                     <Reviews average={averageReviews || 0} total_reviews={totalReviews || 0} />
                   </Box>
-                  <Text>Servicio: {servicio}</Text>
-                  <Text>{especialidad}</Text>
+                  <Text>Productos: {productType.map((t) => t.name).join(', ')}</Text>
                   <Button
                     variant="outlined"
                     sx={{

@@ -1,4 +1,4 @@
-import { Box, Button, List } from '@mui/material';
+import { Box, List } from '@mui/material';
 import {
   Container,
   StyledTitle,
@@ -15,33 +15,42 @@ import {
   StyledUncheckedIcon,
 } from './StyledConstruirPerfilComponents';
 import BackButton from '@/components/BackButton';
-import useConstruirPerfil from '@/store/construirPerfil';
-import Loading from '@/components/Loading';
 import { useConstruirPerfilNew } from '@/hooks/useConstruirPerfilNew';
+import Meta from '@/components/Meta';
 
 export const ConstruirPerfil = () => {
-  const [construirPerfil, { handleVerPerfil }] = useConstruirPerfil();
   const { settings } = useConstruirPerfilNew();
 
   return (
-    <Wrapper>
-      <BackButton to="/prestador-dashboard" />
-      <Box
+    <>
+      <Meta title="Construir Perfil" />
+
+      <Wrapper
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          mb: '1rem',
+          width: {
+            xs: '100%',
+            md: '50%',
+          },
+          m: {
+            xs: '0',
+            md: 'auto',
+          },
         }}
       >
-        <StyledTitle>Mi perfil</StyledTitle>
-        <Button variant="contained" onClick={handleVerPerfil}>
+        <BackButton to="/proveedor-dashboard" />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            mb: '1rem',
+          }}
+        >
+          <StyledTitle>Mi perfil</StyledTitle>
+          {/* <Button variant="contained" onClick={handleVerPerfil}>
           Ver perfil
-        </Button>
-      </Box>
-      <Container>
-        {construirPerfil.loading ? (
-          <Loading />
-        ) : (
+        </Button> */}
+        </Box>
+        <Container>
           <>
             <SubTitle>Pasos a completar</SubTitle>
             <StyledText>
@@ -62,8 +71,8 @@ export const ConstruirPerfil = () => {
               })}
             </List>
           </>
-        )}
-      </Container>
-    </Wrapper>
+        </Container>
+      </Wrapper>
+    </>
   );
 };

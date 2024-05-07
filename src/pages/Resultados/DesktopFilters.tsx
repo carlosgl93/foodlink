@@ -1,36 +1,16 @@
-import {
-  StyledSelect,
-  StyledUnorderedList,
-  StyledListItem,
-  StyledCheckboxInput,
-  Title,
-} from '@/components/StyledComponents';
+import { Title } from '@/components/StyledComponents';
 import { List, ListItemButton, ListItemText } from '@mui/material';
 import { Box } from '@mui/system';
-import FiltersSearchBar from './FiltersSearchBar';
-import useRecibeApoyo from '@/store/recibeApoyo';
 
-import { availability } from '@/utils/constants';
-import { Servicio } from '@/types/Servicio';
-import { ChangeEvent } from 'react';
-import { useServicios } from '@/hooks/useServicios';
+import { useComunas } from '@/hooks';
+import SearchBar from '../Comenzar/SearchBar';
+import { InterestProducts } from '../Comenzar/Comprar/InterestProducts';
+import { Certification, InterestedProduct } from '@/store/comienzo/comprar';
+import { comprarSteps } from '../Comenzar/Comprar/comprarSteps';
+import { CertificationsList } from '../Comenzar/Comprar/CertificacionesList';
 
 const DesktopFilters = () => {
-  const [
-    { servicio, especialidad, comuna },
-    { removeComuna, selectServicio, selectEspecialidad, setAvailability },
-  ] = useRecibeApoyo();
-
-  const { allServicios } = useServicios();
-
-  const especialidades = allServicios
-    .map((s) => s.especialidades)
-    .map((e) => e.map((esp) => esp.especialidadName));
-
-  const handleSelectServicio = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selectedService = allServicios.find((s: Servicio) => s.serviceName === e.target.value);
-    selectServicio(selectedService as Servicio);
-  };
+  const { selectedComunas, handleRemoveComuna } = useComunas();
 
   return (
     <Box
@@ -40,6 +20,30 @@ const DesktopFilters = () => {
         alignContent: 'center',
       }}
     >
+      <Box
+        sx={{
+          my: '1rem',
+        }}
+      >
+        <Title
+          variant="h6"
+          sx={{
+            fontSize: '1.2rem',
+          }}
+        >
+          Tipo de productos
+        </Title>
+        <InterestProducts options={comprarSteps[0].options as InterestedProduct[]} />
+      </Box>
+      <Title
+        variant="h6"
+        sx={{
+          fontSize: '1.2rem',
+        }}
+      >
+        Certificaciones
+      </Title>
+      <CertificationsList options={comprarSteps[1].options as Certification[]} />
       <Title
         variant="h6"
         sx={{
@@ -48,112 +52,34 @@ const DesktopFilters = () => {
       >
         Comunas
       </Title>
-      <FiltersSearchBar />
-      {comuna && (
+      <SearchBar />
+      {selectedComunas && (
         <List>
-          <ListItemButton
-            onClick={() => removeComuna(comuna!)}
-            sx={{
-              color: 'secondary.main',
-              display: 'grid',
-              gridTemplateColumns: '90% 10%',
-              alignItems: 'center',
-              border: '1px solid',
-              borderColor: 'primary.dark',
-              borderRadius: '0.25rem',
-              padding: '0.5rem 1rem',
-              backgroundColor: 'primary.main',
-              ':hover': {
-                backgroundColor: 'primary.light',
-                color: 'primary.dark',
-              },
-              my: '1vh',
-            }}
-          >
-            <ListItemText primary={comuna.name} />
-          </ListItemButton>
+          {selectedComunas.map((comuna) => (
+            <ListItemButton
+              key={comuna.id}
+              onClick={() => handleRemoveComuna(comuna!)}
+              sx={{
+                color: 'secondary.main',
+                display: 'grid',
+                gridTemplateColumns: '90% 10%',
+                alignItems: 'center',
+                border: '1px solid',
+                borderColor: 'primary.dark',
+                borderRadius: '0.25rem',
+                padding: '0.5rem 1rem',
+                backgroundColor: 'primary.main',
+                ':hover': {
+                  backgroundColor: 'primary.light',
+                },
+                my: '1vh',
+              }}
+            >
+              <ListItemText primary={comuna.name} />
+            </ListItemButton>
+          ))}
         </List>
       )}
-
-      {/* SERVICIO */}
-      <Title
-        variant="h6"
-        sx={{
-          fontSize: '1.2rem',
-        }}
-      >
-        Servicio
-      </Title>
-      {allServicios && (
-        <StyledSelect value={servicio?.serviceName || ''} onChange={handleSelectServicio}>
-          <option>Selecciona un servicio</option>
-          {allServicios.map((servicio: Servicio) => {
-            return (
-              <option key={servicio.id} value={servicio.serviceName}>
-                {servicio.serviceName}
-              </option>
-            );
-          })}
-        </StyledSelect>
-      )}
-
-      {servicio && especialidades && (
-        <>
-          <Title
-            variant="h6"
-            sx={{
-              fontSize: '1.2rem',
-            }}
-          >
-            Especialidad
-          </Title>
-          <StyledSelect
-            value={especialidad?.especialidadName}
-            onChange={(e) => {
-              selectEspecialidad(
-                servicio.especialidades.find((esp) => esp.especialidadName === e.target.value),
-              );
-            }}
-          >
-            <option value="">Selecciona una especialidad</option>
-            {servicio.especialidades?.map((especialidad) => {
-              return (
-                <option key={especialidad.id} value={especialidad.especialidadName}>
-                  {especialidad.especialidadName}
-                </option>
-              );
-            })}
-          </StyledSelect>
-        </>
-      )}
-
-      {/* ESPECIALIDAD */}
-
-      {/* DISPONIBILIDAD */}
-      <Title
-        variant="h6"
-        sx={{
-          fontSize: '1.2rem',
-        }}
-      >
-        Disponibilidad
-      </Title>
-      <StyledUnorderedList>
-        {availability.map((day) => {
-          return (
-            <StyledListItem key={day.id}>
-              <StyledCheckboxInput
-                type="checkbox"
-                id={day.name}
-                name="availability"
-                value={day.name}
-                onClick={() => setAvailability(day)}
-              />
-              <label htmlFor={day.name}>{day.name}</label>
-            </StyledListItem>
-          );
-        })}
-      </StyledUnorderedList>
     </Box>
   );
 };

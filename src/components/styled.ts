@@ -12,13 +12,13 @@ const CenteredFlexBox = styled(FlexBox)({
 
 const FullSizeCenteredFlexBox = styled(CenteredFlexBox)({
   width: '100%',
-  minHeight: '80vh',
+  minHeight: '75vh',
 });
 
 // make a styled image component that accepts src and alt props
 const HeaderIconImage = styled('img')({
-  width: '120px',
-  height: '60px',
+  width: '100px',
+  height: '50px',
   margin: 4,
 });
 

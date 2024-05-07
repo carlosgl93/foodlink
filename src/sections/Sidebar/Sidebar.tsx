@@ -10,10 +10,10 @@ import { useRecoilValue } from 'recoil';
 
 function Sidebar() {
   const [isSidebarOpen, sidebarActions] = useSidebar();
-  const { prestador } = useAuthNew();
+  const { proveedor } = useAuthNew();
   const user = useRecoilValue(userState);
 
-  const isLoggedIn = user?.isLoggedIn || prestador?.isLoggedIn;
+  const isLoggedIn = user?.isLoggedIn || proveedor?.isLoggedIn;
 
   const closeDrawer = sidebarActions.close;
 
@@ -24,7 +24,7 @@ function Sidebar() {
         <NotLoggedInDrawerList closeDrawer={closeDrawer} />
       </Drawer>
     );
-  } else if (isLoggedIn && prestador?.id.length) {
+  } else if (isLoggedIn && proveedor?.id.length) {
     return (
       <Drawer anchor="left" open={isSidebarOpen} onClose={closeDrawer}>
         <BrandHomeLinkMobile />

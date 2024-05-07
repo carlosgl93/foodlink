@@ -7,12 +7,11 @@ import { useEffect } from 'react';
 import api from '@/api/api';
 import { AxiosError } from 'axios';
 import { notificationState } from '../snackbar';
-import { Prestador } from '@/types/Prestador';
-import { postPrestador } from '@/api/prestadores/postPrestador';
+import { Proveedor } from '@/types';
 
 type AuthState = {
   isLoggedIn: boolean;
-  user: User | null | Partial<Prestador>;
+  user: User | null | Partial<Proveedor>;
   role: 'user' | 'prestador' | null;
   loading: boolean;
   error: string | null;
@@ -170,37 +169,6 @@ function useAuth(): [AuthState, Actions] {
     setUser((prev) => ({ ...prev, loading: false }));
   }
 
-  async function createPrestador(prestador: Prestador) {
-    try {
-      const res = await postPrestador(prestador);
-      if (res.message !== 'Error al crear prestador') {
-        setUser((prev) => ({ ...prev, isLoggedIn: true, user: prestador, role: 'prestador' }));
-        localStorage.setItem('user', JSON.stringify({ ...prestador, role: 'prestador' }));
-        setNotification({
-          open: true,
-          message: 'Cuenta creada con exito, no olvides confirmar tu email',
-          severity: 'success',
-        });
-        navigate(`/prestador-dashboard/`);
-      } else {
-        setNotification({
-          open: true,
-          message: 'Ocurrio un error al crear el prestador',
-          severity: 'error',
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      if (error instanceof Error) {
-        setNotification({
-          open: true,
-          message: error.message,
-          severity: 'error',
-        });
-      }
-    }
-  }
-
   function logout() {
     setUser((prev) => ({ ...prev, isLoggedIn: false, user: null, role: null }));
     localStorage.removeItem('user');
@@ -225,10 +193,7 @@ function useAuth(): [AuthState, Actions] {
     };
   }, [_user.error, setUser]);
 
-  return [
-    _user,
-    { login, createUser, logout, redirectAfterLogin, updateRedirectToAfterLogin, createPrestador },
-  ];
+  return [_user, { login, createUser, logout, redirectAfterLogin, updateRedirectToAfterLogin }];
 }
 
 export default useAuth;

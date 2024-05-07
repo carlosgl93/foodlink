@@ -17,7 +17,7 @@ const Wrapper = styled(Box)(() => ({
 export const ResultadosHeader = () => {
   return (
     <Wrapper>
-      <StyledTitle>Buscar Prestadores</StyledTitle>
+      <StyledTitle>Buscar Proveedores</StyledTitle>
     </Wrapper>
   );
 };

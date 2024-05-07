@@ -24,6 +24,6 @@ test('renders new title', () => {
       </BrowserRouter>
     </QueryClientProvider>,
   );
-  const linkElement = screen.getByText(/Comuna donde recibirás apoyo/i);
+  const linkElement = screen.getByText(/Comuna para despacho./i);
   expect(linkElement).toBeTruthy();
 });

@@ -1,13 +1,5 @@
 import routes from '@/routes';
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Button,
-  useTheme,
-} from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { routesToExcludeInHeader } from '../Header/routesToExcludeInHeader';
 
@@ -16,8 +8,6 @@ type NotLoggedInDrawerListProps = {
 };
 
 export const NotLoggedInDrawerList = ({ closeDrawer }: NotLoggedInDrawerListProps) => {
-  const theme = useTheme();
-
   return (
     <List
       sx={{
@@ -61,24 +51,11 @@ export const NotLoggedInDrawerList = ({ closeDrawer }: NotLoggedInDrawerListProp
         )}
       <ListItem sx={{ mx: 'auto' }}>
         <ListItemButton component={Link} to="/ingresar" onClick={closeDrawer}>
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: theme.palette.secondary.main,
-              color: theme.palette.primary.main,
-            }}
-          >
-            Ingresar
-          </Button>
+          <Button variant="contained">Ingresar</Button>
         </ListItemButton>
       </ListItem>
       <ListItem sx={{ mx: 'auto' }}>
-        <ListItemButton component={Link} to="/persona-de-apoyo" onClick={closeDrawer}>
-          <Button variant="outlined">Conviértete en persona de apoyo</Button>
-        </ListItemButton>
-      </ListItem>
-      <ListItem sx={{ mx: 'auto' }}>
-        <ListItemButton component={Link} to="/comienzo" onClick={closeDrawer}>
+        <ListItemButton component={Link} to="/comenzar" onClick={closeDrawer}>
           <Button variant="contained">Comenzar</Button>
         </ListItemButton>
       </ListItem>

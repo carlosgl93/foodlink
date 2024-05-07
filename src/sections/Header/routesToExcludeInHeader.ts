@@ -3,6 +3,6 @@ export const routesToExcludeInHeader = [
   '/registrarse',
   '/comenzar',
   '/persona-de-apoyo',
-  '/registrar-prestador',
+  '/registrar-proveedor',
   '/registrar-usuario',
 ];

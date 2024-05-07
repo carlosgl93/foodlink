@@ -9,6 +9,6 @@ test('renders without crashing', () => {
       <App />
     </RecoilRoot>,
   );
-  const linkElement = screen.getByText(/Blui/i);
+  const linkElement = screen.getByText(/Foodlink/i);
   expect(linkElement).toBeTruthy();
 });

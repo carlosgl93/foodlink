@@ -1,7 +1,7 @@
 import { Box, List, ListItem, styled } from '@mui/material';
 import { useUsuarioInbox } from './useUsuarioInbox';
 import { Text } from '@/components/StyledComponents';
-import { StyledAvatar } from '../PerfilPrestador/MobilePerfilPrestadorStyledComponents';
+import { StyledAvatar } from '../PerfilProveedor/MobilePerfilPrestadorStyledComponents';
 import { StyledTitle, Wrapper } from '../PrestadorDashboard/StyledPrestadorDashboardComponents';
 import { formatDate } from '@/utils/formatDate';
 import Loading from '@/components/Loading';

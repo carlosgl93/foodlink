@@ -1,28 +1,18 @@
-import { Prestador } from '@/store/auth/prestador';
+import { Proveedor } from '@/types';
 import { notificationState } from '@/store/snackbar';
 import { db } from 'firebase/firebase';
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { useQuery } from 'react-query';
 import { useSetRecoilState } from 'recoil';
-import { AvailabilityData } from '@/pages/ConstruirPerfil/Disponibilidad/ListAvailableDays';
 
-const dayOrder = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+// const dayOrder = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
 
-const sortedAvailability = (availability: AvailabilityData[]) =>
-  availability.sort((a, b) => {
-    return dayOrder.indexOf(a.day.toLowerCase()) - dayOrder.indexOf(b.day.toLowerCase());
-  });
-
-const getPrestadorByIdFirestore = async (id: string): Promise<Prestador> => {
+const getPrestadorByIdFirestore = async (id: string): Promise<Proveedor> => {
   const providersRef = doc(db, 'providers', id);
   const res = await getDoc(providersRef);
 
-  const prestador = res.data() as Prestador;
+  const prestador = res.data() as Proveedor;
 
-  const availabilityRef = collection(providersRef, 'availability');
-  const availabilitySnapshot = await getDocs(availabilityRef);
-  const availability = availabilitySnapshot.docs.map((doc) => doc.data()) as AvailabilityData[];
-  prestador.availability = sortedAvailability(availability);
   return prestador;
 };
 

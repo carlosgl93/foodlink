@@ -5,15 +5,17 @@ import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyCFFGtQ8UCPXendLYZc0koY2X2xqCqg4D8',
-  authDomain: 'blui-6ec33.firebaseapp.com',
-  projectId: 'blui-6ec33',
-  storageBucket: 'blui-6ec33.appspot.com',
-  messagingSenderId: '612874412823',
-  appId: '1:612874412823:web:fbfd0f29b5b53450e8cd52',
-  measurementId: 'G-QWQ7SXL2SW',
+  apiKey: 'AIzaSyDDJc5qIHqs1EH-tgDXFTwDjTeHtsVKu8Q',
+  authDomain: 'foodlink-74e76.firebaseapp.com',
+  projectId: 'foodlink-74e76',
+  storageBucket: 'foodlink-74e76.appspot.com',
+  messagingSenderId: '477970081298',
+  appId: '1:477970081298:web:f7f79c561047edb1d69acb',
+  measurementId: 'G-MXQ17X357D',
 };
+
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);

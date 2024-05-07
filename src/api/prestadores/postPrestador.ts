@@ -1,22 +1,15 @@
-import { Prestador } from '@/types/Prestador';
-import api from '../api';
+import { Proveedor } from '@/types';
+import { db } from 'firebase/firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
-type PostPrestadorData = {
-  message: string;
-  prestador: Partial<Prestador>;
-};
+export const postProveedor = async (proveedor: Proveedor): Promise<Proveedor> => {
+  const providerRef = doc(db, 'providers', proveedor.id);
 
-export const postPrestador = async (prestador: Partial<Prestador>): Promise<PostPrestadorData> => {
   try {
-    const response = await api.post('/prestadores', prestador);
-    console.log(response, 'RESPONSE FROM PRESTADORES CREATE');
-    return response.data;
+    await setDoc(providerRef, proveedor);
+    return proveedor;
   } catch (error) {
-    console.log('error creating prestador');
     console.log(error);
-    return {
-      message: 'Error al crear prestador',
-      prestador,
-    };
+    throw new Error('Error creating proveedor');
   }
 };

@@ -58,7 +58,7 @@ export const useComunas = () => {
   const [matchedComunas, setMatchedComunas] = useState<Comuna[]>([]);
   const [selectedComunas, setSelectedComunas] = useRecoilState(comunasState);
   const [, setNotification] = useRecoilState(notificationState);
-  const { prestador } = useAuthNew();
+  const { proveedor } = useAuthNew();
   const queryClient = useQueryClient();
 
   const allComunas = useMemo(() => {
@@ -100,7 +100,6 @@ export const useComunas = () => {
         severity: 'warning',
         open: true,
       });
-
       return;
     } else {
       setSelectedComunas((prev) => [...prev, comuna]);
@@ -120,7 +119,7 @@ export const useComunas = () => {
     }
 
     updateComunas({
-      providerId: prestador!.id,
+      providerId: proveedor!.id,
       comunas: selectedComunas,
     });
   };
@@ -144,7 +143,7 @@ export const useComunas = () => {
   );
 
   const handleRemoveComuna = (comuna: Comuna) => {
-    removeComuna({ providerId: prestador!.id, comuna, comunas: selectedComunas });
+    removeComuna({ providerId: proveedor!.id, comuna, comunas: selectedComunas });
     setSelectedComunas((prev) => prev.filter((comunaState) => comunaState.id !== comuna.id));
   };
 
@@ -167,10 +166,10 @@ export const useComunas = () => {
   );
 
   const { data: prestadorComunas, isLoading: fetchPrestadorComunasIsLoading } = useQuery(
-    ['providerComunas', prestador?.id],
-    () => fetchProviderComunas(prestador?.id),
+    ['providerComunas', proveedor?.id],
+    () => fetchProviderComunas(proveedor?.id),
     {
-      enabled: !!prestador?.id,
+      enabled: !!proveedor?.id,
       onSuccess(data) {
         setSelectedComunas([...data]);
       },

@@ -1,8 +1,7 @@
 import { AxiosError } from 'axios';
 import api from '../api';
-import { HistorialLaboralEntry } from '@/hooks/useHistorialLaboral';
 
-export interface SaveHistorialLaboral extends HistorialLaboralEntry {
+export interface SaveHistorialLaboral {
   prestadorId: string;
 }
 

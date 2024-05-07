@@ -1,24 +1,7 @@
 {
-  "name": "Blui",
-  "short_name": "blui",
-  "description": "Blui te conecta con el cuidador que necesitas.",
+  "name": "Foodlink",
+  "short_name": "Foodlink",
+  "description": "Foodlink te conecta con el proveedor o el retailer que necesitas.",
   "theme_color": "#ffffff",
-  "icons": [
-    {
-      "src": "android-chrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
+  "icons": []
 }

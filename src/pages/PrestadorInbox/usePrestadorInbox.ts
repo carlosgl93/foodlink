@@ -6,9 +6,9 @@ import { useSetRecoilState } from 'recoil';
 import { chatState } from '@/store/chat/chatStore';
 
 export const usePrestadorInbox = () => {
-  const { prestador } = useAuthNew();
+  const { proveedor } = useAuthNew();
   const setMessages = useSetRecoilState(chatState);
-  const providerId = prestador?.id;
+  const providerId = proveedor?.id;
 
   const router = useNavigate();
 

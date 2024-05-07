@@ -1,55 +1,113 @@
-import { Prestador } from '@/store/auth/prestador';
-import useRecibeApoyo from '@/store/recibeApoyo';
+import { Proveedor } from '@/types';
 import { db } from 'firebase/firebase';
-import { collection, query, limit, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, limit } from 'firebase/firestore';
 import { useQuery } from 'react-query';
+import { useComunas } from './useComunas';
+import { useRecoilValue } from 'recoil';
+import { interestedProductsState } from '@/store/comienzo/comprar';
+import { certificationsState } from '../store/comienzo/comprar/index';
 
 export const useGetPrestadores = () => {
-  const [{ servicio, comuna, especialidad }] = useRecibeApoyo();
+  const interestedProducts = useRecoilValue(interestedProductsState);
+  const certifications = useRecoilValue(certificationsState);
+  const { selectedComunas } = useComunas();
 
-  const getPrestadoresByComunaAndServicio = async () => {
-    const prestadorCollectionRef = collection(db, 'providers');
-    let prestadoresQuery = query(prestadorCollectionRef, limit(15));
+  const getProveedoresByProductCertificationComuna = async () => {
+    const providersCollectionRef = collection(db, 'providers');
 
-    if (comuna) {
-      prestadoresQuery = query(prestadoresQuery, where('comunas', 'array-contains', comuna));
+    console.log(certifications);
+
+    const prestadoresQuery = query(providersCollectionRef, limit(15));
+
+    if (!selectedComunas.length && !interestedProducts.length && !certifications.length) {
+      const querySnapshot = await getDocs(prestadoresQuery);
+      const prestadores = querySnapshot.docs.map((doc) => doc.data());
+      return prestadores as Proveedor[];
     }
 
-    if (servicio) {
-      prestadoresQuery = query(prestadoresQuery, where('servicio', '==', servicio.serviceName));
-    }
+    let prestadoresByComuna: Proveedor[] = [];
+    let prestadoresByProductType: Proveedor[] = [];
+    let proveedoresByCertification: Proveedor[] = [];
 
-    if (especialidad) {
-      prestadoresQuery = query(
-        prestadoresQuery,
-        where('especialidad', '==', especialidad.especialidadName),
+    if (selectedComunas.length) {
+      const comunasQuery = query(
+        providersCollectionRef,
+        where(
+          'comunas',
+          'array-contains-any',
+          selectedComunas.map((c) => ({
+            name: c.name,
+            id: c.id,
+            country: c.country,
+            region: c.region,
+          })),
+        ),
       );
+
+      const comunasSnapshot = await getDocs(comunasQuery);
+      prestadoresByComuna = comunasSnapshot.docs.map((doc) => doc.data()) as Proveedor[];
     }
 
-    const querySnapshot = await getDocs(prestadoresQuery);
-    const prestadores = querySnapshot.docs.map((doc) => doc.data());
+    if (interestedProducts.length) {
+      const productTypeQuery = query(
+        providersCollectionRef,
+        where(
+          'productType',
+          'array-contains-any',
+          interestedProducts.map((p) => ({ name: p.name, id: p.id, value: p.value })),
+        ),
+      );
 
-    // Fetch availability for each prestador
-    for (const prestador of prestadores) {
-      const availabilityRef = collection(db, 'providers', prestador.id, 'availability');
-      const availabilitySnapshot = await getDocs(availabilityRef);
-      const availability = availabilitySnapshot.docs.map((doc) => doc.data());
-
-      // Add availability to prestador object
-      prestador.availability = availability;
+      const productTypeSnapshot = await getDocs(productTypeQuery);
+      prestadoresByProductType = productTypeSnapshot.docs.map((doc) => doc.data()) as Proveedor[];
     }
 
-    return prestadores as Prestador[];
+    if (certifications.length) {
+      const certificationsQuery = query(
+        providersCollectionRef,
+        where(
+          'certifications',
+          'array-contains-any',
+          certifications.map((cert) => ({ name: cert.name, id: cert.id, value: cert.value })),
+        ),
+      );
+
+      const certificationsSnapshot = await getDocs(certificationsQuery);
+      proveedoresByCertification = certificationsSnapshot.docs.map((doc) =>
+        doc.data(),
+      ) as Proveedor[];
+    }
+
+    // Merge the results
+    const mergedPrestadores = [
+      ...prestadoresByComuna,
+      ...prestadoresByProductType,
+      ...proveedoresByCertification,
+    ];
+
+    // Remove duplicates
+    const prestadores = Array.from(new Set(mergedPrestadores.map((p) => p.id))).map((id) => {
+      return mergedPrestadores.find((p) => p.id === id);
+    });
+    return prestadores as Proveedor[];
   };
 
   const {
     data = [],
     isLoading,
     isError,
-  } = useQuery<Prestador[]>(
-    ['prestadoresByComunaAndServicio', comuna, servicio, especialidad],
-    getPrestadoresByComunaAndServicio,
+  } = useQuery<Proveedor[]>(
+    [
+      'proveedoresByProductCertificationComuna',
+      selectedComunas,
+      interestedProducts,
+      certifications,
+    ],
+    getProveedoresByProductCertificationComuna,
     {
+      onSuccess: () => {
+        console.log('success');
+      },
       onError: (error) => {
         console.log('error', error);
       },

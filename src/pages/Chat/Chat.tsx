@@ -20,24 +20,24 @@ import { usePrestadorChatMessages } from '../PrestadorChat/usePrestadorChatMessa
 import { useAuthNew } from '@/hooks/useAuthNew';
 import { useRecoilValue } from 'recoil';
 import { chatState } from '@/store/chat/chatStore';
-import { interactedPrestadorState } from '@/store/resultados/interactedPrestador';
+import { interactedProveedorState } from '@/store/resultados/interactedPrestador';
 import { useChat } from '@/hooks';
 
 export const Chat = () => {
   const { user } = useAuthNew();
   const conversation = useRecoilValue(chatState);
   const customer = user;
-  const prestador = useRecoilValue(interactedPrestadorState);
+  const proveedor = useRecoilValue(interactedProveedorState);
   const customerId = customer?.id;
 
   const { isSending, lastMessageRef } = usePrestadorChatMessages({
     userId: customerId ?? '',
-    prestadorId: prestador?.id ?? '',
+    prestadorId: proveedor?.id ?? '',
   });
 
   const { message, messagesLoading, setMessage, handleSaveMessage, sendWithEnter } = useChat(
     customerId ?? '',
-    prestador?.id ?? '',
+    proveedor?.id ?? '',
   );
 
   if (messagesLoading) {
@@ -102,16 +102,14 @@ export const Chat = () => {
             sendWithEnter(e, {
               message,
               sentBy: 'user',
-              providerId: prestador?.id ?? '',
+              providerId: proveedor?.id ?? '',
               userId: customerId ?? '',
               username: customer?.firstname
                 ? customer.firstname
                 : customer?.email
                 ? customer.email
                 : '',
-              providerName: prestador?.firstname?.length
-                ? prestador.firstname
-                : prestador?.email || '',
+              providerName: proveedor?.representativeName ?? proveedor?.email ?? '',
             })
           }
         />

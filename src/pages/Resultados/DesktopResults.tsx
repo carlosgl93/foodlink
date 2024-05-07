@@ -2,13 +2,13 @@ import { Box, useTheme } from '@mui/material';
 
 import DesktopFilters from './DesktopFilters';
 import DesktopResultList from './DesktopResultList';
-import { Prestador } from '@/store/auth/prestador';
+import { Proveedor } from '@/types';
 
 type DesktopResultsProps = {
-  filteredPrestadores: Prestador[];
+  filteredProveedores: Proveedor[];
 };
 
-const DesktopResults = ({ filteredPrestadores }: DesktopResultsProps) => {
+const DesktopResults = ({ filteredProveedores }: DesktopResultsProps) => {
   const theme = useTheme();
 
   return (
@@ -27,7 +27,7 @@ const DesktopResults = ({ filteredPrestadores }: DesktopResultsProps) => {
       {/* FILTERS */}
       <DesktopFilters />
 
-      <DesktopResultList filteredResults={filteredPrestadores} />
+      <DesktopResultList filteredResults={filteredProveedores} />
     </Box>
   );
 };

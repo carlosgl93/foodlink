@@ -1,7 +1,7 @@
 {
-  "name": "blui",
+  "name": "foodlink",
   "version": "0.1",
-  "description": "Aplicacion para buscar y prestar servicios de cuidado.",
+  "description": "Aplicacion para buscar proveedores y retailers.",
   "homepage": "TODO",
   "type": "module",
   "repository": {
@@ -10,7 +10,7 @@
   },
   "bugs": {
     "url": "https://www.TODO.com/todo",
-    "email": "soporte@blui.com"
+    "email": "soporte@foodlink.com"
   },
   "license": "MIT",
   "jest": {
@@ -101,7 +101,7 @@
   "author": {
     "name": "Carlos Gumucio",
     "email": "cgumucio93@gmail.com",
-    "url": "http://todo.com/"
+    "url": "https://foodlink-74e76.web.app/"
   },
   "keywords": [
     "react",

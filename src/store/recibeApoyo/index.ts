@@ -5,7 +5,7 @@ import { atom, useRecoilState } from 'recoil';
 import type { Actions } from './types';
 import { Comuna } from '@/types/Comuna';
 import { Especialidad, Servicio } from '@/types/Servicio';
-import { Prestador } from '@/types/Prestador';
+import { Proveedor } from '@/types';
 import { ForWhom } from '@/hooks/useAuthNew';
 
 type RecibeApoyoState = {
@@ -20,7 +20,7 @@ type RecibeApoyoState = {
   }[];
   allServicios: Servicio[] | null;
   allComunas: Comuna[] | [];
-  prestadores: Prestador[] | [];
+  prestadores: Proveedor[] | [];
 };
 
 const recibeApoyoState = atom<RecibeApoyoState>({
@@ -169,7 +169,7 @@ function useRecibeApoyo(): [RecibeApoyoState, Actions] {
   };
 
   const setPrestadores = useCallback(
-    (prestadores: Prestador[]) => {
+    (prestadores: Proveedor[]) => {
       setApoyo((prev) => ({
         ...prev,
         prestadores,

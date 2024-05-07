@@ -7,13 +7,13 @@ import useSidebar from '@/store/sidebar';
 import { ChatTitle } from '@/pages/Chat/StyledChatMensajes';
 import BackButton from '@/components/BackButton';
 import { Box, styled } from '@mui/material';
-import { interactedPrestadorState } from '@/store/resultados/interactedPrestador';
+import { interactedProveedorState } from '@/store/resultados/interactedPrestador';
 import { useRecoilValue } from 'recoil';
 import { chatState } from '@/store/chat/chatStore';
 
 const MobileHeaderContent = () => {
   const [, sidebarActions] = useSidebar();
-  const prestador = useRecoilValue(interactedPrestadorState);
+  const proveedor = useRecoilValue(interactedProveedorState);
   const chats = useRecoilValue(chatState);
   const username = chats?.username;
   const isChat = location.pathname === '/chat' || location.pathname === '/prestador-chat';
@@ -22,7 +22,9 @@ const MobileHeaderContent = () => {
     return (
       <StyledChatHeaderContainer>
         <BackButton ignoreMargin />
-        <ChatTitle>{prestador?.firstname ? prestador?.firstname : prestador?.email}</ChatTitle>
+        <ChatTitle>
+          {proveedor?.representativeName ? proveedor?.representativeName : proveedor?.email}
+        </ChatTitle>
       </StyledChatHeaderContainer>
     );
   }
@@ -55,7 +57,7 @@ const MobileHeaderContent = () => {
           alignItems: 'center',
         }}
       >
-        <HeaderIconImage src={`/images/blui-new.png`} alt="Blui logo" />
+        <HeaderIconImage src={`/android-chrome-192x192.png`} alt="FoodLink logo" />
       </Link>
     </FlexBox>
   );
