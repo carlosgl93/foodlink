@@ -20,6 +20,10 @@ export const InterestProducts = ({ options }: InterestedProductsProps) => {
             <StyledListItemButton
               onClick={() => handleSelectInterestedProduct(item)}
               sx={{
+                minWidth: {
+                  xs: '100%',
+                  md: 'fit-content',
+                },
                 color: alreadySelected ? 'white' : 'primary.main',
                 backgroundColor: alreadySelected ? 'primary.dark' : 'white',
                 my: '0.5rem',

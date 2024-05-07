@@ -13,7 +13,14 @@ export const CertificationsList = ({ options }: CertificationsListProps) => {
 
   return (
     <>
-      <List>
+      <List
+        sx={{
+          width: {
+            xs: '100%',
+            md: 'fit-content',
+          },
+        }}
+      >
         {options.map((item) => {
           const alreadySelected = certifications.find((i) => i.id === item.id);
           return (

@@ -13,7 +13,6 @@ type DesktopResultListProps = {
 
 const DesktopResultList = ({ filteredResults }: DesktopResultListProps) => {
   const { isLoading } = useGetPrestadores();
-  console.log(isLoading);
 
   if (isLoading) return <Loading />;
 

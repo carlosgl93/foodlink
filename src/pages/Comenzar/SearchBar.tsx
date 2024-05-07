@@ -65,8 +65,7 @@ function SearchBar() {
         sx={{
           width: {
             xs: '90%',
-            sm: '60vw',
-            lg: '50vw',
+            sm: 'fit-content',
           },
 
           backgroundColor: 'white',
@@ -81,9 +80,7 @@ function SearchBar() {
           flexDirection: 'column',
           width: {
             xs: '90%',
-            sm: '80vw',
-            md: '60vw',
-            lg: '50vw',
+            sm: '100%',
           },
           backgroundColor: 'white',
           borderRadius: '5px',

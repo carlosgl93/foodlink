@@ -1,4 +1,4 @@
-import { InterestedProduct } from '@/store/comienzo/comprar';
+import { Certification, InterestedProduct } from '@/store/comienzo/comprar';
 import { Comuna } from './Comuna';
 
 export interface Proveedor {
@@ -19,6 +19,7 @@ export interface Proveedor {
   imageUrl?: string;
   dob?: string;
   address?: string;
+  certifications?: Certification[];
   settings: {
     products: boolean;
     detallesBasicos: boolean;

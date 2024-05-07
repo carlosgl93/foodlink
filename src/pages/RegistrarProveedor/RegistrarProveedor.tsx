@@ -56,6 +56,7 @@ function RegistrarProveedor() {
             </TextContainer>
           )}
           {formInputs.map((input) => {
+            if (input.inputName === 'dispatch') return;
             return (
               <TextField
                 sx={{

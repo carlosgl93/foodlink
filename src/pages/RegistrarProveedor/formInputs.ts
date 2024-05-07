@@ -18,6 +18,7 @@ export const formInputs = [
     type: 'text',
     helperText: 'Ejemplo: 76056132-0. Sin puntos',
   },
+
   {
     inputName: 'phone',
     placeholder: 'Teléfono de contacto',
@@ -42,5 +43,11 @@ export const formInputs = [
     placeholder: 'Confirme su contraseña',
     label: 'Confirma tu contraseña (*)',
     type: 'password',
+  },
+  {
+    inputName: 'dispatch',
+    placeholder: 'Despacho',
+    label: 'Selecciona el tipo de despacho (*)',
+    type: 'text',
   },
 ];

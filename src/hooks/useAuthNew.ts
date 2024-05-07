@@ -13,7 +13,7 @@ import useEntregaApoyo from '@/store/entregaApoyo';
 import useRecibeApoyo from '@/store/recibeApoyo';
 import { redirectToAfterLoginState } from '@/store/auth';
 import { comunasState } from '@/store/construirPerfil/comunas';
-import { InterestedProduct } from '@/store/comienzo/comprar';
+import { certificationsState, InterestedProduct } from '@/store/comienzo/comprar';
 
 export type ForWhom = 'paciente' | 'tercero' | '';
 
@@ -47,6 +47,7 @@ export const useAuthNew = () => {
   const [proveedor, setProveedorState] = useRecoilState(proveedorState);
   const redirectAfterLogin = useRecoilValue(redirectToAfterLoginState);
   const selectedComunas = useRecoilValue(comunasState);
+  const certifications = useRecoilValue(certificationsState);
   const [, { resetEntregaApoyoState }] = useEntregaApoyo();
   const [, { resetRecibeApoyoState }] = useRecibeApoyo();
 
@@ -98,6 +99,7 @@ export const useAuthNew = () => {
           averageReviews: 0,
           totalReviews: 0,
           description: '',
+          certifications: certifications ?? [],
           settings: {
             products: false,
             detallesBasicos: false,
