@@ -18,41 +18,43 @@ export const comprarSteps = [
     options: [
       {
         id: '0',
-        value: 'mar-congelados',
-        name: 'Congelados del mar',
+        name: 'Frutas y Verduras Frescas',
+        value: 'fruits-and-vegetables',
       },
       {
         id: '1',
-        value: 'mar-frescos',
-        name: 'Frescos del mar',
+        name: 'Carnes y Aves',
+        value: 'meat-and-poultry',
       },
       {
         id: '2',
-        value: 'no-perecibles',
-        name: 'No perecibles',
+        name: 'Pescados y Mariscos',
+        value: 'fish-and-seafood',
       },
       {
         id: '3',
-        value: 'lacteos',
-        name: 'Lacteos',
+        name: 'Lácteos',
+        value: 'diary',
       },
-      //   {
-      //     value: 'empaque',
-      //     name: 'Empaque',
-      //   },
-      //   {
-      //     value: 'limpieza',
-      //     name: 'Limpieza',
-      //   },
       {
         id: '4',
-        value: 'bebestibles',
-        name: 'Bebestibles',
+        name: 'Panadería y Pastelería',
+        value: 'bakery-and-pastry',
       },
       {
         id: '5',
-        value: 'congelados',
-        name: 'Congelados',
+        name: 'Bebestibles',
+        value: 'beverages',
+      },
+      {
+        id: '6',
+        name: 'Secos y Enlatados',
+        value: 'beverages',
+      },
+      {
+        id: '7',
+        name: 'Ingredientes y Condimentos',
+        value: 'ingredients-and-condiments',
       },
     ],
   },

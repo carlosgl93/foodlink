@@ -11,10 +11,76 @@ import { notificationState } from '@/store/snackbar';
 import { useSetRecoilState } from 'recoil';
 import { Box } from '@mui/material';
 import Meta from '@/components/Meta';
+import useOrientation from '@/hooks/useOrientation';
 
 export const ProveedorDashboard = () => {
   const { handleConstruirPerfil } = usePrestadorDashboard();
   const setNotification = useSetRecoilState(notificationState);
+  const isMobile = useOrientation();
+  console.log(isMobile);
+
+  const dashboardOptions = [
+    {
+      title: 'Tus productos',
+      description: 'Crea, edita, elimina tus productos',
+      onClick: () =>
+        setNotification({
+          open: true,
+          message: 'Sección en construcción',
+          severity: 'info',
+        }),
+    },
+    {
+      title: 'Mensajes',
+      description: 'Inbox: Contactate con tus clientes',
+      onClick: () =>
+        setNotification({
+          open: true,
+          message: 'Sección en construcción',
+          severity: 'info',
+        }),
+    },
+    {
+      title: 'Ofertas',
+      description: 'Crea, edita o elimina tus ofertas',
+      onClick: () =>
+        setNotification({
+          open: true,
+          message: 'Sección en construcción',
+          severity: 'info',
+        }),
+    },
+    {
+      title: 'Marketing',
+      description: 'Crea, edita o elimina tus campañas de marketing',
+      onClick: () =>
+        setNotification({
+          open: true,
+          message: 'Sección en construcción',
+          severity: 'info',
+        }),
+    },
+    {
+      title: 'Buscar clientes',
+      description: 'Usa nuestro buscador para encontrar potenciales clientes',
+      onClick: () =>
+        setNotification({
+          open: true,
+          message: 'Sección en construcción',
+          severity: 'info',
+        }),
+    },
+    {
+      title: 'Configuración',
+      description: 'Edita tu cuenta aquí',
+      onClick: () =>
+        setNotification({
+          open: true,
+          message: 'Sección en construcción',
+          severity: 'info',
+        }),
+    },
+  ];
 
   return (
     <>
@@ -53,102 +119,19 @@ export const ProveedorDashboard = () => {
             gridTemplateColumns: '0.5fr 0.5fr',
           }}
         >
-          <Container>
-            <SubTitle>Tus productos</SubTitle>
-            <Text>Crea, edita, elimina tus productos</Text>
-            <StyledButton
-              variant="contained"
-              onClick={() =>
-                setNotification({
-                  open: true,
-                  message: 'Sección en construcción',
-                  severity: 'info',
-                })
-              }
-            >
-              Productos
-            </StyledButton>
-          </Container>
-          <Container>
-            <SubTitle>Mensajes</SubTitle>
-            <Text>Inbox: Contactate con tus clientes</Text>
-            <StyledButton
-              variant="contained"
-              onClick={() =>
-                setNotification({
-                  open: true,
-                  message: 'Sección en construcción',
-                  severity: 'info',
-                })
-              }
-            >
-              Mensajes
-            </StyledButton>
-          </Container>
-          <Container>
-            <SubTitle>Ofertas</SubTitle>
-            <Text>Crea, edita o elimina tus ofertas</Text>
-            <StyledButton
-              variant="contained"
-              onClick={() =>
-                setNotification({
-                  open: true,
-                  message: 'Sección en construcción',
-                  severity: 'info',
-                })
-              }
-            >
-              Ofertas
-            </StyledButton>
-          </Container>
-          <Container>
-            <SubTitle>Marketing</SubTitle>
-            <Text>Crea, edita o elimina tus campañas de marketing</Text>
-            <StyledButton
-              variant="contained"
-              onClick={() =>
-                setNotification({
-                  open: true,
-                  message: 'Sección en construcción',
-                  severity: 'info',
-                })
-              }
-            >
-              Marketing
-            </StyledButton>
-          </Container>
-          <Container>
-            <SubTitle>Buscar clientes/compradores</SubTitle>
-            <Text>Usa nuestro buscador para encontrar potenciales clientes</Text>
-            <StyledButton
-              variant="contained"
-              onClick={() =>
-                setNotification({
-                  open: true,
-                  message: 'Sección en construcción',
-                  severity: 'info',
-                })
-              }
-            >
-              Buscar clientes
-            </StyledButton>
-          </Container>
-          <Container>
-            <SubTitle>Configuración de tu cuenta</SubTitle>
-            <Text>Edita tu cuenta aquí</Text>
-            <StyledButton
-              variant="contained"
-              onClick={() =>
-                setNotification({
-                  open: true,
-                  message: 'Sección en construcción',
-                  severity: 'info',
-                })
-              }
-            >
-              Configuración
-            </StyledButton>
-          </Container>
+          {dashboardOptions.map(({ title, description, onClick }, index) => (
+            <Container key={index}>
+              <SubTitle>{title}</SubTitle>
+              <Text>{description}</Text>
+              <StyledButton
+                fullWidth={isMobile ? true : false}
+                variant="contained"
+                onClick={onClick}
+              >
+                {title}
+              </StyledButton>
+            </Container>
+          ))}
         </Box>
       </Wrapper>
     </>

@@ -101,7 +101,7 @@ const DesktopHeaderContent = () => {
               </Button>
             </ListItem>
             <ListItem sx={{ mx: 'auto' }}>
-              <Button component={Link} to="/comienzo" variant="contained">
+              <Button component={Link} to="/comenzar" variant="contained">
                 Comenzar
               </Button>
             </ListItem>
