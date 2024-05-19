@@ -61,7 +61,9 @@ export const Chat = () => {
                 key={m.id + m.timestamp}
                 ref={isLastMessage ? lastMessageRef : null}
               >
-                <StyledPrestadorName>{conversation.providerName}:</StyledPrestadorName>
+                <StyledPrestadorName>
+                  {`${conversation.proveedorCompanyName} - ${conversation.representativeName}`}:
+                </StyledPrestadorName>
                 <Box
                   sx={{
                     display: 'flex',

@@ -5,7 +5,6 @@ import type { Actions } from './types';
 import { User } from '@/types/User';
 import { useEffect } from 'react';
 import api from '@/api/api';
-import { AxiosError } from 'axios';
 import { notificationState } from '../snackbar';
 import { Proveedor } from '@/types';
 
@@ -28,15 +27,15 @@ const authState = atom<AuthState>({
   },
 });
 
-type CreateUserParams = {
-  companyName: string;
-  representativeName: string;
-  companyRut: string;
-  phone: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+// type CreateUserParams = {
+//   companyName: string;
+//   representativeName: string;
+//   companyRut: string;
+//   phone: string;
+//   email: string;
+//   password: string;
+//   confirmPassword: string;
+// };
 
 export const redirectToAfterLoginState = atom<string | null>({
   key: 'redirectToAfterLoginState',
@@ -127,57 +126,57 @@ function useAuth(): [AuthState, Actions] {
     }
   }
 
-  async function createUser(user: CreateUserParams) {
-    setUser((prev) => ({ ...prev, loading: true, role: 'user' }));
-    try {
-      await api.post('/users', user);
-      setUser((prev) => ({ ...prev, isLoggedIn: true, user, role: 'user' }));
-      localStorage.setItem('user', JSON.stringify(_user));
-      redirectAfterLogin();
-      setNotification({
-        open: true,
-        message: 'Cuenta creada con exito, no olvides confirmar tu email',
-        severity: 'success',
-      });
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.log(error.message);
-        switch (error?.response?.data.message) {
-          case 'Este email ya esta asociado a una cuenta.':
-            setUser((prev) => ({
-              ...prev,
-              loading: false,
-              error: 'Este email ya esta asociado a una cuenta',
-            }));
-            return {
-              error,
-              message: 'Email ya esta asociado a una cuenta',
-            };
-          case 'Este rut ya esta asociado a una cuenta.':
-            setUser((prev) => ({
-              ...prev,
-              loading: false,
-              error: 'Este rut ya esta asociado a una cuenta',
-            }));
-            return {
-              error,
-              message: 'Rut ya esta asociado a una cuenta',
-            };
-          case "The 'password' field is required":
-            setUser((prev) => ({
-              ...prev,
-              loading: false,
-              error: 'El campo contraseña es requerido',
-            }));
-            return {
-              error,
-              message: 'El campo contraseña es requerido',
-            };
-        }
-      }
-    }
-    setUser((prev) => ({ ...prev, loading: false }));
-  }
+  // async function createUser(user: CreateUserParams) {
+  //   setUser((prev) => ({ ...prev, loading: true, role: 'user' }));
+  //   try {
+  //     await api.post('/users', user);
+  //     setUser((prev) => ({ ...prev, isLoggedIn: true, user, role: 'user' }));
+  //     localStorage.setItem('user', JSON.stringify(_user));
+  //     redirectAfterLogin();
+  //     setNotification({
+  //       open: true,
+  //       message: 'Cuenta creada con exito, no olvides confirmar tu email',
+  //       severity: 'success',
+  //     });
+  //   } catch (error) {
+  //     if (error instanceof AxiosError) {
+  //       console.log(error.message);
+  //       switch (error?.response?.data.message) {
+  //         case 'Este email ya esta asociado a una cuenta.':
+  //           setUser((prev) => ({
+  //             ...prev,
+  //             loading: false,
+  //             error: 'Este email ya esta asociado a una cuenta',
+  //           }));
+  //           return {
+  //             error,
+  //             message: 'Email ya esta asociado a una cuenta',
+  //           };
+  //         case 'Este rut ya esta asociado a una cuenta.':
+  //           setUser((prev) => ({
+  //             ...prev,
+  //             loading: false,
+  //             error: 'Este rut ya esta asociado a una cuenta',
+  //           }));
+  //           return {
+  //             error,
+  //             message: 'Rut ya esta asociado a una cuenta',
+  //           };
+  //         case "The 'password' field is required":
+  //           setUser((prev) => ({
+  //             ...prev,
+  //             loading: false,
+  //             error: 'El campo contraseña es requerido',
+  //           }));
+  //           return {
+  //             error,
+  //             message: 'El campo contraseña es requerido',
+  //           };
+  //       }
+  //     }
+  //   }
+  //   setUser((prev) => ({ ...prev, loading: false }));
+  // }
 
   function logout() {
     setUser((prev) => ({ ...prev, isLoggedIn: false, user: null, role: null }));
@@ -203,7 +202,7 @@ function useAuth(): [AuthState, Actions] {
     };
   }, [_user.error, setUser]);
 
-  return [_user, { login, createUser, logout, redirectAfterLogin, updateRedirectToAfterLogin }];
+  return [_user, { login, logout, redirectAfterLogin, updateRedirectToAfterLogin }];
 }
 
 export default useAuth;

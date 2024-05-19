@@ -18,7 +18,7 @@ import {
   Box,
 } from '@mui/material';
 import { formInputs } from '../RegistrarProveedor/formInputs';
-import { offererDispatch, offererDispatchState } from '@/store/comienzo/vender';
+import { OffererDispatch, offererDispatchState } from '@/store/comienzo/vender';
 import SearchBar from '../Comenzar/SearchBar';
 import { useRecoilValue } from 'recoil';
 import { VenderController } from '../Comenzar/Vender/VenderController';
@@ -89,7 +89,7 @@ export const CrearProveedor = () => {
                     aria-labelledby="despacho-select-radio"
                     name="controlled-radio-buttons-group"
                     value={despacho}
-                    onChange={(e) => handleSelectDespacho(e.target.value as offererDispatch)}
+                    onChange={(e) => handleSelectDespacho(e.target.value as OffererDispatch)}
                     row
                   >
                     <FormControlLabel value="nacional" control={<Radio />} label="Nacional" />
