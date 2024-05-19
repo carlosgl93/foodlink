@@ -20,7 +20,7 @@ export const HeroContainer = styled(Box)(({ theme }) => ({
 export const StyledAvatar = styled(Avatar)(() => ({
   width: '8rem',
   height: '8rem',
-  margin: '3rem auto',
+  margin: '1.5rem auto',
 }));
 
 export const StyledNameContainer = styled(Box)(() => ({
@@ -31,7 +31,7 @@ export const StyledNameContainer = styled(Box)(() => ({
   fontSize: '2rem',
   fontWeight: 500,
   textAlign: 'center',
-  my: '0.5rem',
+  my: '1rem',
 }));
 
 export const StyledTitle = styled(Title)(({ theme }) => ({
@@ -42,7 +42,7 @@ export const StyledTitle = styled(Title)(({ theme }) => ({
   color: theme.palette.primary.contrastText,
   maxWidth: '80vw',
   overflowWrap: 'break-word',
-  margin: '0 auto',
+  margin: '0.5rem auto',
 }));
 
 export const ReviewsContainer = styled(Box)(() => ({
@@ -87,13 +87,12 @@ export const AboutTitle = styled(StyledTitle)(({ theme }) => ({
   fontWeight: 600,
   lineHeight: '1.5rem',
   textAlign: 'start',
-  color: theme.palette.primary.dark,
+  color: theme.palette.primary.main,
 }));
 
 export const AboutDescription = styled(Text)(({ theme }) => ({
   fontSize: '0.95rem',
   fontWeight: 400,
-  lineHeight: '1.5rem',
   textAlign: 'start',
   color: theme.palette.primary.dark,
   marginTop: '1rem',

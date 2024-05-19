@@ -1,19 +1,17 @@
+import { Comuna } from '@/types';
 import { atom } from 'recoil';
 
 export interface User {
-  email: string;
   id: string;
+  email: string;
   role: string;
-  firstname: string;
-  lastname: string;
-  forWhom: string;
-  patientName: string;
-  rut: string;
+  companyName: string;
+  representativeName: string;
   isLoggedIn: boolean;
-  gender: 'Masculino' | 'Femenino' | 'Otro' | '';
-  dob: string;
-  phone: string;
-  address: string;
+  companyRut: string;
+  phone?: string;
+  address?: string;
+  comunas?: Comuna[];
 }
 
 export const userState = atom<null | User>({
@@ -22,15 +20,12 @@ export const userState = atom<null | User>({
     email: '',
     id: '',
     role: '',
-    firstname: '',
-    lastname: '',
-    forWhom: '',
-    patientName: '',
-    rut: '',
+    companyName: '',
+    representativeName: '',
+    companyRut: '',
     isLoggedIn: false,
-    gender: '',
-    dob: '',
     phone: '',
     address: '',
+    comunas: [],
   },
 });

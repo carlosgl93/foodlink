@@ -1,7 +1,5 @@
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
-import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -19,20 +17,9 @@ export const usuarioDrawerOptions = [
     icon: AccountCircleIcon,
   },
   {
-    title: 'Sesiones',
-    path: '/sesiones',
-    icon: CalendarTodayOutlinedIcon,
-  },
-
-  {
-    title: 'Buscar prestadores',
+    title: 'Buscar proveedores',
     path: '/resultados',
     icon: SearchOutlinedIcon,
-  },
-  {
-    title: 'Administrar prestadores',
-    path: '/administrar-prestadores',
-    icon: PeopleAltOutlinedIcon,
   },
   {
     title: 'Historial',
@@ -54,5 +41,5 @@ export const usuarioDrawerOptions = [
 export const generalOptionsDrawerList = [
   { title: 'Ayuda', path: '/ayuda' },
   { title: 'Acerca de nosotros', path: '/nosotros' },
-  { title: 'Buscar prestadores', path: '/resultados' },
+  { title: 'Buscar proveedores', path: '/resultados' },
 ];

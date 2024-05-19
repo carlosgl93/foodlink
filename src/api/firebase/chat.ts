@@ -21,9 +21,11 @@ export type Conversation = {
   id: string;
   providerId: string;
   userId: string;
-  username?: string;
-  providerName: string;
+  representativeName: string;
+  companyName: string;
   messages: Message[];
+  proveedorCompanyName: string;
+  proveedorRepresentativeName: string;
 };
 
 export type Message = {
@@ -39,8 +41,10 @@ export type SendMessageArgs = {
   providerId?: string;
   message: string;
   sentBy: 'user' | 'provider';
-  username?: string;
-  providerName?: string;
+  companyName?: string;
+  representativeName?: string;
+  proveedorCompanyName?: string;
+  proveedorRepresentativeName?: string;
   timestamp?: string;
 };
 
@@ -49,8 +53,10 @@ export const sendFirstMessage = async ({
   providerId,
   message,
   sentBy,
-  providerName,
-  username,
+  companyName,
+  representativeName,
+  proveedorCompanyName,
+  proveedorRepresentativeName,
 }: SendMessageArgs) => {
   const messagesRef = doc(db, 'messages', `${userId}${providerId}`);
   try {
@@ -64,10 +70,12 @@ export const sendFirstMessage = async ({
     const saveMessage = await setDoc(messagesRef, {
       id: docId,
       userId,
-      username,
+      companyName,
       providerId,
-      providerName,
+      representativeName,
       messages: [newMessage],
+      proveedorCompanyName,
+      proveedorRepresentativeName,
     });
     return saveMessage;
   } catch (error) {

@@ -13,8 +13,8 @@ type ChatModalProps = {
 export const ChatModal = ({
   open,
   handleClose,
-  // message,
-  // setMessage,
+  message,
+  setMessage,
   isLoading,
 }: ChatModalProps) => {
   return (
@@ -23,8 +23,7 @@ export const ChatModal = ({
         {isLoading ? (
           <Loading />
         ) : (
-          <EnviarMensaje />
-          // setMessage={setMessage} message={message} handleClose={handleClose} />
+          <EnviarMensaje message={message} setMessage={setMessage} handleClose={handleClose} />
         )}
       </ModalContent>
     </StyledModal>

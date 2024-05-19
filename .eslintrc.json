@@ -27,6 +27,7 @@
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "off",
+    "react/prop-types": "off",
     "max-warnings": 0,
     "no-restricted-imports": [
       "error",

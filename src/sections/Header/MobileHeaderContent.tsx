@@ -7,7 +7,7 @@ import useSidebar from '@/store/sidebar';
 import { ChatTitle } from '@/pages/Chat/StyledChatMensajes';
 import BackButton from '@/components/BackButton';
 import { Box, styled } from '@mui/material';
-import { interactedProveedorState } from '@/store/resultados/interactedPrestador';
+import { interactedProveedorState } from '@/store/resultados/interactedProveedor';
 import { useRecoilValue } from 'recoil';
 import { chatState } from '@/store/chat/chatStore';
 
@@ -15,21 +15,23 @@ const MobileHeaderContent = () => {
   const [, sidebarActions] = useSidebar();
   const proveedor = useRecoilValue(interactedProveedorState);
   const chats = useRecoilValue(chatState);
-  const username = chats?.username;
-  const isChat = location.pathname === '/chat' || location.pathname === '/prestador-chat';
+  const username = `${chats?.companyName} - ${chats?.representativeName}`;
+  const isChat = location.pathname === '/chat' || location.pathname === '/proveedor-chat';
 
   if (isChat && location.pathname === '/chat') {
     return (
       <StyledChatHeaderContainer>
         <BackButton ignoreMargin />
         <ChatTitle>
-          {proveedor?.representativeName ? proveedor?.representativeName : proveedor?.email}
+          {proveedor?.representativeName
+            ? ` ${proveedor.companyName} - ${proveedor?.representativeName}`
+            : proveedor?.email}
         </ChatTitle>
       </StyledChatHeaderContainer>
     );
   }
 
-  if (isChat && location.pathname === '/prestador-chat') {
+  if (isChat && location.pathname === '/proveedor-chat') {
     return (
       <StyledChatHeaderContainer>
         <BackButton ignoreMargin />

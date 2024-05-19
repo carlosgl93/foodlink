@@ -1,117 +1,138 @@
-// import {
-//   AboutContainer,
-//   AboutDescription,
-//   AboutTitle,
-//   HeroContainer,
-//   ReviewsContainer,
-//   StyledAvatar,
-//   StyledCTAs,
-//   StyledNameContainer,
-//   StyledServicio,
-//   StyledTitle,
-//   Wrapper,
-// } from './MobilePerfilPrestadorStyledComponents';
-// import Reviews from '@/components/Reviews';
-// import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-// import {
-//   StyledContactButton,
-//   StyledShortListButton,
-// } from './DesktopPerfilPrestadorStyledComponents';
-// import { ChatModal } from '@/components/ChatModal';
-// import { usePerfilPrestador } from './usePerfilPrestador';
-// import PerfilBackButton from './PerfilBackButton';
-// import { Box, styled } from '@mui/material';
-// import { Proveedor } from '@/types';
-// import { Tarifas } from './Tarifas';
-// import { ListAvailableDays } from './ListAvailableDays';
-// import { useChat } from '@/hooks';
-// import { useParams } from 'react-router-dom';
-// import { useAuthNew } from '@/hooks/useAuthNew';
-// import Loading from '@/components/Loading';
+import { StyledText } from '../ConstruirPerfil/StyledConstruirPerfilComponents';
+import { usePerfilPrestador } from './usePerfilPrestador';
+import { Badge, Box, styled } from '@mui/material';
+import PerfilBackButton from './PerfilBackButton';
+import {
+  AboutDescription,
+  AboutTitle,
+  HeroContainer,
+  StyledTitle,
+  Wrapper,
+} from './MobilePerfilPrestadorStyledComponents';
+import { useAuthNew } from '@/hooks/useAuthNew';
+import { useParams } from 'react-router-dom';
+import HeroContent from './HeroSection';
+import { Proveedor } from '@/types';
+import { useChat } from '@/hooks';
 
-// export const SectionContainer = styled(Box)(() => ({
-//   display: 'flex',
-//   flexDirection: 'column',
-//   alignItems: 'flex-start',
-//   justifyContent: 'start',
-//   width: '100%',
-//   padding: '0.5rem 1rem',
-// }));
+export const SectionContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  justifyContent: 'start',
+  width: '100%',
+  padding: '0.5rem 1rem',
+  backgroundColor: theme.palette.background.default,
+  margin: '1rem, auto',
+}));
 
-// export const SectionTitle = styled(StyledTitle)(({ theme }) => ({
-//   marginTop: '1rem',
-//   color: theme.palette.secondary.dark,
-//   fontSize: '1.5rem',
-// }));
+export const SectionTitle = styled(StyledTitle)(({ theme }) => ({
+  margin: '1rem auto',
+  color: theme.palette.primary.main,
+  fontSize: '1.5rem',
+}));
 
-// type MobileProfileProps = {
-//   prestador: Proveedor;
-// };
+export const StyledBadge = styled(Badge)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.background.paper,
+  borderRadius: '0.5rem',
+  padding: '0.5rem 1rem',
+  margin: '0.3rem auto',
+  fontWeight: 'bold',
+  fontSize: '1rem',
+  width: 'fit-content',
+}));
 
-// export const MobileProfile = ({ prestador }: MobileProfileProps) => {
-//   const { handleClose, handleContact, open } = usePerfilPrestador(prestador as Proveedor);
+type MobileProfileProps = {
+  proveedor: Proveedor;
+};
 
-//   const { id } = useParams();
-//   const { user } = useAuthNew();
+export const MobileProfile = ({ proveedor }: MobileProfileProps) => {
+  const { handleClose, handleContact, open } = usePerfilPrestador(proveedor as Proveedor);
 
-//   const { message, setMessage, messages, messagesLoading, savingMessageLoading } = useChat(
-//     user?.id ?? '',
-//     id ?? '',
-//   );
-//   const { imageUrl, averageReviews, totalReviews, description, email } = prestador;
+  const { id } = useParams();
+  const { user } = useAuthNew();
 
-//   return (
-//     <Wrapper>
-//       {/* <HeroContainer>
-//         <PerfilBackButton /> */}
-//       {/* <StyledAvatar alt={`Imágen de perfil de ${firstname}`} src={imageUrl} />
-//         <StyledNameContainer>
-//           <StyledTitle>{firstname ? firstname : email}</StyledTitle>
-//         </StyledNameContainer>
-//         <ReviewsContainer>
-//           <Reviews average={averageReviews || 0} total_reviews={totalReviews || 0} />
-//         </ReviewsContainer>
+  const { message, setMessage, messages, messagesLoading, savingMessageLoading } = useChat(
+    user?.id ?? '',
+    id ?? '',
+  );
+  const {
+    companyName,
+    productType,
+    imageUrl,
+    description,
+    email,
+    certifications,
+    dispatch,
+    comunas,
+    representativeName,
+    paymentMethods,
+  } = proveedor;
 
-//         <StyledServicio>
-//           {servicio} {especialidad && '/ especialidad'}
-//         </StyledServicio>
-//         <StyledCTAs>
-//           {messagesLoading ? (
-//             <Loading />
-//           ) : (
-//             <>
-//               <StyledContactButton onClick={handleContact}>
-//                 {(messages?.messages ?? []).length > 0 ? 'Ver conversación' : 'Contactar'}
-//               </StyledContactButton>
-//               <ChatModal
-//                 isLoading={savingMessageLoading}
-//                 open={open}
-//                 handleClose={handleClose}
-//                 message={message}
-//                 setMessage={setMessage}
-//               />
-//               <StyledShortListButton startIcon={<BookmarkBorderOutlinedIcon />}>
-//                 Guardar
-//               </StyledShortListButton>
-//             </>
-//           )}
-//         </StyledCTAs>
-//       </HeroContainer>
-//       <AboutContainer>
-//         {firstname}
-//         <AboutTitle>Sobre {firstname ? firstname : email}</AboutTitle>
-//         <AboutDescription>
-//           {description ? description : 'Este prestador aun no agrega información'}
-//         </AboutDescription>
-//       </AboutContainer>
-//       <SectionContainer>
-//         <SectionTitle>Disponibilidad</SectionTitle>
-//         <ListAvailableDays disponibilidad={availability ?? []} />
-//       </SectionContainer>
-//       <SectionContainer>
-//         <SectionTitle>Tarifas</SectionTitle>
-//         <Tarifas tarifas={tarifas} freeMeetGreet={offersFreeMeetAndGreet} />
-//       </SectionContainer> */}
-//     </Wrapper>
-//   );
-// };
+  const heroContentProps = {
+    companyName,
+    email,
+    imageUrl,
+    messagesLoading,
+    messages,
+    handleContact,
+    open,
+    handleClose,
+    message,
+    setMessage,
+    savingMessageLoading,
+  };
+
+  return (
+    <Wrapper>
+      <HeroContainer>
+        <PerfilBackButton />
+        <HeroContent {...heroContentProps} />
+      </HeroContainer>
+      <SectionContainer>
+        <AboutTitle>Sobre {companyName ? companyName : email}</AboutTitle>
+        <StyledText>Representante principal: {representativeName}</StyledText>
+        <AboutDescription>
+          {description ? description : 'Este proveedor aun no agrega una descripción'}
+        </AboutDescription>
+      </SectionContainer>
+      <SectionContainer>
+        <SectionTitle>Productos</SectionTitle>
+        <Box>
+          {productType?.map((p) => (
+            <StyledBadge key={p?.id}>{p.name}</StyledBadge>
+          ))}
+        </Box>
+      </SectionContainer>
+      <SectionContainer>
+        <SectionTitle>Certificaciones</SectionTitle>
+        <Box>
+          {certifications?.map((c) => (
+            <StyledBadge key={c?.id}>{c?.name}</StyledBadge>
+          ))}
+        </Box>
+      </SectionContainer>
+      <SectionContainer>
+        <SectionTitle>Despacho</SectionTitle>
+        <Box>
+          {dispatch === 'nacional' ? (
+            <StyledText>{companyName} ofrece despacho a nivel nacional</StyledText>
+          ) : (
+            comunas.map((comuna) => <StyledBadge key={comuna.id}>{comuna.name}</StyledBadge>)
+          )}
+        </Box>
+      </SectionContainer>
+      <SectionContainer>
+        <SectionTitle>Métodos de pago</SectionTitle>
+        <Box>
+          {paymentMethods ? (
+            paymentMethods?.map((p, i) => <StyledBadge key={i}>{p}</StyledBadge>)
+          ) : (
+            <StyledText key="else">Este proveedor aun no agrega métodos de pago</StyledText>
+          )}
+        </Box>
+      </SectionContainer>
+    </Wrapper>
+  );
+};

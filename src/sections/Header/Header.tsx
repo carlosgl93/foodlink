@@ -12,7 +12,7 @@ function Header() {
   const location = useLocation();
 
   const isChat =
-    isTablet && (location.pathname === '/chat' || location.pathname === '/prestador-chat');
+    isTablet && (location.pathname === '/chat' || location.pathname === '/proveedor-chat');
   return (
     <Box>
       <AppBar

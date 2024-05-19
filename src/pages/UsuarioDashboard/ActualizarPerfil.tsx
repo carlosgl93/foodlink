@@ -1,35 +1,6 @@
-import { Text, Title } from '@/components/StyledComponents';
-import { Box, Button, styled } from '@mui/material';
+import { StyledTitle, SubTitle, Text } from '@/components/StyledComponents';
+import { Button, Card, CardContent, styled } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
-const EncuentraApoyoContainer = styled(Box)(() => ({
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'start',
-  justifyContent: 'center',
-  padding: '1rem',
-  marginBottom: '1rem',
-  backgroundColor: 'white',
-  boxSizing: 'border-box',
-  borderRadius: '.5rem',
-}));
-
-export const StyledTitle = styled(Title)(({ theme }) => ({
-  fontSize: '1.75rem',
-  fontWeight: 'bold',
-  marginBottom: '0.5rem',
-  color: theme.palette.primary.main,
-  textAlign: 'start',
-}));
-
-const SubTitle = styled(Title)(() => ({
-  fontSize: '1.375rem',
-  fontWeight: 'bold',
-  marginBottom: '1rem',
-  color: 'black',
-}));
 
 const BuscarPrestadores = styled(Button)(() => ({
   width: '100%',
@@ -47,16 +18,15 @@ export const ActualizarPerfil = () => {
   };
 
   return (
-    <EncuentraApoyoContainer>
-      <StyledTitle>Actualizar perfil</StyledTitle>
-      <SubTitle>Comparte tus necesidades de apoyo.</SubTitle>
-      <Text>
-        Agrega o actualiza acerca de tus necesidades medicas, sociales para informar a los
-        prestadores.
-      </Text>
-      <BuscarPrestadores fullWidth variant="contained" onClick={handleGoToProfile}>
-        Ir al perfil
-      </BuscarPrestadores>
-    </EncuentraApoyoContainer>
+    <Card sx={{ margin: '1rem 0', borderRadius: '1rem' }}>
+      <CardContent>
+        <StyledTitle>Actualizar perfil</StyledTitle>
+        <SubTitle>Agrega más información sobre tu empresa.</SubTitle>
+        <Text>Productos, promociones, servicios, y más.</Text>
+        <BuscarPrestadores fullWidth variant="contained" onClick={handleGoToProfile} sx={{ mt: 2 }}>
+          Ir al perfil
+        </BuscarPrestadores>
+      </CardContent>
+    </Card>
   );
 };

@@ -5,7 +5,7 @@ import { useAuthNew } from '@/hooks/useAuthNew';
 import { useSetRecoilState } from 'recoil';
 import { chatState } from '@/store/chat/chatStore';
 
-export const usePrestadorInbox = () => {
+export const useProveedorInbox = () => {
   const { proveedor } = useAuthNew();
   const setMessages = useSetRecoilState(chatState);
   const providerId = proveedor?.id;
@@ -14,7 +14,7 @@ export const usePrestadorInbox = () => {
 
   const handleClickChat = (chat: Conversation) => {
     setMessages(chat);
-    router('/prestador-chat');
+    router('/proveedor-chat');
   };
 
   const { data: fetchProvidersChat, isLoading: isLoadingProvidersChats } = useQuery(

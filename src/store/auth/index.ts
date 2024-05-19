@@ -28,6 +28,16 @@ const authState = atom<AuthState>({
   },
 });
 
+type CreateUserParams = {
+  companyName: string;
+  representativeName: string;
+  companyRut: string;
+  phone: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
 export const redirectToAfterLoginState = atom<string | null>({
   key: 'redirectToAfterLoginState',
   default: null,
@@ -117,7 +127,7 @@ function useAuth(): [AuthState, Actions] {
     }
   }
 
-  async function createUser(user: User) {
+  async function createUser(user: CreateUserParams) {
     setUser((prev) => ({ ...prev, loading: true, role: 'user' }));
     try {
       await api.post('/users', user);

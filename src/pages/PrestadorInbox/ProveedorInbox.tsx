@@ -5,7 +5,7 @@ import { StyledTitle, Wrapper } from '../PrestadorDashboard/StyledPrestadorDashb
 import { formatDate } from '@/utils/formatDate';
 import Loading from '@/components/Loading';
 import { Conversation } from '@/api/firebase/chat';
-import { usePrestadorInbox } from './usePrestadorInbox';
+import { useProveedorInbox } from './useProveedorInbox';
 
 const TitleContainer = styled(Box)(() => ({
   width: '100%',
@@ -40,8 +40,8 @@ const StyledChatDate = styled(Text)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export const PrestadorInbox = () => {
-  const { handleClickChat, fetchProvidersChat, isLoadingProvidersChats } = usePrestadorInbox();
+export const ProveedorInbox = () => {
+  const { handleClickChat, fetchProvidersChat, isLoadingProvidersChats } = useProveedorInbox();
 
   return (
     <Wrapper>
@@ -53,7 +53,7 @@ export const PrestadorInbox = () => {
       {fetchProvidersChat && fetchProvidersChat?.length > 0 && (
         <StyledList>
           {fetchProvidersChat?.map((chat: Conversation) => {
-            const { id, username, messages } = chat;
+            const { id, messages, companyName, representativeName } = chat;
 
             const lastMessageTimestamp = messages[messages.length - 1].timestamp;
 
@@ -66,7 +66,7 @@ export const PrestadorInbox = () => {
                   }}
                 >
                   <ChatAvatar />
-                  <Text>{username}</Text>
+                  <Text>{`${companyName} - ${representativeName}`}</Text>
                 </Box>
                 <Box>
                   <StyledChatDate>{formatDate(lastMessageTimestamp)}</StyledChatDate>

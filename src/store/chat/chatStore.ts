@@ -7,8 +7,11 @@ export const chatState = atom<Conversation>({
     id: '',
     providerId: '',
     userId: '',
-    providerName: '',
+    representativeName: '',
+    companyName: '',
     messages: [],
+    proveedorCompanyName: '',
+    proveedorRepresentativeName: '',
   },
 });
 

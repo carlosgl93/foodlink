@@ -94,7 +94,7 @@ function ImageSlider({ interval = 5000 }: ImageSliderProps) {
             color: 'white',
           }}
         >
-          ¿Qué necesitas hacer?
+          Encuentra proveedores o retailers de alimentos.
         </ImageSliderText>
         {/* <ImageSliderText
           variant="subtitle1"
@@ -112,10 +112,22 @@ function ImageSlider({ interval = 5000 }: ImageSliderProps) {
             mt: '1rem',
           }}
         >
-          <Button onClick={() => navigate('/comenzar/comprar')} variant="contained">
+          <Button
+            sx={{
+              color: 'primary.light',
+            }}
+            onClick={() => navigate('/comenzar/comprar')}
+            variant="contained"
+          >
             Comprar
           </Button>
-          <Button onClick={() => navigate('/comenzar/vender')} variant="contained">
+          <Button
+            sx={{
+              color: 'primary.light',
+            }}
+            onClick={() => navigate('/comenzar/vender')}
+            variant="contained"
+          >
             Vender
           </Button>
         </Box>

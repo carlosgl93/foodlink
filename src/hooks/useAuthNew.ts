@@ -14,18 +14,18 @@ import useRecibeApoyo from '@/store/recibeApoyo';
 import { redirectToAfterLoginState } from '@/store/auth';
 import { comunasState } from '@/store/construirPerfil/comunas';
 import { certificationsState, InterestedProduct } from '@/store/comienzo/comprar';
+import { OffererDispatch } from '@/store/comienzo/vender';
 
 export type ForWhom = 'paciente' | 'tercero' | '';
 
 export type CreateUserParams = {
-  nombre: string;
-  apellido: string;
-  paraQuien: ForWhom;
-  nombrePaciente?: string;
-  rut: string;
-  comuna: string;
-  correo: string;
-  contrasena: string;
+  representativeName: string;
+  confirmPassword: string;
+  companyName: string;
+  companyRut: string;
+  password: string;
+  phone: string;
+  email: string;
 };
 
 export type CreateProveedorParams = {
@@ -34,7 +34,7 @@ export type CreateProveedorParams = {
   companyRut: string;
   email: string;
   password: string;
-  despacho: string;
+  despacho: OffererDispatch;
   productType: InterestedProduct[];
   comunas?: Comuna[];
 };
@@ -159,44 +159,34 @@ export const useAuthNew = () => {
   );
 
   const { mutate: createUser, isLoading: createUserLoading } = useMutation(
-    async ({
-      nombre,
-      apellido,
-      paraQuien,
-      nombrePaciente,
-      rut,
-      correo,
-      contrasena,
-    }: CreateUserParams) => {
+    async ({ companyName, representativeName, companyRut, email, password }: CreateUserParams) => {
       setNotification({
         open: true,
         message: 'Creando tu cuenta...',
         severity: 'info',
       });
       // Check if a user with the given email already exists in the users collection
-      const userQuery = query(collection(db, 'users'), where('email', '==', correo));
+      const userQuery = query(collection(db, 'users'), where('email', '==', email));
       const userSnapshot = await getDocs(userQuery);
       if (!userSnapshot.empty) {
         throw new Error('Este email ya tiene una cuenta.');
       }
 
       // Check if a user with the given email already exists in the providers collection
-      const providerQuery = query(collection(db, 'providers'), where('email', '==', correo));
+      const providerQuery = query(collection(db, 'providers'), where('email', '==', email));
       const providerSnapshot = await getDocs(providerQuery);
       if (!providerSnapshot.empty) {
         throw new Error('Este email ya tiene una cuenta.');
       }
-      const { user } = await createUserWithEmailAndPassword(auth, correo, contrasena);
+      const { user } = await createUserWithEmailAndPassword(auth, email, password);
       const newUser = {
         ...defaultNewUser,
-        email: correo,
+        email: email,
         id: user.uid,
         role: 'user',
-        firstname: nombre,
-        lastname: apellido,
-        forWhom: paraQuien !== nombre ? 'tercero' : 'paciente',
-        patientName: nombrePaciente,
-        rut,
+        companyName,
+        representativeName,
+        companyRut,
         comuna: selectedComunas,
       };
       const userRef = doc(db, 'users', user.uid);

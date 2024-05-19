@@ -1,4 +1,4 @@
-import { Text, Title } from '@/components/StyledComponents';
+import { SubTitle, Text, Title } from '@/components/StyledComponents';
 import { Box, Button, styled } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,13 +22,6 @@ export const StyledTitle = styled(Title)(({ theme }) => ({
   marginBottom: '0.5rem',
   color: theme.palette.primary.main,
   textAlign: 'start',
-}));
-
-const SubTitle = styled(Title)(() => ({
-  fontSize: '1.375rem',
-  fontWeight: 'bold',
-  marginBottom: '1rem',
-  color: 'black',
 }));
 
 const BuscarPrestadores = styled(Button)(() => ({
