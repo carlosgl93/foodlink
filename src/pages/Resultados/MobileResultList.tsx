@@ -51,8 +51,8 @@ export const MobileResultList = ({ filteredProveedores }: MobileFilteredProps) =
                 >
                   <Avatar
                     sx={{
-                      height: '90px',
-                      width: '90px',
+                      minHeight: '90px',
+                      minWidth: '90px',
                     }}
                   />
                 </Box>
@@ -78,7 +78,13 @@ export const MobileResultList = ({ filteredProveedores }: MobileFilteredProps) =
                     </Title>
                     <Reviews average={averageReviews || 0} total_reviews={totalReviews || 0} />
                   </Box>
-                  <Text>Productos: {productType.map((t) => t.name).join(', ')}</Text>
+                  <Text
+                    sx={{
+                      color: 'secondary.main',
+                    }}
+                  >
+                    {productType.map((t) => t.name).join(', ')}
+                  </Text>
 
                   <Button
                     variant="outlined"

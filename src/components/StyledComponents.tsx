@@ -141,4 +141,19 @@ export const StyledCheckboxInput = styled('input')(({ theme }) => ({
   },
 }));
 
+export const StyledTitle = styled(Title)(({ theme }) => ({
+  fontSize: '1.75rem',
+  fontWeight: 'bold',
+  marginBottom: '0.5rem',
+  color: theme.palette.primary.main,
+  textAlign: 'start',
+}));
+
+export const SubTitle = styled(Title)(({ theme }) => ({
+  fontSize: '1.375rem',
+  fontWeight: 'bold',
+  marginBottom: '1rem',
+  color: theme.palette.secondary.light,
+}));
+
 export const StyledBackButton = styled(Button)(() => ({}));

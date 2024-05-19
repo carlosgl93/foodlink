@@ -12,7 +12,7 @@ export const proveedorState = atom<null | Proveedor>({
     productType: [],
     companyRut: '',
     comunas: [],
-    dispatch: '',
+    dispatch: 'nacional',
     averageReviews: 0,
     totalReviews: 0,
     description: '',

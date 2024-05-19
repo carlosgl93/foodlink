@@ -15,7 +15,7 @@ import { Text, TextContainer, Title } from '@/components/StyledComponents';
 import { useComunas } from '@/hooks';
 import { venderSteps as steps } from './venderSteps';
 import { VenderController } from './VenderController';
-import { offererDispatch } from '@/store/comienzo/vender';
+import { OffererDispatch } from '@/store/comienzo/vender';
 
 const Step3 = () => {
   const { handleIncreaseStep, handleDecreaseStep, despacho, handleSelectDespacho } =
@@ -64,7 +64,7 @@ const Step3 = () => {
             aria-labelledby="despacho-select-radio"
             name="controlled-radio-buttons-group"
             value={despacho}
-            onChange={(e) => handleSelectDespacho(e.target.value as offererDispatch)}
+            onChange={(e) => handleSelectDespacho(e.target.value as OffererDispatch)}
             row
           >
             <FormControlLabel value="nacional" control={<Radio />} label="Nacional" />

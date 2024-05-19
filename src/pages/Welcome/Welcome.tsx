@@ -8,7 +8,7 @@ import Meta from '@/components/Meta';
 function Welcome() {
   return (
     <>
-      <Meta title="Blui: Inicio" />
+      <Meta title="Inicio" />
       <ImageSlider />
       {/* <ComoFunciona
         subtitle={

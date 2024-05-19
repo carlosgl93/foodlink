@@ -1,10 +1,8 @@
 export type User = {
   id?: string;
-  firstname: string;
-  lastname: string;
-  forWhom: string;
-  nombrePaciente?: string;
-  rut?: string;
+  companyName: string;
+  representativeName: string;
+  companyRut?: string;
   password?: string;
   email: string;
   phone?: string;

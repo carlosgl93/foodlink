@@ -1,5 +1,6 @@
 import { Certification, InterestedProduct } from '@/store/comienzo/comprar';
 import { Comuna } from './Comuna';
+import { OffererDispatch } from '@/store/comienzo/vender';
 
 export interface Proveedor {
   email: string;
@@ -8,7 +9,7 @@ export interface Proveedor {
   companyName: string;
   representativeName: string;
   companyRut: string;
-  dispatch: string;
+  dispatch: OffererDispatch;
   comunas: Comuna[];
   productType: InterestedProduct[];
   phone?: string;
@@ -20,6 +21,7 @@ export interface Proveedor {
   dob?: string;
   address?: string;
   certifications?: Certification[];
+  paymentMethods?: string[];
   settings: {
     products: boolean;
     detallesBasicos: boolean;

@@ -1,19 +1,15 @@
-import { ForWhom } from '@/hooks/useAuthNew';
-import useAuth from '@/store/auth';
-import useRecibeApoyo from '@/store/recibeApoyo';
+import { useAuthNew } from '@/hooks';
 import { ChangeEvent, useReducer } from 'react';
 
 type FormState = {
+  representativeName: string;
+  confirmPassword: string;
+  companyName: string;
+  companyRut: string;
+  password: string;
+  phone: string;
+  email: string;
   error: string;
-  nombre: string;
-  apellido: string;
-  paraQuien: ForWhom;
-  nombrePaciente: string;
-  rut: string;
-  comuna: string | null;
-  correo: string;
-  contrasena: string;
-  confirmarContrasena: string;
 };
 
 type FormActions =
@@ -49,34 +45,22 @@ const reducer = (state: FormState, action: FormActions) => {
 };
 
 const RegistrarUsuarioController = () => {
-  const [, { createUser }] = useAuth();
-
-  const [{ forWhom, comuna }] = useRecibeApoyo();
+  const { createUser } = useAuthNew();
 
   const initialState = {
     error: '',
-    nombre: '',
-    apellido: '',
-    paraQuien: forWhom,
-    nombrePaciente: '',
-    rut: '',
-    comuna: '' || null,
-    correo: '',
-    contrasena: '',
-    confirmarContrasena: '',
+    companyName: '',
+    representativeName: '',
+    companyRut: '',
+    phone: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const {
-    nombre,
-    apellido,
-    paraQuien,
-    nombrePaciente,
-    rut,
-    correo,
-    contrasena,
-    confirmarContrasena,
-  } = state;
+  const { companyName, representativeName, companyRut, phone, email, password, confirmPassword } =
+    state;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -86,7 +70,7 @@ const RegistrarUsuarioController = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleSubmit = () => {
-    if (!emailRegex.test(correo)) {
+    if (!emailRegex.test(email)) {
       dispatch({
         type: 'ERROR',
         payload: {
@@ -94,7 +78,7 @@ const RegistrarUsuarioController = () => {
         },
       });
       setTimeout(() => dispatch({ type: 'ERROR', payload: { error: '' } }), 5000);
-    } else if (confirmarContrasena !== contrasena) {
+    } else if (confirmPassword !== password) {
       dispatch({
         type: 'ERROR',
         payload: {
@@ -104,14 +88,13 @@ const RegistrarUsuarioController = () => {
       setTimeout(() => dispatch({ type: 'ERROR', payload: { error: '' } }), 5000);
     } else {
       const newUser = {
-        firstname: nombre,
-        lastname: apellido,
-        forWhom: paraQuien !== nombre ? 'tercero' : 'paciente',
-        nombrePaciente: nombrePaciente,
-        rut,
-        comuna_id: comuna!.id,
-        email: correo,
-        password: contrasena,
+        companyName,
+        representativeName,
+        companyRut,
+        phone,
+        email,
+        password,
+        confirmPassword,
       };
 
       try {

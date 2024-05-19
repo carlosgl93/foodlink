@@ -55,9 +55,7 @@ export const PrestadorChat = () => {
           return (
             <Box key={m.id}>
               <StyledPrestadorMensajeContainer ref={isLastMessage ? lastMessageRef : null}>
-                <StyledProviderName>
-                  {conversation.providerName.includes('@') ? 'Tú' : conversation.providerName}:
-                </StyledProviderName>
+                <StyledProviderName>Tú:</StyledProviderName>
                 <StyledMensajeAndtTimestampContainer>
                   <StyledPrestadorMensajeText>{m.message}</StyledPrestadorMensajeText>
                   <StyledTimestampContainer>
@@ -71,7 +69,9 @@ export const PrestadorChat = () => {
           return (
             <Box key={m.id}>
               <StyledUsuarioMensajeContainer ref={isLastMessage ? lastMessageRef : null}>
-                <StyledCustomerName>{conversation.username}:</StyledCustomerName>
+                <StyledCustomerName>
+                  {`${conversation.companyName} - ${conversation.representativeName}`}:
+                </StyledCustomerName>
                 <StyledMensajeAndtTimestampContainer>
                   <StyledUsuarioMensajeText>{m.message}</StyledUsuarioMensajeText>
                   <StyledTimestampContainer>

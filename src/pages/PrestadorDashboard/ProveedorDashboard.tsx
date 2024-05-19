@@ -1,23 +1,14 @@
-import { Text } from '@/components/StyledComponents';
-import {
-  Container,
-  StyledButton,
-  StyledList,
-  SubTitle,
-  Wrapper,
-} from './StyledPrestadorDashboardComponents';
+import { Wrapper } from './StyledPrestadorDashboardComponents';
 import { usePrestadorDashboard } from './usePrestadorDashboard';
 import { notificationState } from '@/store/snackbar';
 import { useSetRecoilState } from 'recoil';
-import { Box } from '@mui/material';
 import Meta from '@/components/Meta';
-import useOrientation from '@/hooks/useOrientation';
+import { Box } from '@mui/material';
+import { GeneralCard } from '@/components/GeneralCard';
 
 export const ProveedorDashboard = () => {
   const { handleConstruirPerfil } = usePrestadorDashboard();
   const setNotification = useSetRecoilState(notificationState);
-  const isMobile = useOrientation();
-  console.log(isMobile);
 
   const dashboardOptions = [
     {
@@ -94,24 +85,12 @@ export const ProveedorDashboard = () => {
           alignItems: 'start',
         }}
       >
-        <Container>
-          <SubTitle>Construyamos tu perfil</SubTitle>
-          <Text>Construyamos un perfil ganador. Esta es tu oportunidad de:</Text>
-          <StyledList>
-            <li>
-              <Text>Destacar tus productos.</Text>
-            </li>
-            <li>
-              <Text>Establecer valores competitivos y despacho.</Text>
-            </li>
-            <li>
-              <Text>Resaltar para los clientes al agregar tus certificaciones.</Text>
-            </li>
-          </StyledList>
-          <StyledButton fullWidth variant="contained" onClick={handleConstruirPerfil}>
-            Construir perfil
-          </StyledButton>
-        </Container>
+        <GeneralCard
+          title={'Construyamos tu perfil'}
+          text="Construyamos un perfil ganador. Productos, detalles basicos, despacho y más."
+          ctaText={'Construir perfil'}
+          onButtonClick={handleConstruirPerfil}
+        />
         <Box
           sx={{
             display: { sx: 'block', sm: 'grid' },
@@ -119,18 +98,14 @@ export const ProveedorDashboard = () => {
             gridTemplateColumns: '0.5fr 0.5fr',
           }}
         >
-          {dashboardOptions.map(({ title, description, onClick }, index) => (
-            <Container key={index}>
-              <SubTitle>{title}</SubTitle>
-              <Text>{description}</Text>
-              <StyledButton
-                fullWidth={isMobile ? true : false}
-                variant="contained"
-                onClick={onClick}
-              >
-                {title}
-              </StyledButton>
-            </Container>
+          {dashboardOptions.map(({ title, description, onClick }) => (
+            <GeneralCard
+              key={title}
+              title={title}
+              text={description}
+              onButtonClick={onClick}
+              ctaText={title}
+            />
           ))}
         </Box>
       </Wrapper>

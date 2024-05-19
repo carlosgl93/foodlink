@@ -15,16 +15,16 @@ import { proveedorState } from '@/store/auth/proveedor';
 import { useAuthNew } from '@/hooks/useAuthNew';
 import { Proveedor } from '@/types';
 
-type PrestadorDrawerListProps = {
+type ProveedorDrawerListProps = {
   closeDrawer: () => void;
 };
 
-function PrestadorDrawerList({ closeDrawer }: PrestadorDrawerListProps) {
+function PrestadorDrawerList({ closeDrawer }: ProveedorDrawerListProps) {
   const { logout } = useAuthNew();
 
-  const prestador = useRecoilValue(proveedorState) as Proveedor;
+  const proveedor = useRecoilValue(proveedorState) as Proveedor;
 
-  const { companyName, productType } = prestador;
+  const { companyName, productType } = proveedor;
 
   return (
     <List

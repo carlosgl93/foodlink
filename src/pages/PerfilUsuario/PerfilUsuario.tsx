@@ -1,4 +1,4 @@
-import { TextField, FormControl, InputLabel, Select, MenuItem, Box } from '@mui/material';
+import { TextField, Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { styled } from '@mui/system';
 import { SaveButton } from '@/components/SaveButton';
@@ -8,8 +8,8 @@ import BackButton from '@/components/BackButton';
 
 export interface IFormInput {
   email: string;
-  firstname: string;
-  lastname: string;
+  companyName: string;
+  representativeName: string;
   gender: string;
   dob: string;
   phone: string;
@@ -33,13 +33,13 @@ const StyledTitle = styled('h1')(({ theme }) => ({
   textAlign: 'start',
 }));
 
-const StyledSelect = styled(Select)(() => ({
-  minWidth: '220px',
-}));
+// const StyledSelect = styled(Select)(() => ({
+//   minWidth: '220px',
+// }));
 
-const FormHelperText = styled('p')(({ theme }) => ({
-  color: theme.palette.error.main,
-}));
+// const FormHelperText = styled('p')(({ theme }) => ({
+//   color: theme.palette.error.main,
+// }));
 
 const StyledTextField = styled(TextField)(() => ({}));
 
@@ -49,10 +49,8 @@ export const PerfilUsuario = () => {
   const { register, handleSubmit, formState } = useForm<IFormInput>({
     defaultValues: {
       email: user?.email || '',
-      firstname: user?.firstname || '',
-      lastname: user?.lastname || '',
-      gender: user?.gender || '',
-      dob: user?.dob || '',
+      companyName: user?.companyName || '',
+      representativeName: user?.representativeName || '',
       phone: user?.phone || '',
       address: user?.address || '',
     },
@@ -84,20 +82,22 @@ export const PerfilUsuario = () => {
               helperText={errors.email?.message}
             />
             <StyledTextField
-              {...register('firstname', { required: 'Nombre es requerido' })}
-              label="Nombre"
+              {...register('companyName', { required: 'Nombre de tu empresa es requerido' })}
+              label="Nombre de la empresa"
               variant="outlined"
-              error={Boolean(errors.firstname)}
-              helperText={errors.firstname?.message}
+              error={Boolean(errors.companyName)}
+              helperText={errors.companyName?.message}
             />
             <StyledTextField
-              {...register('lastname', { required: 'Apellido es requerido' })}
-              label="Apellido"
+              {...register('representativeName', {
+                required: 'Nombre del representante es requerido',
+              })}
+              label="Nombre del representante"
               variant="outlined"
-              error={Boolean(errors.lastname)}
-              helperText={errors.lastname?.message}
+              error={Boolean(errors.representativeName)}
+              helperText={errors.representativeName?.message}
             />
-            <FormControl variant="outlined">
+            {/* <FormControl variant="outlined">
               <InputLabel id="gender-label">Género</InputLabel>
               <StyledSelect
                 labelId="gender-label"
@@ -112,7 +112,7 @@ export const PerfilUsuario = () => {
                 <MenuItem value="Otro">Otro</MenuItem>
               </StyledSelect>
               {errors.gender && <FormHelperText>{errors.gender.message}</FormHelperText>}
-            </FormControl>
+            </FormControl> */}
             <StyledTextField
               {...register('dob', { required: 'Fecha de Nacimiento es requerida' })}
               label="Fecha de Nacimiento"

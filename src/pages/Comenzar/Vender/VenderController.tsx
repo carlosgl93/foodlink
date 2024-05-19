@@ -1,5 +1,5 @@
 import {
-  offererDispatch,
+  OffererDispatch,
   offererDispatchState,
   venderStepsState,
 } from '@/store/comienzo/vender/venderState';
@@ -46,7 +46,7 @@ export const VenderController = () => {
     setCertifications((prev) => [...prev, c]);
   };
 
-  const handleSelectDespacho = (d: offererDispatch) => {
+  const handleSelectDespacho = (d: OffererDispatch) => {
     setDespacho(d);
   };
 

@@ -15,7 +15,7 @@ const sharedTheme = {
       main: '#3F51B5', // Indigo
     },
     secondary: {
-      main: '#FF5722', // Deep Orange
+      main: '#D4CB92', // Deep Orange
     },
     background: {
       default: '#fafafa',
@@ -53,6 +53,10 @@ const sharedTheme = {
       styleOverrides: {
         root: {
           borderRadius: '33px',
+          fontSize: '1rem',
+          fontWeight: 'bold',
+          color: '#fff7fe',
+          backgroundColor: '#6C92B6',
         },
       },
     },
@@ -82,12 +86,15 @@ const themes: Record<Themes, ThemeOptions> = {
         grey: '#f9f7f6',
       },
       primary: {
-        main: '#3F51B5',
+        // main: '#3F51B5',
+        main: '#6C92B6',
         light: '#fff7fe',
-        contrastText: '#fff',
+        contrastText: '#EDC363',
       },
       secondary: {
-        main: '#FF5722',
+        main: '#537131',
+        light: '#A2A915',
+        contrastText: '#3F3929',
       },
       error: {
         main: '#d72a31',

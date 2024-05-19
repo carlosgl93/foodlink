@@ -28,16 +28,11 @@ const routes: Routes = {
     path: '/registrar-proveedor',
     title: 'Registrarse',
   },
-  // [Pages.RegistrarUsuario]: {
-  //   component: asyncComponentLoader(() => import('@/pages/RegistrarUsuario')),
-  //   path: '/registrar-usuario',
-  //   title: 'Registrarse',
-  // },
-  // [Pages.Prestador]: {
-  //   component: asyncComponentLoader(() => import('@/pages/PersonaApoyo')),
-  //   path: '/persona-de-apoyo',
-  //   title: 'Registrarse',
-  // },
+  [Pages.RegistrarUsuario]: {
+    component: asyncComponentLoader(() => import('@/pages/RegistrarUsuario')),
+    path: '/registrar-usuario',
+    title: 'Registrarse',
+  },
   [Pages.Comenzar]: {
     component: asyncComponentLoader(() => import('@/pages/Comenzar')),
     path: '/comenzar',
@@ -78,6 +73,10 @@ const routes: Routes = {
     component: asyncComponentLoader(() => import('@/pages/CrearProveedor')),
     path: '/backoffice/crear-proveedor',
   },
+  [Pages.UsuarioDashboard]: {
+    component: asyncComponentLoader(() => import('@/pages/UsuarioDashboard')),
+    path: '/usuario-dashboard',
+  },
   // [Pages.Disponibilidad]: {
   //   component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/Disponibilidad')),
   //   path: '/construir-perfil/disponibilidad',
@@ -110,30 +109,27 @@ const routes: Routes = {
   //   component: asyncComponentLoader(() => import('@/pages/ConstruirPerfil/DetallesBasicos')),
   //   path: '/construir-perfil/detallesBasicos',
   // },
-  // [Pages.Chat]: {
-  //   component: asyncComponentLoader(() => import('@/pages/Chat')),
-  //   path: '/chat/',
-  // },
-  // [Pages.PrestadorChat]: {
-  //   component: asyncComponentLoader(() => import('@/pages/PrestadorChat')),
-  //   path: '/prestador-chat',
-  // },
-  // [Pages.PrestadorInbox]: {
-  //   component: asyncComponentLoader(() => import('@/pages/PrestadorInbox')),
-  //   path: '/prestador-inbox',
-  // },
-  // [Pages.UsuarioInbox]: {
-  //   component: asyncComponentLoader(() => import('@/pages/UsuarioInbox')),
-  //   path: '/usuario-inbox',
-  // },
+  [Pages.Chat]: {
+    component: asyncComponentLoader(() => import('@/pages/Chat')),
+    path: '/chat/',
+  },
+  [Pages.ProveedorChat]: {
+    component: asyncComponentLoader(() => import('@/pages/PrestadorChat')),
+    path: '/proveedor-chat',
+  },
+  [Pages.PrestadorInbox]: {
+    component: asyncComponentLoader(() => import('@/pages/PrestadorInbox')),
+    path: '/proveedor-inbox',
+  },
+  [Pages.UsuarioInbox]: {
+    component: asyncComponentLoader(() => import('@/pages/UsuarioInbox')),
+    path: '/usuario-inbox',
+  },
   // [Pages.PerfilUsuario]: {
   //   component: asyncComponentLoader(() => import('@/pages/PerfilUsuario')),
   //   path: '/perfil-usuario',
   // },
-  // [Pages.UsuarioDashboard]: {
-  //   component: asyncComponentLoader(() => import('@/pages/UsuarioDashboard')),
-  //   path: '/usuario-dashboard',
-  // },
+
   // [Pages.EmailVerificado]: {
   //   component: asyncComponentLoader(() => import('@/pages/EmailVerificado')),
   //   path: '/email-verificado',
@@ -153,8 +149,8 @@ const routes: Routes = {
 };
 
 export const protectedRoutes = [
-  '/prestador-dashboard',
-  '/email-verificado-prestador',
+  '/proveedor-dashboard',
+  '/email-verificado-proveedor',
   '/construir-perfil',
   '/construir-perfil/disponibilidad',
   '/construir-perfil/comunas',
@@ -165,8 +161,8 @@ export const protectedRoutes = [
   '/construir-perfil/educacionFormacion',
   '/construir-perfil/detallesBasicos',
   '/chat',
-  '/prestador-chat',
-  '/prestador-inbox',
+  '/proveedor-chat',
+  '/proveedor-inbox',
   '/usuario-inbox',
   '/perfil-usuario',
   '/usuario-dashboard',

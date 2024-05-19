@@ -3,6 +3,7 @@ import { Box, Button, styled } from '@mui/material';
 
 export const Wrapper = styled(Box)(() => ({
   padding: '1rem',
+  minHeight: '80vh',
 }));
 
 export const Container = styled(Box)(() => ({

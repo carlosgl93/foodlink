@@ -81,6 +81,7 @@ function SearchBar() {
           width: {
             xs: '90%',
             sm: '100%',
+            md: 'fit-content',
           },
           backgroundColor: 'white',
           borderRadius: '5px',

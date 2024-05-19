@@ -55,14 +55,15 @@ export const StyledCTAs = styled(Box)(() => ({
 }));
 
 export const StyledContactButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.background.paper,
-  backgroundColor: theme.palette.secondary.contrastText,
+  color: theme.palette.primary.main,
+  backgroundColor: theme.palette.background.paper,
   borderRadius: '0.5rem',
   padding: '0.5rem 1rem',
   '&:hover': {
     color: theme.palette.primary.main,
     backgroundColor: theme.palette.background.paper,
   },
+  fontWeight: 'bold',
 }));
 
 export const StyledShortListButton = styled(Button)(({ theme }) => ({

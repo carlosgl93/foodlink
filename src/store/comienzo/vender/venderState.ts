@@ -11,9 +11,9 @@ export const offeredProductsState = atom<InterestedProduct[]>({
   default: [],
 });
 
-export type offererDispatch = 'nacional' | 'regional' | 'comunas';
+export type OffererDispatch = 'nacional' | 'regional' | 'comunas';
 
-export const offererDispatchState = atom<offererDispatch>({
+export const offererDispatchState = atom<OffererDispatch>({
   key: 'offererDispatch',
   default: 'comunas',
 });

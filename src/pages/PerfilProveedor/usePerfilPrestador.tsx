@@ -8,31 +8,34 @@ import { useSetRecoilState } from 'recoil';
 import { notificationState } from '@/store/snackbar';
 import { useAuthNew } from '@/hooks/useAuthNew';
 import { useChat, useNavigationHistory } from '@/hooks';
-import { interactedProveedorState } from '@/store/resultados/interactedPrestador';
+import { interactedProveedorState } from '@/store/resultados/interactedProveedor';
 
-export const usePerfilPrestador = (prestador: Proveedor) => {
-  const isTablet = useMediaQuery(tablet);
-  const setInteractedPrestador = useSetRecoilState(interactedProveedorState);
-  const prestadorId = prestador.id;
-  const { user } = useAuthNew();
+export const usePerfilPrestador = (proveedor: Proveedor) => {
   const setRedirectToAfterLogin = useSetRecoilState(redirectToAfterLoginState);
-  const history = useNavigationHistory();
-  const { messages, messagesLoading } = useChat(user?.id ?? '', prestador.id);
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
+  const setInteractedProveedor = useSetRecoilState(interactedProveedorState);
+  const { user } = useAuthNew();
+  const { messages, messagesLoading } = useChat(user?.id ?? '', proveedor.id);
   const setNotification = useSetRecoilState(notificationState);
+  const [message, setMessage] = useState('');
+  const [open, setOpen] = useState(false);
+  const isTablet = useMediaQuery(tablet);
+  const history = useNavigationHistory();
+  const providerId = proveedor.id;
+  const navigate = useNavigate();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const navigate = useNavigate();
+  const fromRecibeApoyo =
+    history.filter((h) => !h.includes('/registrar-usuario') && h.includes('/comenzar/comprar'))
+      .length > 0;
 
   const handleContact = () => {
     if (user?.id.length) {
       if ((messages.messages ?? []).length > 0) {
         navigate('/chat', {
           state: {
-            prestador,
+            prestador: proveedor,
             messages,
             sentBy: user.role || 'user',
           },
@@ -43,14 +46,13 @@ export const usePerfilPrestador = (prestador: Proveedor) => {
       return;
     }
 
-    setRedirectToAfterLogin(`/perfil-prestador/${prestadorId}`);
+    setRedirectToAfterLogin(`/perfil-proveedor/${providerId}`);
     setNotification({
       open: true,
-      message: 'Debes iniciar sesión para poder contactar a un prestador',
+      message: 'Debes iniciar sesión para poder contactar a un proveedor',
       severity: 'info',
     });
-    // add logic to redirect to register only if has the comenzar flujo in the history
-    if (!history.find((h) => h.includes('/registrar-usuario'))) {
+    if (fromRecibeApoyo) {
       navigate('/registrar-usuario');
     } else {
       navigate('/ingresar');
@@ -59,11 +61,11 @@ export const usePerfilPrestador = (prestador: Proveedor) => {
   };
 
   useEffect(() => {
-    setInteractedPrestador(prestador);
+    setInteractedProveedor(proveedor);
   }, []);
 
   return {
-    prestador,
+    prestador: proveedor,
     messages,
     isTablet,
     open,

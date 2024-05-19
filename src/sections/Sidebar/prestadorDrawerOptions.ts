@@ -1,5 +1,4 @@
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
@@ -10,17 +9,17 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 export const prestadorDrawerOptions = [
   {
     title: 'Panel',
-    path: '/prestador-dashboard',
+    path: '/proveedor-dashboard',
     icon: HomeOutlinedIcon,
   },
+  // {
+  //   title: 'Sesiones',
+  //   path: '/sesiones',
+  //   icon: CalendarTodayOutlinedIcon,
+  // },
   {
-    title: 'Sesiones',
-    path: '/sesiones',
-    icon: CalendarTodayOutlinedIcon,
-  },
-  {
-    title: 'Trabajos',
-    path: '/trabajos',
+    title: 'Ventas',
+    path: '/ventas',
     icon: FormatListBulletedOutlinedIcon,
   },
   {
@@ -35,7 +34,7 @@ export const prestadorDrawerOptions = [
   },
   {
     title: 'Inbox',
-    path: '/prestador-inbox',
+    path: '/proveedor-inbox',
     icon: MailOutlinedIcon,
   },
   {
@@ -53,5 +52,5 @@ export const prestadorDrawerOptions = [
 export const generalOptionsDrawerList = [
   { title: 'Ayuda', path: '/ayuda' },
   { title: 'Acerca de nosotros', path: '/nosotros' },
-  { title: 'Buscar prestadores', path: '/resultados' },
+  { title: 'Buscar proveedores / compradores', path: '/resultados' },
 ];

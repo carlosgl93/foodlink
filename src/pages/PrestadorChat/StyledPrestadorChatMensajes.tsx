@@ -52,7 +52,7 @@ export const StyledPrestadorMensajeContainer = styled(Box)(({ theme }) => ({
   padding: '0.5rem',
   borderRadius: '0.5rem',
   boxShadow: '0px 2px 2px rgba(0, 0, 0, 0.25)',
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.primary.light,
 }));
 
 export const StyledMensajeAndtTimestampContainer = styled(Box)(() => ({
@@ -66,7 +66,7 @@ export const StyledMensajeAndtTimestampContainer = styled(Box)(() => ({
 export const StyledPrestadorMensajeText = styled(Typography)(({ theme }) => ({
   fontSize: '1rem',
   fontWeight: 'bold',
-  color: theme.palette.primary.contrastText,
+  color: theme.palette.primary.main,
 }));
 
 export const StyledTimestampContainer = styled(Box)(() => ({

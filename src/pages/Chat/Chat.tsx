@@ -20,7 +20,7 @@ import { usePrestadorChatMessages } from '../PrestadorChat/usePrestadorChatMessa
 import { useAuthNew } from '@/hooks/useAuthNew';
 import { useRecoilValue } from 'recoil';
 import { chatState } from '@/store/chat/chatStore';
-import { interactedProveedorState } from '@/store/resultados/interactedPrestador';
+import { interactedProveedorState } from '@/store/resultados/interactedProveedor';
 import { useChat } from '@/hooks';
 
 export const Chat = () => {
@@ -61,7 +61,9 @@ export const Chat = () => {
                 key={m.id + m.timestamp}
                 ref={isLastMessage ? lastMessageRef : null}
               >
-                <StyledPrestadorName>{conversation.providerName}:</StyledPrestadorName>
+                <StyledPrestadorName>
+                  {`${conversation.proveedorCompanyName} - ${conversation.representativeName}`}:
+                </StyledPrestadorName>
                 <Box
                   sx={{
                     display: 'flex',
@@ -104,12 +106,8 @@ export const Chat = () => {
               sentBy: 'user',
               providerId: proveedor?.id ?? '',
               userId: customerId ?? '',
-              username: customer?.firstname
-                ? customer.firstname
-                : customer?.email
-                ? customer.email
-                : '',
-              providerName: proveedor?.representativeName ?? proveedor?.email ?? '',
+              companyName: user?.companyName ?? '',
+              representativeName: user?.representativeName,
             })
           }
         />
@@ -120,8 +118,8 @@ export const Chat = () => {
               sentBy: 'user',
               providerId: conversation.providerId,
               userId: conversation.userId,
-              username: conversation.username,
-              providerName: conversation.providerName,
+              companyName: user?.companyName ?? '',
+              representativeName: user?.representativeName,
             })
           }
           disabled={message.length === 0}

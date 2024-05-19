@@ -42,6 +42,8 @@ const StyledChatDate = styled(Text)(({ theme }) => ({
 export const UsuarioInbox = () => {
   const { fetchUserChat, isLoadingUserChats, handleClickChat } = useUsuarioInbox();
 
+  console.log(fetchUserChat);
+
   return (
     <Wrapper>
       <TitleContainer>
@@ -52,7 +54,7 @@ export const UsuarioInbox = () => {
       {fetchUserChat && fetchUserChat.length > 0 && (
         <StyledList>
           {fetchUserChat?.map((chat) => {
-            const { id, providerName, messages } = chat;
+            const { id, proveedorCompanyName, proveedorRepresentativeName, messages } = chat;
 
             const lastMessageTimestamp = messages[messages.length - 1].timestamp;
 
@@ -65,7 +67,7 @@ export const UsuarioInbox = () => {
                   }}
                 >
                   <ChatAvatar />
-                  <Text>{providerName}</Text>
+                  <Text>{`${proveedorCompanyName} - ${proveedorRepresentativeName}`}</Text>
                 </Box>
                 <Box>
                   <StyledChatDate>{formatDate(lastMessageTimestamp)}</StyledChatDate>

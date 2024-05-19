@@ -1,16 +1,19 @@
 import { Box } from '@mui/material';
-import { EncuentraApoyo } from './EncuentraApoyo';
-import { ActualizarPerfil } from './ActualizarPerfil';
+import { UsuarioDashboardController } from './UsuarioDashboardController';
+import { GeneralCard } from '@/components/GeneralCard';
 
 export const UsuarioDashboard = () => {
+  const { usuarioDashboardOptions } = UsuarioDashboardController();
+
   return (
     <Box
       sx={{
         p: '1rem',
       }}
     >
-      <ActualizarPerfil />
-      <EncuentraApoyo />
+      {usuarioDashboardOptions.map((option) => (
+        <GeneralCard {...option} key={option.title} />
+      ))}
     </Box>
   );
 };

@@ -1,3 +1,3 @@
-import { PrestadorInbox } from './PrestadorInbox';
+import { ProveedorInbox } from './ProveedorInbox';
 
-export default PrestadorInbox;
+export default ProveedorInbox;
