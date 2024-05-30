@@ -6,7 +6,7 @@ import { venderSteps as steps } from './venderSteps';
 import { VenderController } from './VenderController';
 
 const Step2 = () => {
-  const { handleIncreaseStep, certifications, handleDecreaseStep } = VenderController();
+  const { handleIncreaseStep, handleDecreaseStep } = VenderController();
 
   return (
     <>
@@ -49,7 +49,7 @@ const Step2 = () => {
         <Button variant="contained" onClick={handleDecreaseStep}>
           Atras
         </Button>
-        <Button disabled={!certifications.length} variant="contained" onClick={handleIncreaseStep}>
+        <Button variant="contained" onClick={handleIncreaseStep}>
           Siguiente
         </Button>
       </Box>

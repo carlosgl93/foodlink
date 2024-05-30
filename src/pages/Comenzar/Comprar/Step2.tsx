@@ -6,7 +6,7 @@ import { Certification } from '@/store/comienzo/comprar';
 import { CertificationsList } from './CertificacionesList';
 
 const Step2 = () => {
-  const { increaseStep, certifications, handlePrevious } = ComprarController();
+  const { increaseStep, handlePrevious } = ComprarController();
 
   return (
     <>
@@ -46,7 +46,7 @@ const Step2 = () => {
         <Button variant="contained" onClick={handlePrevious}>
           Atras
         </Button>
-        <Button disabled={!certifications.length} variant="contained" onClick={increaseStep}>
+        <Button variant="contained" onClick={increaseStep}>
           Siguiente
         </Button>
       </Box>

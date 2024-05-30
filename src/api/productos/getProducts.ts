@@ -10,7 +10,7 @@ type Product = {
 export const getProducts = async (proveedorId: string): Promise<Product[]> => {
   const productsRef = collection(db, 'products');
 
-  const q = query(productsRef, where('proveedorId', '==', proveedorId));
+  const q = query(productsRef, where('providerId', '==', proveedorId));
   const result = (await getDocs(q)).docs.map((doc) => doc.data()) as Product[];
   return result;
 };

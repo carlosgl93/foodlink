@@ -2,7 +2,7 @@ import { interactedProveedorState } from '@/store/resultados/interactedProveedor
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { createProduct, getProducts } from '@/api/productos';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { createProductState } from '@/store/products';
+import { createProductState, isCreatingProductState } from '@/store/products';
 import { notificationState } from '@/store/snackbar';
 import { useAuthNew } from './useAuthNew';
 
@@ -10,6 +10,7 @@ export const useProducts = () => {
   const { proveedor } = useAuthNew();
   const interactedProveedor = useRecoilValue(interactedProveedorState);
   const { nombre, precio, descripción, imagen } = useRecoilValue(createProductState);
+  const setIsCreatingProduct = useSetRecoilState(isCreatingProductState);
   const setNotification = useSetRecoilState(notificationState);
 
   const queryClient = useQueryClient();
@@ -39,6 +40,7 @@ export const useProducts = () => {
           severity: 'success',
           open: true,
         });
+        setIsCreatingProduct(false);
       },
     },
   );

@@ -15,6 +15,7 @@ import { redirectToAfterLoginState } from '@/store/auth';
 import { comunasState } from '@/store/construirPerfil/comunas';
 import { certificationsState, InterestedProduct } from '@/store/comienzo/comprar';
 import { OffererDispatch } from '@/store/comienzo/vender';
+import { useEffect } from 'react';
 
 export type ForWhom = 'paciente' | 'tercero' | '';
 
@@ -126,8 +127,8 @@ export const useAuthNew = () => {
         });
         setProveedorState({ ...data, isLoggedIn: true } as Proveedor);
         queryClient.setQueryData(['proveedor', data.email], proveedor);
-
-        navigate('/proveedor-dashboard');
+        localStorage.setItem('proveedor', JSON.stringify({ ...data, isLoggedIn: true }));
+        redirectAfterLogin ? navigate(redirectAfterLogin) : navigate('/proveedor-dashboard');
       },
       onError(error: FirebaseError) {
         let message = 'Hubo un error creando el proveedor: ';
@@ -201,6 +202,7 @@ export const useAuthNew = () => {
         });
         setUserState({ ...data, isLoggedIn: true } as User);
         queryClient.setQueryData(['user', data?.email], user);
+        localStorage.setItem('user', JSON.stringify({ ...data, isLoggedIn: true }));
         window.scrollTo(0, 0);
         redirectAfterLogin ? navigate(redirectAfterLogin) : navigate(`/usuario-dashboard`);
       },
@@ -251,11 +253,15 @@ export const useAuthNew = () => {
         if (users.docs.length > 0) {
           const user = users.docs[0].data() as User;
           setUserState({ ...user, isLoggedIn: true });
+          localStorage.setItem('user', JSON.stringify({ ...user, isLoggedIn: true }));
+          localStorage.removeItem('proveedor');
           queryClient.setQueryData(['user', correo], user);
           return { role: 'user', data: user };
         } else if (proveedores.docs.length > 0) {
           const proveedor = proveedores.docs[0].data() as Proveedor;
           setProveedorState({ ...proveedor, isLoggedIn: true });
+          localStorage.setItem('proveedor', JSON.stringify({ ...proveedor, isLoggedIn: true }));
+          localStorage.removeItem('user');
           queryClient.setQueryData(['proveedor', correo], proveedor);
           return { role: 'proveedor', data: proveedor };
         }
@@ -317,6 +323,26 @@ export const useAuthNew = () => {
       navigate('/ingresar');
     },
   });
+
+  useEffect(() => {
+    // Get the provider data from the localStorage
+    const storedProveedor = localStorage.getItem('proveedor');
+
+    if (storedProveedor) {
+      // Parse the stored data and set the provider state
+      const proveedorData = JSON.parse(storedProveedor);
+      setProveedorState(proveedorData);
+    }
+
+    // Get the user data from the localStorage
+
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      // Parse the stored data and set the user state
+      const userData = JSON.parse(storedUser);
+      setUserState(userData);
+    }
+  }, []);
 
   return {
     createUser,
