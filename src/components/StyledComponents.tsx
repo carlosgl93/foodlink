@@ -1,5 +1,16 @@
 import { Box, Button, Container, Typography, styled } from '@mui/material';
 
+export const Wrapper = styled(Box)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'background.default',
+  justifyContent: 'start',
+  minHeight: '75vh',
+}));
+
 export const Section = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
@@ -152,7 +163,6 @@ export const StyledTitle = styled(Title)(({ theme }) => ({
 export const SubTitle = styled(Title)(({ theme }) => ({
   fontSize: '1.375rem',
   fontWeight: 'bold',
-  marginBottom: '1rem',
   color: theme.palette.secondary.light,
 }));
 

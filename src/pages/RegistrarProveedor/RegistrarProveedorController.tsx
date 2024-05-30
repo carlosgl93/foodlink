@@ -93,7 +93,6 @@ const RegistrarProveedorController = () => {
         message: 'Email inválido',
         severity: 'error',
       });
-      setTimeout(() => dispatch({ type: 'ERROR', payload: { error: '' } }), 5000);
     } else if (!rutRegex.test(companyRut)) {
       dispatch({
         type: 'ERROR',
@@ -107,7 +106,6 @@ const RegistrarProveedorController = () => {
         message: 'RUT inválido',
         severity: 'error',
       });
-      setTimeout(() => dispatch({ type: 'ERROR', payload: { error: '' } }), 5000);
     } else if (confirmPassword !== password) {
       dispatch({
         type: 'ERROR',
@@ -121,7 +119,6 @@ const RegistrarProveedorController = () => {
         message: 'Las contraseñas no coinciden',
         severity: 'error',
       });
-      setTimeout(() => dispatch({ type: 'ERROR', payload: { error: '' } }), 5000);
     } else {
       const proveedor: CreateProveedorParams = {
         representativeName,

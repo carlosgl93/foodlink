@@ -15,10 +15,8 @@ export const CertificationsList = ({ options }: CertificationsListProps) => {
     <>
       <List
         sx={{
-          width: {
-            xs: '100%',
-            md: 'fit-content',
-          },
+          m: 'auto',
+          width: 'fit-content',
         }}
       >
         {options.map((item) => {
